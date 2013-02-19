@@ -11,7 +11,7 @@ class timeLine():
 		self.line[self.currentLocation+displacement].append(object)
 	def clear(self, displacement = 0):
 		self.line[self.currentLocation+displacement] = []
-	def progress(self, displacement = 0):
+	def progress(self, displacement = 1):
 		while(self.currentLocation + displacement >= self.size):
 			displacement = displacement - self.size
 		self.currentLocation = self.currentLocation + displacement
