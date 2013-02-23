@@ -1,6 +1,6 @@
 class entity():
-	def __init__(self, grid, xloc, yloc):
-		grid.set(xloc, yloc, self)
+	def __init__(self):
+		pass
 	def draw(self):
 		pass
 	def describe(self):

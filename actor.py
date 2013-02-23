@@ -1,3 +1,3 @@
 class actor(entity):
-	def update(self):
+	def act(self):
 		pass
