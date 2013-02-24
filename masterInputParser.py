@@ -1,12 +1,23 @@
 import sys
 
-def masterInputParser():
+def masterInputParser(player):
 	lineIn = ""
-	lineIn = getch().strip()
-	#
-	print(lineIn, end="\r\n")
+	lineIn = getch().strip().lower() #for right now, case insensitive
 	if(lineIn=='q'):
 		sys.exit()
+	#if(lineIn=='['): #arrow key code :|
+	#	masterInputParser()
+	elif(lineIn=='h'):
+		player.move("west")
+	elif(lineIn=='j'):
+		player.move("south")
+	elif(lineIn=='k'):
+		player.move("north")
+	elif(lineIn=='l'):
+		player.move("east")
+	else:
+		print("unknown command")
+	print(lineIn, end="\r\n")
 
 class _Getch:
 	#Gets a single character from standard input.  Does not echo to the

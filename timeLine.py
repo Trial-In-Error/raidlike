@@ -43,7 +43,7 @@ class timeLine():
 	def clear(self, displacement = 0):
 		self.line[self.currentLocation+displacement] = []
 	def progress(self, displacement = 1):
-		while(self.currentLocation + displacement >= self.size):
+		while(self.currentLocation + displacement >= self.size): #replace with modulo
 			displacement = displacement - self.size
 		self.line[self.currentLocation] = []
 		self.currentLocation = self.currentLocation + displacement

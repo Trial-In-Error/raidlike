@@ -12,9 +12,13 @@ class levelManager():
 		for y in range(1, self.levelHeight+1):
 			for x in range(1, self.levelWidth+1):
 				#self.currentGrid.set(x,y,entity("("+str(y)+"."+str(x)+")"))
-				self.currentGrid.set(x,y,entity())
+				self.currentGrid.set(x,y,entity(str(y)))
 		self.currentTimeLine.add(player)
-		self.currentGrid.set(3, 3, player)
+		self.currentPlayer = player
+		#self.currentGrid.set(2, 2, player)
+		player.currentGrid = self.currentGrid
+		player.xpos=2
+		player.ypos=2
 	def load(self):
 		pass
 	def update(self):
@@ -24,7 +28,7 @@ class levelManager():
 	def draw(self):
 		temp = []
 		temp2 = ""
-		for element in self.currentGrid:
-			temp2 += element.draw()
-		for y in range(0, self.levelHeight):
+		for square in self.currentGrid:
+			temp2 += sorted(square, reverse=True)[0].draw()
+		for y in reversed(range(0, self.levelHeight)):
 			print(temp2[y*self.levelWidth:(y+1)*self.levelWidth], end="\r\n")
