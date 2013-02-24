@@ -19,3 +19,13 @@ class entity():
 		pass
 	def collide(self):
 		return False
+
+class wall(entity):
+	def __init__(self, xpos, ypos, grid, display='#'):
+		self.display=display
+		self.displayPriority=1
+		self.xpos=xpos
+		self.ypos=ypos
+		grid.set(xpos, ypos, self)
+	def collide(self):
+		return True
