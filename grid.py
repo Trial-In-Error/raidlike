@@ -7,7 +7,7 @@ class grid():
 	def __iter__(self):
 		xIterator = 1
 		yIterator = 1
-		#goes row by row, starting at bottom left as per get/set
+		#goes row by row, starting at bottom left as per get/set ^> coordinates
 		while(yIterator <= self.levelHeight):
 			xIterator = 1
 			while(xIterator <= self.levelWidth):
@@ -25,8 +25,6 @@ class grid():
 		return self.grid[xpos-1][self.levelHeight-ypos]
 	def set(self, xpos, ypos, value): #change to add
 	#change to value, x, y
-		self.grid[xpos-1][self.levelHeight-ypos].append(value)
-	def setNoConv(self, xpos, ypos, value):
 		self.grid[xpos-1][self.levelHeight-ypos].append(value)
 	def remove(self, value): #uses ^> coordinates
 		self.grid[value.xpos-1][self.levelHeight-value.ypos].remove(value)

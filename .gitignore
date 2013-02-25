@@ -1,0 +1,6 @@
+# Ignore pycache
+__pycache__/*
+
+# Ignore sublime generated files
+*.sublime-project
+*.sublime-workspace

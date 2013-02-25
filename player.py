@@ -10,7 +10,10 @@ class player(entity):
 	def act(self):
 		masterInputParser(self)
 	def move(self, direction):
-		moveDict = {'north': [0, 1], 'south': [0, -1], 'west': [-1, 0], 'east': [1, 0]}
+		moveDict = {'north': [0, 1],
+					'south': [0, -1],
+					'west': [-1, 0],
+					'east': [1, 0]}
 		temp = []
 		for entity in list(self.currentGrid.get(self.xpos+moveDict[direction][0], self.ypos+moveDict[direction][1])):
 			temp.append(entity.collide())
