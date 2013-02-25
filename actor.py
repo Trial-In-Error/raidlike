@@ -1,5 +1,5 @@
 from entity import *
 
 class actor(entity):
-	def act(self):
-		pass
+    def act(self):
+        pass

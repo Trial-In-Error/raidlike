@@ -1,60 +1,60 @@
 import sys
 
 def masterInputParser(player):
-	lineIn = ""
-	lineIn = getch().strip().lower() #for right now, case insensitive
-	if(lineIn=='q'):
-		sys.exit()
-	#if(lineIn=='['): #arrow key code :|
-	#	masterInputParser()
-	elif(lineIn=='h'):
-		player.move("west")
-	elif(lineIn=='j'):
-		player.move("south")
-	elif(lineIn=='k'):
-		player.move("north")
-	elif(lineIn=='l'):
-		player.move("east")
-	else:
-		print("unknown command")
-	print(lineIn, end="\r\n")
+    lineIn = ""
+    lineIn = getch().strip().lower() #for right now, case insensitive
+    if(lineIn=='q'):
+        sys.exit()
+    #if(lineIn=='['): #arrow key code :|
+    #   masterInputParser()
+    elif(lineIn=='h'):
+        player.move("west")
+    elif(lineIn=='j'):
+        player.move("south")
+    elif(lineIn=='k'):
+        player.move("north")
+    elif(lineIn=='l'):
+        player.move("east")
+    else:
+        print("unknown command")
+    print(lineIn, end="\r\n")
 
 class _Getch:
-	#Gets a single character from standard input.  Does not echo to the
+    #Gets a single character from standard input.  Does not echo to the
 #screen.
 #Found at http://code.activestate.com/recipes/134892/
-	def __init__(self):
-		try:
-			self.impl = _GetchWindows()
-		except ImportError:
-			self.impl = _GetchUnix()
+    def __init__(self):
+        try:
+            self.impl = _GetchWindows()
+        except ImportError:
+            self.impl = _GetchUnix()
 
-	def __call__(self): return self.impl()
+    def __call__(self): return self.impl()
 
 
 class _GetchUnix:
-	def __init__(self):
-		import tty, sys
+    def __init__(self):
+        import tty, sys
 
-	def __call__(self):
-		import sys, tty, termios
-		fd = sys.stdin.fileno()
-		old_settings = termios.tcgetattr(fd)
-		try:
-			tty.setraw(sys.stdin.fileno())
-			ch = sys.stdin.read(1)
-		finally:
-			termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-		return ch
+    def __call__(self):
+        import sys, tty, termios
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        try:
+            tty.setraw(sys.stdin.fileno())
+            ch = sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        return ch
 
 
 class _GetchWindows:
-	def __init__(self):
-		import msvcrt
+    def __init__(self):
+        import msvcrt
 
-	def __call__(self):
-		import msvcrt
-		return msvcrt.getch()
+    def __call__(self):
+        import msvcrt
+        return msvcrt.getch()
 
 
 getch = _Getch()
