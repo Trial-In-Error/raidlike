@@ -1,9 +1,8 @@
 class grid():
-    def __init__(self, player, levelWidth, levelHeight):
+    def __init__(self, levelWidth, levelHeight):
         self.levelHeight = levelHeight
         self.levelWidth = levelWidth
         self.grid = [[[] for i in range(levelWidth)] for x in range(levelHeight)]
-        self.add(player, 2, 2)
     def __iter__(self):
         xIterator = 1
         yIterator = 1

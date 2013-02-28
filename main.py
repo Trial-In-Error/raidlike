@@ -1,8 +1,7 @@
 from levelManager import *
 from player import *
 
-currentPlayer = player()
-currentLevel = levelManager(currentPlayer)
+currentLevel = levelManager("playerSaveState")
 while(True):
     currentLevel.update()
     currentLevel.draw()

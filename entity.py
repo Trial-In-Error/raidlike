@@ -10,7 +10,7 @@ class entity():
         elif(self.displayPriority < other.displayPriority):
             return False
         #else:
-            #raise CustomException
+            #raise CustomException #they're equal! D:
     def draw(self):
         return(self.display)
     def describe(self):
@@ -18,7 +18,7 @@ class entity():
     def remove(self):
         pass
     def collide(self):
-        return False
+        return "false"
 
 class wall(entity):
     def __init__(self, xpos, ypos, grid, display='#'):
@@ -28,4 +28,4 @@ class wall(entity):
         self.ypos=ypos
         grid.add(self, xpos, ypos)
     def collide(self):
-        return True
+        return "true"

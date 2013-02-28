@@ -2,27 +2,21 @@ from grid import *
 from timeLine import *
 from entity import *
 from enemy import *
+from player import *
 
 class levelManager():
     currentTimeLine = timeLine(16)
     viewDistance = 3;
     levelWidth = 7;
     levelHeight = 7;
-    def __init__(self, player):
-        self.currentGrid = grid(player, self.levelWidth, self.levelHeight)
+    def __init__(self, playerSaveState):
+        self.currentGrid = grid(self.levelWidth, self.levelHeight)
+        currentPlayer = player(2,2,self.currentGrid)
         for y in range(1, self.levelHeight+1):
             for x in range(1, self.levelWidth+1):
                 self.currentGrid.add(entity(str(y), x, y), x, y)
-        self.currentTimeLine.add(player)
-        self.currentPlayer = player
-        #self.currentGrid.add(player, 2, 2)
-        player.currentGrid = self.currentGrid
-        player.xpos=2
-        player.ypos=2
-        e1 = enemy()
-        e1.xpos=3
-        e1.ypos=3
-        self.currentGrid.add(e1, 3, 3)
+        self.currentTimeLine.add(currentPlayer)
+        e1 = enemy(3,3,self.currentGrid)
         for x in range(0,self.levelWidth+1):
             wall(x, 1, self.currentGrid)
             wall(x, self.levelHeight, self.currentGrid)
