@@ -1,4 +1,6 @@
 To do and other general notes:
+* "look" parsing mode
+    * needs to enter description mode and cleanly exit it, too
 * line of sight
 * re-route creatures on 'cannot move; other creatures in way' instead of current mode of waiting(1 quantum)
 * diagonal movement
@@ -8,6 +10,8 @@ To do and other general notes:
 * __string__ repr's for all entity children, grid, and timeLine
 * inventory & item management
 * color output?
-*"look" parsing mode
+* make 'r'est wait until next quantum with an actor in item
+    * make that 'R'est and start differentiating case
 
 BUGS:
+* escape to leave "look" context requires two strokes

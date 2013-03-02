@@ -7,32 +7,71 @@ first half consists of draw().
 Currently does NOT support arrow keys, diagonals, or any new-fangled fanciness.
 """
 
-def masterInputParser(player):
+def masterInputParser(player, currentLevel):
     lineIn = ""
-    lineIn = getch().strip().lower() #for right now, case insensitive
+    lineIn = getch() #for right now, case insensitive
+    #if(lineIn[0]!='\x1b'):
+    #    lineIn = str(lineIn[0])
+    #else:
+    #if(len(lineIn)==2):
+    #    lineIn = lineIn[1]
+    #else:
+    lineIn = str(lineIn[0])
     if(lineIn=='q'):
         sys.exit()
-    #if(lineIn=='['): #arrow key code :|
-    #   masterInputParser()
-    elif(lineIn=='h'):
+    elif(lineIn=='h' or lineIn=="D"):
         player.move("west")
-    elif(lineIn=='j'):
+    elif(lineIn=='j' or lineIn=="B"):
         player.move("south")
-    elif(lineIn=='k'):
+    elif(lineIn=='k' or lineIn=="A"):
         player.move("north")
-    elif(lineIn=='l'):
+    elif(lineIn=='l' or lineIn=="C"):
         player.move("east")
-    elif(lineIn=='r'):
+    elif(lineIn=='r' or lineIn=='.'):
         player.andWait(1)
-    else:
-        print("unknown command\r")
+    #elif(lineIn=='R'):
+        #
+    elif(lineIn=='x'):
+        lookInputParser(player, currentLevel)
         player.andWait(0)
-    #print(lineIn, end="\r\n")
+        currentLevel.draw()
+    else:
+        #currentLevel.currentOutputBuffer.add("Unknown command.")
+        player.andWait(0)
+    #urrentLevel.currentOutputBuffer.add(str(ord(lineIn)))
+
+def lookInputParser(player, currentLevel):
+    xLook = player.xpos
+    yLook = player.ypos
+    while(True):
+        currentLevel.currentOutputBuffer.add(sorted(
+        currentLevel.currentGrid.get(xLook, yLook), reverse=True)[0].name)
+        currentLevel.draw()
+        currentLevel.currentOutputBuffer.output()
+        lineIn = ""
+        lineIn = getch()
+        #currentLevel.currentOutputBuffer.add("LINE IN: "+str(ord(lineIn)))
+        if(lineIn=='h' or lineIn=="D"):
+            xLook = xLook - 1
+            #currentLevel.currentOutputBuffer.add("~")
+        elif(lineIn=='j' or lineIn=="B"):
+            yLook = yLook - 1
+            #currentLevel.currentOutputBuffer.add("~")
+        elif(lineIn=='k' or lineIn=="A"):
+            yLook = yLook + 1
+            #currentLevel.currentOutputBuffer.add("~")
+        elif(lineIn=='l' or lineIn=="C"):
+            xLook = xLook + 1
+            #currentLevel.currentOutputBuffer.add("~")
+        #elif(ord(lineIn)==27 or lineIn=='q'):
+        else:
+            if(lineIn=='q' or ord(lineIn)==27):
+                break     
+
 
 class _Getch:
-    #Gets a single character from standard input.  Does not echo to the
-#screen.
-#Found at http://code.activestate.com/recipes/134892/
+    #Gets a single character from standard input.  Does not echo to the screen.
+    #Found at http://code.activestate.com/recipes/134892/
     def __init__(self):
         try:
             self.impl = _GetchWindows()
@@ -50,11 +89,17 @@ class _GetchUnix:
         import sys, tty, termios
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
+        ch=""
+        sys.stdin.flush()
         try:
             tty.setraw(sys.stdin.fileno())
             ch = sys.stdin.read(1)
+            if(ord(ch) == 27):
+                ch = sys.stdin.read(1)
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        sys.stdin.flush()
+        #print("On its way out... "+str(ord(ch))+"\r\n")
         return ch
 
 
@@ -62,9 +107,22 @@ class _GetchWindows:
     def __init__(self):
         import msvcrt
 
-    def __call__(self):
+    """def __call__(self):
         import msvcrt
-        return msvcrt.getch()
+        return msvcrt.getch()"""
+    def __call__(echo=False):
+        "Get a single character on Windows."
+        while msvcrt.kbhit():
+            msvcrt.getch()
+        ch = msvcrt.getch()
+        while ch in b'\x00\xe0':
+            msvcrt.getch()
+            ch = msvcrt.getch()
+            #if(ch=='27'):
+            #    ch = msvcrt.getch()
+        if echo:
+            msvcrt.putch(ch)
+        return ch.decode()
 
 
 getch = _Getch()

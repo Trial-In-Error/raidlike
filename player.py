@@ -22,7 +22,7 @@ class player(actor):
         self.name = "player"
     def act(self):
         self.currentLevel.draw()
-        masterInputParser(self)
+        masterInputParser(self, self.currentLevel)
         #os.system('cls' if os.name=='nt' else 'clear')
     def move(self, direction):
         moveDict = {'north': [0, 1],

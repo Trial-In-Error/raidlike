@@ -16,7 +16,7 @@ class actor(entity):
             self.isDamaged(attacker)
     def isHit(self, attacker):
         return(True)
-    def isDamaged(self, attacker): #note: things only die if damaged
+    def isDamaged(self, attacker): #note: things only die if isDamaged
         self.health = self.health - attacker.damage
         if(self.health <= 0):
             self.die(attacker)

@@ -3,6 +3,7 @@ class outputBuffer(): #rename outputManager?
     def add(self, string):
         self.oBuffer.append(string)
     def output(self):
+        #print(self.oBuffer)
         for string in self.oBuffer:
-            print(string+"\r")
+            print(str(string)+"\r")
         self.oBuffer = []

@@ -4,6 +4,7 @@ class entity():
         self.displayPriority = 0
         self.xpos = xpos
         self.ypos = ypos
+        self.name = 'floor'
     def __lt__(self, other):
         if(self.displayPriority < other.displayPriority):
             return True
@@ -22,6 +23,7 @@ class entity():
 
 class wall(entity):
     def __init__(self, xpos, ypos, grid, display='#'):
+        self.name = 'wall'
         self.display=display
         self.displayPriority=1
         self.xpos=xpos
