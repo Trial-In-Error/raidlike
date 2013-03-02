@@ -13,6 +13,8 @@ class enemy(actor):
         self.currentGrid.add(self, self.xpos, self.ypos)
         self.currentTimeLine = currentLevel.currentTimeLine
         self.currentTimeLine.add(self)
+        self.currentOutputBuffer = currentLevel.currentOutputBuffer
+        self.name = "generic enemy"
     def act(self):
         xDiff = self.xpos - self.currentLevel.currentPlayer.xpos
         yDiff = self.ypos - self.currentLevel.currentPlayer.ypos

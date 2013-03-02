@@ -3,9 +3,9 @@ from masterInputParser import *
 from grid import *
 from actor import *
 from sys import *
+import os
 
 class player(actor):
-    #currentGrid = grid("foo",5,5)
     def __init__(self, xpos, ypos, currentLevel, display='@'):
         self.currentLevel = currentLevel
         self.display = display
@@ -18,26 +18,27 @@ class player(actor):
         self.currentGrid.add(self, self.xpos, self.ypos)
         self.currentTimeLine = currentLevel.currentTimeLine
         self.currentTimeLine.add(self)
+        self.currentOutputBuffer = currentLevel.currentOutputBuffer
+        self.name = "player"
     def act(self):
         self.currentLevel.draw()
         masterInputParser(self)
+        #os.system('cls' if os.name=='nt' else 'clear')
     def move(self, direction):
         moveDict = {'north': [0, 1],
                     'south': [0, -1],
                     'west': [-1, 0],
                     'east': [1, 0]}
         temp = []
-        for entity in list(self.currentGrid.get(self.xpos+moveDict[direction][0], self.ypos+moveDict[direction][1])):
+        for entity in self.currentGrid.get(self.xpos + moveDict[direction][0],
+        self.ypos + moveDict[direction][1]):
             temp.append(entity.collide())
         if(temp.count("true")==0 and temp.count("combat_enemy")==0):
-            print("I moved "+direction+".\r")
             self.doMove(moveDict[direction][0], moveDict[direction][1])
         elif(temp.count("combat_enemy")==1):
-            print("I attacked.\r")
             self.doAttack(moveDict[direction][0], moveDict[direction][1])
         else:
             self.andWait(0)
-            print("I tried to move "+direction+" but couldn't.\r")
     def collide(self):
         return "combat_player"
     def die(self):

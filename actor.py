@@ -2,10 +2,13 @@ from entity import *
 
 class actor(entity):
     health = 1
-    def __init__(self, xpos, ypos, currentGrid, currentTimeLine, display='~'):
-        self.currentGrid = currentGrid
+    def __init__(self, xpos, ypos, currentLevel, display='~'):
+        self.currentLevel = currentLevel
+        self.currentGrid = currentLevel.currentGrid
+        self.currentOutputBuffer = currentLevel.currentOutputBuffer
         self.xpos = xpos
         self.ypos = ypos
+        self.name = "actor"
     def act(self):
         pass
     def isAttacked(self, attacker):
@@ -13,12 +16,17 @@ class actor(entity):
             self.isDamaged(attacker)
     def isHit(self, attacker):
         return(True)
-    def isDamaged(self, attacker):
+    def isDamaged(self, attacker): #note: things only die if damaged
         self.health = self.health - attacker.damage
         if(self.health <= 0):
-            self.die()
-    def die(self):
-        print("ARURURUGH!\r")
+            self.die(attacker)
+        else:
+            self.currentOutputBuffer.add(attacker.name.capitalize() +
+                " hit " + self.name + " for " +
+            str(attacker.damage) + " damage.\r")
+    def die(self, killer):
+        self.currentOutputBuffer.add("AURGH! " + self.name.capitalize() + 
+        " was killed by " + killer.name + ".\r")
         self.currentGrid.remove(self)
         self.currentTimeLine.remove(self)
     def move(self, direction):
@@ -27,9 +35,13 @@ class actor(entity):
                     'west': [-1, 0],
                     'east': [1, 0]}
         temp = []
-        for entity in list(self.currentGrid.get(self.xpos+moveDict[direction][0], self.ypos+moveDict[direction][1])):
+        for entity in self.currentGrid.get(
+        self.xpos+moveDict[direction][0], 
+        self.ypos+moveDict[direction][1]):
             temp.append(entity.collide())
-        if(temp.count("true")==0 and temp.count("combat_player")==0 and temp.count("combat_enemy")==0):
+        if(temp.count("true")==0
+        and temp.count("combat_player")==0
+        and temp.count("combat_enemy")==0):
             self.doMove(moveDict[direction][0], moveDict[direction][1])
         elif(temp.count("combat_player")==1):
             self.doAttack(moveDict[direction][0], moveDict[direction][1])
@@ -38,12 +50,13 @@ class actor(entity):
     def andWait(self, time):
         self.currentTimeLine.add(self, time)
         #self.currentTimeLine.remove(self)
-    def doMove(self, xdisplacement, ydisplacement):
-        self.currentGrid.add(self, self.xpos+xdisplacement, self.ypos+ydisplacement)
+    def doMove(self, xDiff, yDiff):
+        self.currentGrid.add(self, self.xpos + xDiff, self.ypos + yDiff)
         self.currentGrid.remove(self)
-        self.xpos = self.xpos+xdisplacement
-        self.ypos = self.ypos+ydisplacement
+        self.xpos = self.xpos + xDiff
+        self.ypos = self.ypos + yDiff
         self.andWait(3)
-    def doAttack(self, xdisplacement, ydisplacement):
-        sorted(self.currentGrid.get(self.xpos+xdisplacement, self.ypos+ydisplacement), reverse=True)[0].isAttacked(self)
+    def doAttack(self, xDiff, yDiff):
+        sorted(self.currentGrid.get(self.xpos + xDiff, self.ypos + yDiff),
+        reverse=True)[0].isAttacked(self)
         self.andWait(2)

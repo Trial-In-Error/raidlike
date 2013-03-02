@@ -1,3 +1,17 @@
+"""
+A data structure for managing a game grid.
+Conceptually a one-indexed grid, with the origin in the
+lower left. Thus, the bottom leftmost corner is (1, 1),
+and the top rightmost corner is (max, max).
+
+All addresses to the grid should be made in this coordinate
+system; it does conversions to the array innately.
+
+Newly iterable. Iteration goes through every cell and
+returns the whole list of data in each cell, starting
+at the bottom left and moving row by row.
+"""
+
 class grid():
     def __init__(self, levelWidth, levelHeight):
         self.levelHeight = levelHeight
@@ -22,7 +36,7 @@ class grid():
         return self.grid[xpos-1][self.levelHeight-ypos]
     def add(self, value, xpos, ypos):
         self.grid[xpos-1][self.levelHeight-ypos].append(value)
-    def remove(self, value): #uses ^> coordinates
+    def remove(self, value):
         self.grid[value.xpos-1][self.levelHeight-value.ypos].remove(value)
     def clear(self):
         for y in range(1, self.levelHeight):

@@ -1,8 +1,13 @@
 To do and other general notes:
+* line of sight
 * re-route creatures on 'cannot move; other creatures in way' instead of current mode of waiting(1 quantum)
 * diagonal movement
 * diagonal AI pathing
 * enemy polymorphism
-* differing time quantum costs by player/enemy type
+    * differing time quantum costs by player/enemy type
 * __string__ repr's for all entity children, grid, and timeLine
 * inventory & item management
+* color output?
+*"look" parsing mode
+
+BUGS:

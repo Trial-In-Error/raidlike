@@ -17,6 +17,7 @@ initialized in it before it begins operating.
 Newly iterable. Iteration goes through all cells in
 currentLocation.
 """
+
 class timeLine():
     currentLocation = 0
     line = []
@@ -39,18 +40,16 @@ class timeLine():
         self.size = self.size+1
         self.line.append([])
     def add(self, object, displacement = 0):
-        newDisplacement = displacement
-        while(self.currentLocation + newDisplacement >= self.size):
-            newDisplacement = displacement - self.size
-            #currentLocation = currentLocation - self.size
-        self.line[self.currentLocation+newDisplacement].append(object)
+        displacement = (self.currentLocation + displacement) % self.size
+        self.line[displacement].append(object)
+    def get(self):
+        return self.line[self.currentLocation]
     def clear(self, displacement = 0):
         self.line[self.currentLocation+displacement] = []
     def progress(self, displacement = 1):
-        while(self.currentLocation + displacement >= self.size): #replace with modulo
-            displacement = displacement - self.size
+        displacement = (self.currentLocation + displacement) % self.size
         self.line[self.currentLocation] = []
-        self.currentLocation = self.currentLocation + displacement
+        self.currentLocation = displacement
         self.absoluteTime = self.absoluteTime + displacement
         iterator = 0
     def remove(self, object):

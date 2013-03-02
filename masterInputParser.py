@@ -1,5 +1,12 @@
 import sys
 
+"""
+The input parser. Called as the second half of the player's act() function; the
+first half consists of draw().
+
+Currently does NOT support arrow keys, diagonals, or any new-fangled fanciness.
+"""
+
 def masterInputParser(player):
     lineIn = ""
     lineIn = getch().strip().lower() #for right now, case insensitive
@@ -15,6 +22,8 @@ def masterInputParser(player):
         player.move("north")
     elif(lineIn=='l'):
         player.move("east")
+    elif(lineIn=='r'):
+        player.andWait(1)
     else:
         print("unknown command\r")
         player.andWait(0)

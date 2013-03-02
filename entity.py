@@ -1,9 +1,9 @@
 class entity():
-    xpos = 'null'
-    ypos = 'null'
     def __init__(self, xpos, ypos, display='.'):
         self.display = display
         self.displayPriority = 0
+        self.xpos = xpos
+        self.ypos = ypos
     def __lt__(self, other):
         if(self.displayPriority < other.displayPriority):
             return True
