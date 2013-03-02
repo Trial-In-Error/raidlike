@@ -29,9 +29,9 @@ class actor(entity):
         temp = []
         for entity in list(self.currentGrid.get(self.xpos+moveDict[direction][0], self.ypos+moveDict[direction][1])):
             temp.append(entity.collide())
-        if(temp.count("true")==0 and temp.count("combat")==0):
+        if(temp.count("true")==0 and temp.count("combat_player")==0 and temp.count("combat_enemy")==0):
             self.doMove(moveDict[direction][0], moveDict[direction][1])
-        elif(temp.count("combat")==1):
+        elif(temp.count("combat_player")==1):
             self.doAttack(moveDict[direction][0], moveDict[direction][1])
         else:
             self.andWait(1)

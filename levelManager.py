@@ -9,15 +9,14 @@ class levelManager():
     viewDistance = 3;
     levelWidth = 7;
     levelHeight = 7;
-    #currentPlayer = player(2,2,"a", "a")
     def __init__(self, playerSaveState):
         self.currentGrid = grid(self.levelWidth, self.levelHeight)
         self.populateWalls()
         self.populateFloor()
-        self.currentPlayer = player(2,2,self.currentGrid, self.currentTimeLine)
+        self.currentPlayer = player(2,2,self)
         e1 = enemy(5,5,self)
         e2 = enemy(5,2,self)
-        e3 = enemy(2,5,self)
+        #e3 = enemy(2,5,self)
 
     def load(self):
         pass
