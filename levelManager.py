@@ -15,7 +15,7 @@ class levelManager():
         self.populateWalls()
         self.populateFloor()
         self.currentPlayer = player(2,2,self.currentGrid, self.currentTimeLine)
-        e1 = enemy(3,3,self.currentGrid, self.currentTimeLine)
+        e1 = enemy(6,6,self)
 
     def load(self):
         pass
@@ -44,9 +44,9 @@ class levelManager():
                 if(self.currentGrid.get(x, y) == []):
                     self.currentGrid.add(entity(str(y), x, y), x, y)
     def populateWalls(self):
-        for x in range(0, self.levelWidth+1):
+        for x in range(0, self.levelWidth):
             wall(x, 1, self.currentGrid)
             wall(x, self.levelHeight, self.currentGrid)
-        for y in range(1, self.levelHeight):
+        for y in range(2, self.levelHeight):
             wall(1, y, self.currentGrid)
             wall(self.levelWidth, y, self.currentGrid)

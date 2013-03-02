@@ -9,7 +9,7 @@ class player(actor):
         self.display = display
         self.displayPriority = 1
         self.damage = 1
-        self.health = 5
+        self.health = 10
         self.currentGrid = currentGrid
         self.xpos = xpos
         self.ypos = ypos
@@ -35,12 +35,5 @@ class player(actor):
         else:
             self.andWait(0)
             print("I tried to move "+direction+" but couldn't.\r")
-    def doMove(self, xdisplacement, ydisplacement):
-        self.currentGrid.add(self, self.xpos+xdisplacement, self.ypos+ydisplacement)
-        self.currentGrid.remove(self)
-        self.xpos = self.xpos+xdisplacement
-        self.ypos = self.ypos+ydisplacement
-        self.andWait(3)
-    def doAttack(self, xdisplacement, ydisplacement):
-        sorted(self.currentGrid.get(self.xpos+xdisplacement, self.ypos+ydisplacement), reverse=True)[0].isAttacked(self)
-        self.andWait(2)
+    def collide(self):
+        return "combat"

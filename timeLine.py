@@ -54,3 +54,8 @@ class timeLine():
         self.currentLocation = self.currentLocation + displacement
         self.absoluteTime = self.absoluteTime + displacement
         iterator = 0
+    def remove(self, object):
+        for quantum in self.line:
+            for entry in quantum:
+                if entry == object:
+                    quantum.remove(object)
