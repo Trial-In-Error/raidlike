@@ -1,7 +1,7 @@
 from actor import *
 
 class enemy(actor):
-    def __init__(self, xpos, ypos, currentGrid, display='x'):
+    def __init__(self, xpos, ypos, currentGrid, currentTimeLine, display='x'):
         self.display=display
         self.displayPriority=1
         self.health = 5

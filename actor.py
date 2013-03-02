@@ -2,7 +2,7 @@ from entity import *
 
 class actor(entity):
     health = 1
-    def __init__(self, xpos, ypos, currentGrid, display='~'):
+    def __init__(self, xpos, ypos, currentGrid, currentTimeLine, display='~'):
         self.currentGrid = currentGrid
         self.xpos = xpos
         self.ypos = ypos
@@ -21,3 +21,6 @@ class actor(entity):
         self.currentGrid.remove(self)
         #for space in currentTimeLine
             #space.remove(self)
+    def andWait(self, time):
+        self.currentTimeLine.add(self, time)
+        #self.currentTimeLine.remove(self)

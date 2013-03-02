@@ -16,8 +16,9 @@ def masterInputParser(player):
     elif(lineIn=='l'):
         player.move("east")
     else:
-        print("unknown command")
-    print(lineIn, end="\r\n")
+        print("unknown command\r")
+        player.andWait(0)
+    #print(lineIn, end="\r\n")
 
 class _Getch:
     #Gets a single character from standard input.  Does not echo to the

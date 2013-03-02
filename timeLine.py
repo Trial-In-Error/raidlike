@@ -39,7 +39,12 @@ class timeLine():
         self.size = self.size+1
         self.line.append([])
     def add(self, object, displacement = 0):
-        self.line[self.currentLocation+displacement].append(object)
+        # slot [15] of 16, add 1 -> [0], add 2 -> [1]
+        newDisplacement = displacement
+        while(self.currentLocation + newDisplacement >= self.size):
+            newDisplacement = displacement - self.size
+            #currentLocation = currentLocation - self.size
+        self.line[self.currentLocation+newDisplacement].append(object)
     def clear(self, displacement = 0):
         self.line[self.currentLocation+displacement] = []
     def progress(self, displacement = 1):
