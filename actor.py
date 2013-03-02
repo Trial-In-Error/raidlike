@@ -18,7 +18,7 @@ class actor(entity):
         if(self.health <= 0):
             self.die()
     def die(self):
-        print("ARURURUGH!")
+        print("ARURURUGH!\r")
         self.currentGrid.remove(self)
         self.currentTimeLine.remove(self)
     def move(self, direction):

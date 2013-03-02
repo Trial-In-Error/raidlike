@@ -30,10 +30,10 @@ class player(actor):
         for entity in list(self.currentGrid.get(self.xpos+moveDict[direction][0], self.ypos+moveDict[direction][1])):
             temp.append(entity.collide())
         if(temp.count("true")==0 and temp.count("combat_enemy")==0):
-            print("I moved "+direction+".")
+            print("I moved "+direction+".\r")
             self.doMove(moveDict[direction][0], moveDict[direction][1])
         elif(temp.count("combat_enemy")==1):
-            print("I attacked.")
+            print("I attacked.\r")
             self.doAttack(moveDict[direction][0], moveDict[direction][1])
         else:
             self.andWait(0)
@@ -41,5 +41,5 @@ class player(actor):
     def collide(self):
         return "combat_player"
     def die(self):
-        print("You died! Game over.")
+        print("You died! Game over.\r")
         sys.exit()
