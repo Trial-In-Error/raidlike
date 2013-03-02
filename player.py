@@ -2,6 +2,7 @@ from entity import *
 from masterInputParser import *
 from grid import *
 from actor import *
+from sys import *
 
 class player(actor):
     #currentGrid = grid("foo",5,5)
@@ -37,3 +38,6 @@ class player(actor):
             print("I tried to move "+direction+" but couldn't.\r")
     def collide(self):
         return "combat"
+    def die(self):
+        print("You died! Game over.")
+        sys.exit()

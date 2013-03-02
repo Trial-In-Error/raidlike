@@ -20,7 +20,6 @@ class actor(entity):
     def die(self):
         print("ARURURUGH!")
         self.currentGrid.remove(self)
-        #for space in currentTimeLine
         self.currentTimeLine.remove(self)
     def move(self, direction):
         moveDict = {'north': [0, 1],

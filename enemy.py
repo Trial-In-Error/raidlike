@@ -1,5 +1,8 @@
 from actor import *
 
+# Enemies kill each other. Ooops. >_>
+
+
 class enemy(actor):
     def __init__(self, xpos, ypos, currentLevel, display='x'):
         self.currentLevel = currentLevel

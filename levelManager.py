@@ -15,7 +15,9 @@ class levelManager():
         self.populateWalls()
         self.populateFloor()
         self.currentPlayer = player(2,2,self.currentGrid, self.currentTimeLine)
-        e1 = enemy(6,6,self)
+        e1 = enemy(5,5,self)
+        e2 = enemy(5,2,self)
+        e3 = enemy(2,5,self)
 
     def load(self):
         pass
