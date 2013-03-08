@@ -1,5 +1,11 @@
 from levelManager import *
 from player import *
+from unicurses import *
+stdscr = initscr()
+noecho()
+cbreak()
+curs_set(0)
+keypad(stdscr, True)
 
 """
 The main loop. The magic all happens here.
@@ -9,6 +15,8 @@ actors in that quantum. The screen is drawn right
 before the players' quanta.
 """
 
-currentLevel = levelManager("playerSaveState")
+currentLevel = levelManager("playerSaveState", stdscr)
+#currentLevel.draw()
+stdscr.refresh()
 while(True):
     currentLevel.update()

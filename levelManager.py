@@ -27,7 +27,7 @@ class levelManager():
     viewDistance = 3;
     levelWidth = 7;
     levelHeight = 7;
-    def __init__(self, playerSaveState):
+    def __init__(self, playerSaveState, stdscr):
         self.currentGrid = grid(self.levelWidth, self.levelHeight)
         self.populateWalls()
         self.populateFloor()
@@ -35,6 +35,7 @@ class levelManager():
         e1 = enemy(5,5,self)
         e2 = enemy(5,2,self)
         self.currentPlayer = player(2,2,self)
+        self.stdscr = stdscr
     def load(self):
         pass
     def update(self):
@@ -43,7 +44,8 @@ class levelManager():
         self.currentTimeLine.progress()
 
     def draw(self):
-        os.system('cls' if os.name=='nt' else 'clear')
+        #os.system('cls' if os.name=='nt' else 'clear')
+        #clear()
         if (self.currentPlayer in self.currentTimeLine.get()):
             temp2 = ""
             for square in self.currentGrid:
@@ -58,6 +60,7 @@ class levelManager():
                 print(temp2[y*self.levelWidth:(y+1)*self.levelWidth],
                 end="\r\n")
         self.currentOutputBuffer.output()
+        refresh()
     def populateFloor(self):
         for y in range(1, self.levelHeight+1):
             for x in range(1, self.levelWidth+1):

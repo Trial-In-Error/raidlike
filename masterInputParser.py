@@ -1,4 +1,6 @@
 import sys
+from unicurses import *
+
 
 """
 The input parser. Called as the second half of the player's act() function; the
@@ -9,25 +11,22 @@ Currently does NOT support arrow keys, diagonals, or any new-fangled fanciness.
 
 def masterInputParser(player, currentLevel):
     lineIn = ""
-    lineIn = getch() #for right now, case insensitive
-    #if(lineIn[0]!='\x1b'):
-    #    lineIn = str(lineIn[0])
-    #else:
-    #if(len(lineIn)==2):
-    #    lineIn = lineIn[1]
-    #else:
-    lineIn = str(lineIn[0])
-    if(lineIn=='q'):
+    lineIn = getch()
+    if(lineIn==CCHAR('q')):
+        clear()
+        refresh()
+        endwin()
+        print("Be seeing you...")
         sys.exit()
-    elif(lineIn=='h' or lineIn=="D"):
+    elif(lineIn==CCHAR('h') or lineIn==KEY_LEFT):
         player.move("west")
-    elif(lineIn=='j' or lineIn=="B"):
+    elif(lineIn==CCHAR('j') or lineIn==KEY_DOWN):
         player.move("south")
-    elif(lineIn=='k' or lineIn=="A"):
+    elif(lineIn==CCHAR('k') or lineIn==KEY_UP):
         player.move("north")
-    elif(lineIn=='l' or lineIn=="C"):
+    elif(lineIn==CCHAR('l') or lineIn==KEY_RIGHT):
         player.move("east")
-    elif(lineIn=='r' or lineIn=='.'):
+    elif(lineIn==CCHAR('r') or lineIn==CCHAR('.')):
         player.andWait(1)
     #elif(lineIn=='R'):
         #
@@ -39,6 +38,8 @@ def masterInputParser(player, currentLevel):
         #currentLevel.currentOutputBuffer.add("Unknown command.")
         player.andWait(0)
     #urrentLevel.currentOutputBuffer.add(str(ord(lineIn)))
+
+"""NOT YET UP TO DATE WITH CURSES"""
 
 def lookInputParser(player, currentLevel):
     xLook = player.xpos
@@ -67,91 +68,3 @@ def lookInputParser(player, currentLevel):
         else:
             if(lineIn=='q' or ord(lineIn)==27):
                 break     
-
-
-class _Getch:
-    #Gets a single character from standard input.  Does not echo to the screen.
-    #Found at http://code.activestate.com/recipes/134892/
-    def __init__(self):
-        try:
-            self.impl = _GetchWindows()
-        except ImportError:
-            self.impl = _GetchUnix()
-
-    def __call__(self): return self.impl()
-
-
-class _GetchUnix:
-    def __init__(self):
-        import tty, sys
-
-    def __call__(self):
-        import sys, tty, termios
-        fd = sys.stdin.fileno()
-        old_settings = termios.tcgetattr(fd)
-        ch=""
-        sys.stdin.flush()
-        try:
-            tty.setraw(sys.stdin.fileno())
-            ch = sys.stdin.read(1)
-            if(ord(ch) == 27):
-                ch = sys.stdin.read(1)
-        finally:
-            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-        sys.stdin.flush()
-        #print("On its way out... "+str(ord(ch))+"\r\n")
-        return ch
-
-
-class _GetchWindows:
-    def __init__(self):
-        import msvcrt
-
-    """def __call__(self):
-        import msvcrt
-        return msvcrt.getch()"""
-    def __call__(echo=False):
-        "Get a single character on Windows."
-        while msvcrt.kbhit():
-            msvcrt.getch()
-        ch = msvcrt.getch()
-        while ch in b'\x00\xe0':
-            msvcrt.getch()
-            ch = msvcrt.getch()
-            #if(ch=='27'):
-            #    ch = msvcrt.getch()
-        if echo:
-            msvcrt.putch(ch)
-        return ch.decode()
-
-
-getch = _Getch()
-
-"""import os
-import sys    
-import termios
-import fcntl
-
-def getch():
-  fd = sys.stdin.fileno()
-
-  oldterm = termios.tcgetattr(fd)
-  newattr = termios.tcgetattr(fd)
-  newattr[3] = newattr[3] & ~termios.ICANON & ~termios.ECHO
-  termios.tcsetattr(fd, termios.TCSANOW, newattr)
-
-  oldflags = fcntl.fcntl(fd, fcntl.F_GETFL)
-  fcntl.fcntl(fd, fcntl.F_SETFL, oldflags | os.O_NONBLOCK)
-
-  try:        
-    while 1:            
-      try:
-        c = sys.stdin.read(1)
-        break
-      except IOError: pass
-  finally:
-    termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
-    fcntl.fcntl(fd, fcntl.F_SETFL, oldflags)
-  return c
-
-"""

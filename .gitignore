@@ -1,6 +1,9 @@
 # Ignore pycache
 __pycache__/*
 
+# Ignore UniCurses library
+UniCurses-1.2/*
+
 # Ignore sublime generated files
 *.sublime-project
 *.sublime-workspace
