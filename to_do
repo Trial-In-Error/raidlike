@@ -1,17 +1,26 @@
 To do and other general notes:
+* color output?
+* broken draw/clear cycle
 * "look" parsing mode
     * needs to enter description mode and cleanly exit it, too
+        * shallow look vs. deep look
+    * does not support escape to leave
 * line of sight
+    * requires color support (memory vs. present sight)
 * re-route creatures on 'cannot move; other creatures in way' instead of current mode of waiting(1 quantum)
 * diagonal movement
+    * y, home : up-left
+    * b, end : down-left
+    * u, pgup : up-right
+    * n, pgdn : down-right
 * diagonal AI pathing
 * enemy polymorphism
     * differing time quantum costs by player/enemy type
 * __string__ repr's for all entity children, grid, and timeLine
 * inventory & item management
-* color output?
 * make 'r'est wait until next quantum with an actor in item
     * make that 'R'est and start differentiating case
+* __doc__strings
 
 BUGS:
 * escape to leave "look" context requires two strokes

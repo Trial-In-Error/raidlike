@@ -22,6 +22,12 @@ the enemies will appear to double-move on the first
 turn. It looks really awkward.
 """
 
+start_color()
+init_pair(1, COLOR_YELLOW, COLOR_BLACK) # used for the status bar
+init_pair(2, COLOR_CYAN, COLOR_BLACK) # used for the walls
+init_pair(3, COLOR_RED, COLOR_BLACK) # used for the statues
+init_pair(4, COLOR_RED, COLOR_BLACK) # used for low hit points
+
 class levelManager():
     currentTimeLine = timeLine(16)
     viewDistance = 3;

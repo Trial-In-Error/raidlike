@@ -2,6 +2,7 @@ from levelManager import *
 from player import *
 from unicurses import *
 stdscr = initscr()
+start_color()
 noecho()
 cbreak()
 curs_set(0)

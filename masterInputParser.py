@@ -30,7 +30,7 @@ def masterInputParser(player, currentLevel):
         player.andWait(1)
     #elif(lineIn=='R'):
         #
-    elif(lineIn=='x'):
+    elif(lineIn==CCHAR('x')):
         lookInputParser(player, currentLevel)
         player.andWait(0)
         currentLevel.draw()
@@ -52,19 +52,19 @@ def lookInputParser(player, currentLevel):
         lineIn = ""
         lineIn = getch()
         #currentLevel.currentOutputBuffer.add("LINE IN: "+str(ord(lineIn)))
-        if(lineIn=='h' or lineIn=="D"):
+        if(lineIn==CCHAR('h') or lineIn==KEY_LEFT):
             xLook = xLook - 1
             #currentLevel.currentOutputBuffer.add("~")
-        elif(lineIn=='j' or lineIn=="B"):
+        elif(lineIn==CCHAR('j') or lineIn==KEY_DOWN):
             yLook = yLook - 1
             #currentLevel.currentOutputBuffer.add("~")
-        elif(lineIn=='k' or lineIn=="A"):
+        elif(lineIn==CCHAR('k') or lineIn==KEY_UP):
             yLook = yLook + 1
             #currentLevel.currentOutputBuffer.add("~")
-        elif(lineIn=='l' or lineIn=="C"):
+        elif(lineIn==CCHAR('l') or lineIn==KEY_RIGHT):
             xLook = xLook + 1
             #currentLevel.currentOutputBuffer.add("~")
         #elif(ord(lineIn)==27 or lineIn=='q'):
         else:
-            if(lineIn=='q' or ord(lineIn)==27):
+            if(lineIn==CCHAR('q')):
                 break     
