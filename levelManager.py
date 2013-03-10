@@ -33,7 +33,7 @@ start_color()
 init_pair(1, COLOR_YELLOW, COLOR_BLACK) # used for the status bar
 init_pair(2, COLOR_CYAN, COLOR_BLACK) # used for the walls
 init_pair(3, COLOR_RED, COLOR_BLACK) # used for the statues
-init_pair(4, COLOR_RED, COLOR_BLACK) # used for low hit points
+init_pair(4, COLOR_WHITE, COLOR_BLACK) # used for low hit points
 
 class levelManager():
     currentTimeLine = timeLine(16)
@@ -49,6 +49,7 @@ class levelManager():
         e2 = enemy(5,2,self)
         self.currentPlayer = player(2,2,self)
         self.stdscr = stdscr
+        self.currentCamera = camera(33,17,self)
     def load(self):
         pass
     def update(self):

@@ -20,7 +20,7 @@ class player(actor):
         self.currentTimeLine.add(self)
         self.currentOutputBuffer = currentLevel.currentOutputBuffer
         self.name = "player"
-        self.displayColor = 3
+        self.displayColor = 4
         self.description = "It's you."
     def act(self):
         self.currentLevel.draw()

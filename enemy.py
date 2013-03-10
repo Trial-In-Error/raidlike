@@ -15,7 +15,7 @@ class enemy(actor):
         self.currentTimeLine.add(self)
         self.currentOutputBuffer = currentLevel.currentOutputBuffer
         self.name = "generic enemy"
-        self.displayColor = 4
+        self.displayColor = 3
         self.description = "A generic enemy."
     def act(self):
         xDiff = self.xpos - self.currentLevel.currentPlayer.xpos

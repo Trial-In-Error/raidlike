@@ -59,13 +59,17 @@ def lookInputParser(player, currentLevel):
         lineIn = ""
         lineIn = getch()
         if(lineIn==CCHAR('h') or lineIn==KEY_LEFT):
-            xLook = xLook - 1
+            if(xLook > 1):
+                xLook = xLook - 1
         elif(lineIn==CCHAR('j') or lineIn==KEY_DOWN):
-            yLook = yLook - 1
+            if(yLook > 1):
+                yLook = yLook - 1
         elif(lineIn==CCHAR('k') or lineIn==KEY_UP):
-            yLook = yLook + 1
+            if(yLook < currentLevel.levelHeight):
+                yLook = yLook + 1
         elif(lineIn==CCHAR('l') or lineIn==KEY_RIGHT):
-            xLook = xLook + 1
+            if(xLook < currentLevel.levelWidth):
+                xLook = xLook + 1
         elif(lineIn==KEY_ENTER or lineIn==CCHAR('z')):
             currentLevel.currentOutputBuffer.add(currentLevel.currentGrid.getTop(xLook, yLook).describe())
         else:

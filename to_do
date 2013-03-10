@@ -1,15 +1,21 @@
 To do and other general notes:
+
+NEW FEATURES:
+* line of sight
+    * requires color support (memory vs. present sight)
+* enemy polymorphism
+    * differing time quantum costs by player/enemy type
+* level input parser
+TWEAKING:
+* overhaul grid to use cells
 * "look" parsing mode
     * needs to enter description mode and cleanly exit it, too
         * shallow look vs. deep look
     * does not support escape to leave
-    * protect against level edges!
-* line of sight
-    * requires color support (memory vs. present sight)
+    * enable diagonals!
+        * protect against level edges!
 * re-route creatures on 'cannot move; other creatures in way' instead of current mode of waiting(1 quantum)
 * diagonal AI pathing
-* enemy polymorphism
-    * differing time quantum costs by player/enemy type
 * __string__ repr's for all entity children, grid, and timeLine
 * inventory & item management
 * make 'r'est wait until next quantum with an actor in item
@@ -23,3 +29,7 @@ To do and other general notes:
 BUGS:
 * escape to leave "look" context requires two strokes
 * death screen has problems; we're cheating with print instead of output buffer
+
+
+How do do this...
+Request that the player's square ask its width and height neighbors to draw recursively. seek->draw->decrement. in the square case, width = height.
