@@ -1,10 +1,16 @@
+from unicurses import *
+
 class entity():
-    def __init__(self, xpos, ypos, display='.'):
+    def __init__(self, xpos, ypos, currentLevel, display='.'):
+        self.currentLevel = currentLevel
         self.display = display
         self.displayPriority = 0
         self.xpos = xpos
         self.ypos = ypos
         self.name = 'floor'
+        self.displayColor = 1
+        self.currentLevel.currentGrid.add(self, xpos, ypos)
+        self.description = "A floor."
     def __lt__(self, other):
         if(self.displayPriority < other.displayPriority):
             return True
@@ -13,21 +19,26 @@ class entity():
         #else:
             #raise CustomException #they're equal! D:
     def draw(self):
-        return(self.display)
+        attron((COLOR_PAIR(self.displayColor)))
+        mvaddch(self.currentLevel.levelHeight-self.ypos, self.xpos-1, self.display)
+        attroff(COLOR_PAIR(self.displayColor))
     def describe(self):
-        pass
+        return(self.description)
     def remove(self):
         pass
     def collide(self):
         return "false"
 
 class wall(entity):
-    def __init__(self, xpos, ypos, grid, display='#'):
+    def __init__(self, xpos, ypos, currentLevel, display='#'):
         self.name = 'wall'
         self.display=display
         self.displayPriority=1
         self.xpos=xpos
         self.ypos=ypos
-        grid.add(self, xpos, ypos)
+        self.currentLevel = currentLevel
+        self.currentLevel.currentGrid.add(self, xpos, ypos)
+        self.displayColor = 2
+        self.description = "A wall."
     def collide(self):
         return "true"

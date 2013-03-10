@@ -6,6 +6,13 @@ from player import *
 from outputBuffer import *
 import os
 
+stdscr = initscr()
+start_color()
+noecho()
+cbreak()
+curs_set(0)
+keypad(stdscr, True)
+
 """
 The workhorse of the game engine. It updates() every
 iteration of the main while loop. Every update act()s
@@ -31,13 +38,13 @@ init_pair(4, COLOR_RED, COLOR_BLACK) # used for low hit points
 class levelManager():
     currentTimeLine = timeLine(16)
     viewDistance = 3;
-    levelWidth = 7;
-    levelHeight = 7;
+    levelWidth = 8;
+    levelHeight = 8;
     def __init__(self, playerSaveState, stdscr):
         self.currentGrid = grid(self.levelWidth, self.levelHeight)
         self.populateWalls()
         self.populateFloor()
-        self.currentOutputBuffer = outputBuffer()
+        self.currentOutputBuffer = outputBuffer(self.levelHeight)
         e1 = enemy(5,5,self)
         e2 = enemy(5,2,self)
         self.currentPlayer = player(2,2,self)
@@ -50,34 +57,29 @@ class levelManager():
         self.currentTimeLine.progress()
 
     def draw(self):
-        #os.system('cls' if os.name=='nt' else 'clear')
-        #clear()
+        clear()
         if (self.currentPlayer in self.currentTimeLine.get()):
-            temp2 = ""
+            #temp2 = ""
             for square in self.currentGrid:
                 try:
-                    temp2 += str(sorted(square, reverse=True)[0].draw())
+                    sorted(square, reverse=True)[0].draw()
                 except IndexError:
                     print("Some cell is completely empty.")
                     # We could fill it with a floor tile entity!
-                    temp2 += "?"
-                    # Instead, it's filled with a '?' for debugging purposes.
-            for y in reversed(range(0, self.levelHeight)):
-                print(temp2[y*self.levelWidth:(y+1)*self.levelWidth],
-                end="\r\n")
+                    #temp2 += "?"
+                    #    Instead, it's filled with a '?' for debugging purposes.
         self.currentOutputBuffer.output()
-        refresh()
     def populateFloor(self):
         for y in range(1, self.levelHeight+1):
             for x in range(1, self.levelWidth+1):
                 if(self.currentGrid.get(x, y) == []):
                     #for debugging, use below to print column/row indices
-                    #self.currentGrid.add(entity(y, x, str(y), x, y)
-                    self.currentGrid.add(entity(x, y, '.'), x, y)
+                    #entity(x, y, self, str(y))
+                    entity(x, y, self, '.')
     def populateWalls(self):
-        for x in range(0, self.levelWidth):
-            wall(x, 1, self.currentGrid)
-            wall(x, self.levelHeight, self.currentGrid)
+        for x in range(1, self.levelWidth+1):
+            wall(x, 1, self)
+            wall(x, self.levelHeight, self)
         for y in range(2, self.levelHeight):
-            wall(1, y, self.currentGrid)
-            wall(self.levelWidth, y, self.currentGrid)
+            wall(1, y, self)
+            wall(self.levelWidth, y, self)

@@ -1,12 +1,6 @@
 from levelManager import *
 from player import *
 from unicurses import *
-stdscr = initscr()
-start_color()
-noecho()
-cbreak()
-curs_set(0)
-keypad(stdscr, True)
 
 """
 The main loop. The magic all happens here.
@@ -17,7 +11,6 @@ before the players' quanta.
 """
 
 currentLevel = levelManager("playerSaveState", stdscr)
-#currentLevel.draw()
 stdscr.refresh()
 while(True):
     currentLevel.update()

@@ -27,13 +27,15 @@ class grid():
                 try:
                     result = self.get(xIterator, yIterator)
                 except IndexError:
-                    print("INDEXXXXX at x= "+xIterator+" and y= "+xIterator)
+                    print("INDEXXXXX at x= "+str(xIterator)+" and y= "+str(xIterator))
                     raise StopIteration
                 yield result
                 xIterator += 1
             yIterator += 1
     def get(self, xpos, ypos):
         return self.grid[xpos-1][self.levelHeight-ypos]
+    def getTop(self, xpos, ypos):
+        return sorted(self.grid[xpos-1][self.levelHeight-ypos], reverse=True)[0]
     def add(self, value, xpos, ypos):
         self.grid[xpos-1][self.levelHeight-ypos].append(value)
     def remove(self, value):
@@ -46,3 +48,7 @@ class grid():
         self.grid[xpos-1][self.levelHeight-ypos] = []
     def load(self):
         pass
+    def doubleCheck(self):
+        for element in self:
+            if(len(element)>1):
+                print("Double at:" +str(element[0].xpos)+", " + str(element[0].ypos))

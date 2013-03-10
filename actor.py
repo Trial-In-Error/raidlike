@@ -9,6 +9,8 @@ class actor(entity):
         self.xpos = xpos
         self.ypos = ypos
         self.name = "actor"
+        self.displayColor = 4
+        self.description = "An actor."
     def act(self):
         pass
     def isAttacked(self, attacker):

@@ -26,6 +26,14 @@ def masterInputParser(player, currentLevel):
         player.move("north")
     elif(lineIn==CCHAR('l') or lineIn==KEY_RIGHT):
         player.move("east")
+    elif(lineIn==CCHAR('y') or lineIn==KEY_HOME):
+        player.move("northwest")
+    elif(lineIn==CCHAR('b') or lineIn==KEY_END):
+        player.move("southwest")
+    elif(lineIn==CCHAR('u') or lineIn==KEY_PPAGE):
+        player.move("northeast")
+    elif(lineIn==CCHAR('n') or lineIn==KEY_NPAGE):
+        player.move("southeast")
     elif(lineIn==CCHAR('r') or lineIn==CCHAR('.')):
         player.andWait(1)
     #elif(lineIn=='R'):
@@ -35,36 +43,31 @@ def masterInputParser(player, currentLevel):
         player.andWait(0)
         currentLevel.draw()
     else:
-        #currentLevel.currentOutputBuffer.add("Unknown command.")
+        currentLevel.currentOutputBuffer.add("Unknown command.")
         player.andWait(0)
-    #urrentLevel.currentOutputBuffer.add(str(ord(lineIn)))
 
-"""NOT YET UP TO DATE WITH CURSES"""
 
 def lookInputParser(player, currentLevel):
     xLook = player.xpos
     yLook = player.ypos
+    lineIn=""
     while(True):
-        currentLevel.currentOutputBuffer.add(sorted(
-        currentLevel.currentGrid.get(xLook, yLook), reverse=True)[0].name)
+        if(lineIn!=CCHAR('z')):
+            currentLevel.currentOutputBuffer.add(
+            currentLevel.currentGrid.getTop(xLook, yLook).name)
         currentLevel.draw()
-        currentLevel.currentOutputBuffer.output()
         lineIn = ""
         lineIn = getch()
-        #currentLevel.currentOutputBuffer.add("LINE IN: "+str(ord(lineIn)))
         if(lineIn==CCHAR('h') or lineIn==KEY_LEFT):
             xLook = xLook - 1
-            #currentLevel.currentOutputBuffer.add("~")
         elif(lineIn==CCHAR('j') or lineIn==KEY_DOWN):
             yLook = yLook - 1
-            #currentLevel.currentOutputBuffer.add("~")
         elif(lineIn==CCHAR('k') or lineIn==KEY_UP):
             yLook = yLook + 1
-            #currentLevel.currentOutputBuffer.add("~")
         elif(lineIn==CCHAR('l') or lineIn==KEY_RIGHT):
             xLook = xLook + 1
-            #currentLevel.currentOutputBuffer.add("~")
-        #elif(ord(lineIn)==27 or lineIn=='q'):
+        elif(lineIn==KEY_ENTER or lineIn==CCHAR('z')):
+            currentLevel.currentOutputBuffer.add(currentLevel.currentGrid.getTop(xLook, yLook).describe())
         else:
             if(lineIn==CCHAR('q')):
                 break     

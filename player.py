@@ -20,15 +20,20 @@ class player(actor):
         self.currentTimeLine.add(self)
         self.currentOutputBuffer = currentLevel.currentOutputBuffer
         self.name = "player"
+        self.displayColor = 3
+        self.description = "It's you."
     def act(self):
         self.currentLevel.draw()
         masterInputParser(self, self.currentLevel)
-        #os.system('cls' if os.name=='nt' else 'clear')
     def move(self, direction):
         moveDict = {'north': [0, 1],
                     'south': [0, -1],
                     'west': [-1, 0],
-                    'east': [1, 0]}
+                    'east': [1, 0],
+                    'northwest': [-1, 1],
+                    'northeast': [1, 1],
+                    'southwest': [-1 ,-1],
+                    'southeast': [1, -1]}
         temp = []
         for entity in self.currentGrid.get(self.xpos + moveDict[direction][0],
         self.ypos + moveDict[direction][1]):
@@ -41,6 +46,16 @@ class player(actor):
             self.andWait(0)
     def collide(self):
         return "combat_player"
-    def die(self):
-        print("You died! Game over.\r")
+    def die(self, killer):
+        #self.currentLevel.currentOutputBuffer.clear()
+        print("\n\rYou died! Game over.")
+        getch()
+        clear()
+        refresh()
+        endwin()
+        # WHY DOESN'T THIS WORK?
+        #self.currentLevel.currentOutputBuffer.add("You died! Game over.")
+        #self.currentLevel.draw()
+        #print("You died! Game over.\r")
+        print("Be seeing you...")
         sys.exit()

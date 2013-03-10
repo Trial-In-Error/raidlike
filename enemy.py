@@ -15,6 +15,8 @@ class enemy(actor):
         self.currentTimeLine.add(self)
         self.currentOutputBuffer = currentLevel.currentOutputBuffer
         self.name = "generic enemy"
+        self.displayColor = 4
+        self.description = "A generic enemy."
     def act(self):
         xDiff = self.xpos - self.currentLevel.currentPlayer.xpos
         yDiff = self.ypos - self.currentLevel.currentPlayer.ypos
@@ -27,6 +29,5 @@ class enemy(actor):
             self.move("south")
         else:
             self.move("north")
-        #self.move("north")
     def collide(self):
         return "combat_enemy"
