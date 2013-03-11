@@ -29,7 +29,7 @@ class actor(entity):
     def die(self, killer):
         self.currentOutputBuffer.add("AURGH! " + self.name.capitalize() + 
         " was killed by " + killer.name + ".\r")
-        self.currentGrid.remove(self)
+        self.currentGrid.remove(self, self.xpos, self.ypos)
         self.currentTimeLine.remove(self)
     def move(self, direction):
         moveDict = {'north': [0, 1],
@@ -51,10 +51,9 @@ class actor(entity):
             self.andWait(1)
     def andWait(self, time):
         self.currentTimeLine.add(self, time)
-        #self.currentTimeLine.remove(self)
     def doMove(self, xDiff, yDiff):
         self.currentGrid.add(self, self.xpos + xDiff, self.ypos + yDiff)
-        self.currentGrid.remove(self)
+        self.currentGrid.remove(self, self.xpos, self.ypos)
         self.xpos = self.xpos + xDiff
         self.ypos = self.ypos + yDiff
         self.andWait(3)

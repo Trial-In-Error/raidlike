@@ -54,7 +54,7 @@ def lookInputParser(player, currentLevel):
     while(True):
         if(lineIn!=CCHAR('z')):
             currentLevel.currentOutputBuffer.add(
-            currentLevel.currentGrid.getTop(xLook, yLook).name)
+            currentLevel.currentGrid.getCell(xLook, yLook).getTopContent().name)
         currentLevel.draw()
         lineIn = ""
         lineIn = getch()

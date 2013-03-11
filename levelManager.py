@@ -4,6 +4,7 @@ from entity import *
 from enemy import *
 from player import *
 from outputBuffer import *
+from camera import *
 import os
 
 stdscr = initscr()
@@ -47,9 +48,9 @@ class levelManager():
         self.currentOutputBuffer = outputBuffer(self.levelHeight)
         e1 = enemy(5,5,self)
         e2 = enemy(5,2,self)
-        self.currentPlayer = player(2,2,self)
+        self.currentPlayer = player(4,4,self)
         self.stdscr = stdscr
-        self.currentCamera = camera(33,17,self)
+        self.currentCamera = camera(5,5,self)
     def load(self):
         pass
     def update(self):
@@ -59,7 +60,7 @@ class levelManager():
 
     def draw(self):
         clear()
-        if (self.currentPlayer in self.currentTimeLine.get()):
+        """if (self.currentPlayer in self.currentTimeLine.get()):
             #temp2 = ""
             for square in self.currentGrid:
                 try:
@@ -68,7 +69,9 @@ class levelManager():
                     print("Some cell is completely empty.")
                     # We could fill it with a floor tile entity!
                     #temp2 += "?"
-                    #    Instead, it's filled with a '?' for debugging purposes.
+                    #    Instead, it's filled with a '?' for debugging purposes."""
+        #self.currentGrid.spreadDraw(3,3)
+        self.currentCamera.draw(self.currentPlayer.xpos, self.currentPlayer.ypos)
         self.currentOutputBuffer.output()
     def populateFloor(self):
         for y in range(1, self.levelHeight+1):

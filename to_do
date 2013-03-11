@@ -6,7 +6,10 @@ NEW FEATURES:
 * enemy polymorphism
     * differing time quantum costs by player/enemy type
 * level input parser
+* cell.drawContents() for drawing multiple things (color backgrounds)
+
 TWEAKING:
+* relative camera-drawing
 * overhaul grid to use cells
 * "look" parsing mode
     * needs to enter description mode and cleanly exit it, too
@@ -25,11 +28,9 @@ TWEAKING:
 * split floor from entity
 * develop deep look as a separate input parser
 * wall collision error text
+* clean up grid / cell / levelManager interactions
+* grid.clear() using iterators, not double-for-loop
 
 BUGS:
 * escape to leave "look" context requires two strokes
 * death screen has problems; we're cheating with print instead of output buffer
-
-
-How do do this...
-Request that the player's square ask its width and height neighbors to draw recursively. seek->draw->decrement. in the square case, width = height.
