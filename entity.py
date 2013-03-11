@@ -9,6 +9,7 @@ class entity():
         self.ypos = ypos
         self.name = 'floor'
         self.displayColor = 1
+        self.memoryDisplayColor = 5
         self.currentLevel.currentGrid.add(self, xpos, ypos)
         self.description = "A floor."
     def __lt__(self, other):
@@ -22,6 +23,10 @@ class entity():
         attron((COLOR_PAIR(self.displayColor)))
         mvaddch(self.currentLevel.levelHeight-self.ypos, self.xpos-1, self.display)
         attroff(COLOR_PAIR(self.displayColor))
+    def drawFromMemory(self):
+        attron((COLOR_PAIR(self.memoryDisplayColor)))
+        mvaddch(self.currentLevel.levelHeight-self.ypos, self.xpos-1, self.display)
+        attroff(COLOR_PAIR(self.memoryDisplayColor))
     def describe(self):
         return(self.description)
     def remove(self):
@@ -40,5 +45,6 @@ class wall(entity):
         self.currentLevel.currentGrid.add(self, xpos, ypos)
         self.displayColor = 2
         self.description = "A wall."
+        self.memoryDisplayColor = 5
     def collide(self):
         return "true"

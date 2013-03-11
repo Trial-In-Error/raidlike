@@ -35,6 +35,7 @@ init_pair(1, COLOR_YELLOW, COLOR_BLACK) # used for the status bar
 init_pair(2, COLOR_CYAN, COLOR_BLACK) # used for the walls
 init_pair(3, COLOR_RED, COLOR_BLACK) # used for the statues
 init_pair(4, COLOR_WHITE, COLOR_BLACK) # used for low hit points
+init_pair(5, COLOR_BLUE, COLOR_BLACK)
 
 class levelManager():
     currentTimeLine = timeLine(16)

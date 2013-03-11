@@ -17,6 +17,7 @@ class enemy(actor):
         self.name = "generic enemy"
         self.displayColor = 3
         self.description = "A generic enemy."
+        self.memoryDisplayColor = 5
     def act(self):
         xDiff = self.xpos - self.currentLevel.currentPlayer.xpos
         yDiff = self.ypos - self.currentLevel.currentPlayer.ypos

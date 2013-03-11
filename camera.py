@@ -8,9 +8,14 @@ class camera():
         self.grid = self.currentLevel.currentGrid
         self.player = self.currentLevel.currentPlayer
     def draw(self, xpos, ypos):
+        self.drawFromMemory()
         for x in range(max(1,xpos-self.adjLensWidth), max(1,xpos+self.adjLensWidth + 1)):
             for y in range(max(1, ypos-self.adjLensWidth), min(ypos+self.adjLensHeight + 1, self.currentLevel.levelHeight + 1)):
-                self.currentLevel.currentGrid.drawCell(x,y)
+                self.grid.drawCell(x,y)
+    def drawFromMemory(self):
+        for x in range(1,self.currentLevel.levelWidth+1):
+            for y in range(1,self.currentLevel.levelHeight+1):
+                self.grid.DrawCellFromMemory(x,y)
 
 """
 How do do this...

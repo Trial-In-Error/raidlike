@@ -53,8 +53,14 @@ class grid():
     def drawCell(self, xpos, ypos):
         try:
             self.getCell(xpos,ypos).drawContents()
-        except:
+        except IndexError:
             pass
+    def DrawCellFromMemory(self, xpos, ypos):
+        if(self.getCell(xpos,ypos).hasBeenSeen):
+            try:
+                self.getCell(xpos,ypos).drawContentsFromMemory()
+            except IndexError:
+                pass
     def checkForDoubles(self):
         for element in self:
             if(len(element.contents)>1):
