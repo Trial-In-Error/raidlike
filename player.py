@@ -7,21 +7,17 @@ import os
 
 class player(actor):
     def __init__(self, xpos, ypos, currentLevel, display='@'):
-        self.currentLevel = currentLevel
-        self.display = display
+        super().__init__(xpos, ypos, currentLevel, '@') #why doesn't this work?
+        self.display = '@' #why is this necessary explicitly?
         self.displayPriority = 1
         self.damage = 1
         self.health = 10
-        self.currentGrid = currentLevel.currentGrid
-        self.xpos = xpos
-        self.ypos = ypos
-        self.currentGrid.add(self, self.xpos, self.ypos)
-        self.currentTimeLine = currentLevel.currentTimeLine
-        self.currentTimeLine.add(self)
-        self.currentOutputBuffer = currentLevel.currentOutputBuffer
         self.name = "player"
-        self.displayColor = 4
+        self.playerName = "Roderick"
+        self.className = "Blessed of Kaia"
+        self.displayColor = "white"
         self.description = "It's you."
+        self.moveCost = 3
     def act(self):
         self.currentLevel.draw()
         masterInputParser(self, self.currentLevel)
@@ -47,15 +43,12 @@ class player(actor):
     def collide(self):
         return "combat_player"
     def die(self, killer):
-        #self.currentLevel.currentOutputBuffer.clear()
-        print("\n\rYou died! Game over.")
+        self.currentLevel.currentOutputBuffer.clear()
+        self.currentLevel.currentOutputBuffer.add("You died! Game over.")
+        self.currentLevel.draw()
         getch()
         clear()
         refresh()
         endwin()
-        # WHY DOESN'T THIS WORK?
-        #self.currentLevel.currentOutputBuffer.add("You died! Game over.")
-        #self.currentLevel.draw()
-        #print("You died! Game over.\r")
         print("Be seeing you...")
         sys.exit()

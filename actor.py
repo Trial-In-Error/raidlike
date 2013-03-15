@@ -3,14 +3,15 @@ from entity import *
 class actor(entity):
     health = 1
     def __init__(self, xpos, ypos, currentLevel, display='~'):
-        self.currentLevel = currentLevel
-        self.currentGrid = currentLevel.currentGrid
+        super().__init__(xpos, ypos, currentLevel)
+        self.currentTimeLine = currentLevel.currentTimeLine
+        self.currentTimeLine.add(self)
+        self.displayPriority = 1
         self.currentOutputBuffer = currentLevel.currentOutputBuffer
-        self.xpos = xpos
-        self.ypos = ypos
         self.name = "actor"
         self.displayColor = 4
-        self.description = "An actor."
+        self.description = "An actor. This shouldn't be instantiated!"
+        self.moveCost = 3
     def act(self):
         pass
     def isAttacked(self, attacker):
@@ -56,7 +57,7 @@ class actor(entity):
         self.currentGrid.remove(self, self.xpos, self.ypos)
         self.xpos = self.xpos + xDiff
         self.ypos = self.ypos + yDiff
-        self.andWait(3)
+        self.andWait(self.moveCost)
     def doAttack(self, xDiff, yDiff):
         sorted(self.currentGrid.get(self.xpos + xDiff, self.ypos + yDiff),
         reverse=True)[0].isAttacked(self)

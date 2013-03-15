@@ -2,22 +2,16 @@ from actor import *
 
 class enemy(actor):
     def __init__(self, xpos, ypos, currentLevel, display='x'):
-        self.currentLevel = currentLevel
-        self.display=display
-        self.displayPriority=1
+        super().__init__(xpos, ypos, currentLevel)
+        self.display = 'x'
         self.health = 3
         self.damage = 1
-        self.currentGrid = currentLevel.currentGrid
-        self.xpos = xpos
-        self.ypos = ypos
-        self.currentGrid.add(self, self.xpos, self.ypos)
-        self.currentTimeLine = currentLevel.currentTimeLine
-        self.currentTimeLine.add(self)
         self.currentOutputBuffer = currentLevel.currentOutputBuffer
         self.name = "generic enemy"
-        self.displayColor = 3
+        self.displayColor = "red"
         self.description = "A generic enemy."
-        self.memoryDisplayColor = 5
+        self.memoryDisplayColor = "blue"
+        self.moveCost = 3
     def act(self):
         xDiff = self.xpos - self.currentLevel.currentPlayer.xpos
         yDiff = self.ypos - self.currentLevel.currentPlayer.ypos
@@ -32,3 +26,17 @@ class enemy(actor):
             self.move("north")
     def collide(self):
         return "combat_enemy"
+
+class zombie(enemy):
+    def __init__(self, xpos, ypos, currentLevel, display='X'):
+        super().__init__(xpos,ypos,currentLevel)
+        self.display='X'
+        self.health = 3
+        self.damage = 1
+        self.currentOutputBuffer = currentLevel.currentOutputBuffer
+        self.name = "zombie"
+        self.displayColor = "cyan"
+        self.description = "A lumbering zombie."
+        self.memoryDisplayColor = "blue"
+        self.moveCost = 8
+        self.display = 'X'

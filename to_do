@@ -1,9 +1,13 @@
 To do and other general notes:
 
+IMPORTANT:
+* camera off-set
+* level load from text
+* migrate colorDict & extend to type
+
+
 NEW FEATURES:
 * line of sight
-    * requires color support (memory vs. present sight)
-* enemy polymorphism
     * differing time quantum costs by player/enemy type
 * level input parser
 * cell.drawContents() for drawing multiple things (color backgrounds)
@@ -19,6 +23,7 @@ TWEAKING:
         * protect against level edges!
 * re-route creatures on 'cannot move; other creatures in way' instead of current mode of waiting(1 quantum)
 * diagonal AI pathing
+    *ASTAR pathing
 * __string__ repr's for all entity children, grid, and timeLine
 * inventory & item management
 * make 'r'est wait until next quantum with an actor in item
@@ -30,7 +35,7 @@ TWEAKING:
 * wall collision error text
 * clean up grid / cell / levelManager interactions
 * grid.clear() using iterators, not double-for-loop
+* memory Draw doesn't support drawing enemies from memory
 
 BUGS:
 * escape to leave "look" context requires two strokes
-* death screen has problems; we're cheating with print instead of output buffer

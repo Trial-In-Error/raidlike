@@ -13,6 +13,7 @@ noecho()
 cbreak()
 curs_set(0)
 keypad(stdscr, True)
+start_color()
 
 """
 The workhorse of the game engine. It updates() every
@@ -30,13 +31,6 @@ the enemies will appear to double-move on the first
 turn. It looks really awkward.
 """
 
-start_color()
-init_pair(1, COLOR_YELLOW, COLOR_BLACK) # used for the status bar
-init_pair(2, COLOR_CYAN, COLOR_BLACK) # used for the walls
-init_pair(3, COLOR_RED, COLOR_BLACK) # used for the statues
-init_pair(4, COLOR_WHITE, COLOR_BLACK) # used for low hit points
-init_pair(5, COLOR_BLUE, COLOR_BLACK)
-
 class levelManager():
     currentTimeLine = timeLine(16)
     viewDistance = 3;
@@ -48,12 +42,24 @@ class levelManager():
         self.populateFloor()
         self.currentOutputBuffer = outputBuffer(self.levelHeight)
         e1 = enemy(5,5,self)
-        e2 = enemy(5,2,self)
+        e2 = zombie(5,2,self)
         self.currentPlayer = player(4,4,self)
         self.stdscr = stdscr
         self.currentCamera = camera(5,5,self)
-    def load(self):
-        pass
+        #these should be in entity, not levelmanager...
+        self.coloringDict = {"enemy":"yellow"}
+        self.colorDict = {"yellow":[1, COLOR_YELLOW, COLOR_BLACK],
+            "cyan":[2, COLOR_CYAN, COLOR_BLACK],
+            "red":[3, COLOR_RED, COLOR_BLACK],
+            "white":[4, COLOR_WHITE, COLOR_BLACK],
+            "blue":[5, COLOR_BLUE, COLOR_BLACK]
+            }
+        for entry in self.colorDict:
+            init_pair(self.colorDict[entry][0], self.colorDict[entry][1], self.colorDict[entry][2])
+    def load(self, levelName):
+        toParse = open(levelName, 'r')
+        # EXTEND ME HERE
+
     def update(self):
         for actor in self.currentTimeLine:
             actor.act()
@@ -61,19 +67,15 @@ class levelManager():
 
     def draw(self):
         clear()
-        """if (self.currentPlayer in self.currentTimeLine.get()):
-            #temp2 = ""
-            for square in self.currentGrid:
-                try:
-                    sorted(square, reverse=True)[0].draw()
-                except IndexError:
-                    print("Some cell is completely empty.")
-                    # We could fill it with a floor tile entity!
-                    #temp2 += "?"
-                    #    Instead, it's filled with a '?' for debugging purposes."""
-        #self.currentGrid.spreadDraw(3,3)
+        self.drawHUD()
         self.currentCamera.draw(self.currentPlayer.xpos, self.currentPlayer.ypos)
         self.currentOutputBuffer.output()
+    def drawHUD(self):
+        attron(COLOR_PAIR(self.colorDict["white"][0]))
+        mvaddstr(0, self.levelWidth, self.currentPlayer.playerName)
+        mvaddstr(1, self.levelWidth, self.currentPlayer.className)
+        mvaddstr(2, self.levelWidth, "Health: "+str(self.currentPlayer.health))
+        attroff(COLOR_PAIR(self.colorDict["white"][0]))
     def populateFloor(self):
         for y in range(1, self.levelHeight+1):
             for x in range(1, self.levelWidth+1):
