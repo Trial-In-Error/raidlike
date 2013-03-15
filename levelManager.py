@@ -1,5 +1,5 @@
 from grid import *
-from timeLine import *
+from timeline import *
 from entity import *
 from enemy import *
 from player import *
@@ -32,7 +32,7 @@ turn. It looks really awkward.
 """
 
 class levelManager():
-    currentTimeLine = timeLine(16)
+    timeline = Timeline(16)
     viewDistance = 3;
     levelWidth = 8;
     levelHeight = 8;
@@ -41,9 +41,9 @@ class levelManager():
         self.populateWalls()
         self.populateFloor()
         self.currentOutputBuffer = outputBuffer(self.levelHeight)
-        e1 = enemy(5,5,self)
-        e2 = zombie(5,2,self)
-        self.currentPlayer = player(4,4,self)
+        e1 = Enemy(5,5,self)
+        e2 = Zombie(5,2,self)
+        self.currentPlayer = Player(4,4,self)
         self.stdscr = stdscr
         self.currentCamera = camera(5,5,self)
         #these should be in entity, not levelmanager...
@@ -61,9 +61,9 @@ class levelManager():
         # EXTEND ME HERE
 
     def update(self):
-        for actor in self.currentTimeLine:
+        for actor in self.timeline:
             actor.act()
-        self.currentTimeLine.progress()
+        self.timeline.progress()
 
     def draw(self):
         clear()
@@ -82,11 +82,11 @@ class levelManager():
                 if(self.currentGrid.get(x, y) == []):
                     #for debugging, use below to print column/row indices
                     #entity(x, y, self, str(y))
-                    entity(x, y, self, '.')
+                    Entity(x, y, self, display='.')
     def populateWalls(self):
         for x in range(1, self.levelWidth+1):
-            wall(x, 1, self)
-            wall(x, self.levelHeight, self)
+            Wall(x, 1, self)
+            Wall(x, self.levelHeight, self)
         for y in range(2, self.levelHeight):
-            wall(1, y, self)
-            wall(self.levelWidth, y, self)
+            Wall(1, y, self)
+            Wall(self.levelWidth, y, self)

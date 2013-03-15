@@ -18,7 +18,7 @@ Newly iterable. Iteration goes through all cells in
 currentLocation.
 """
 
-class timeLine():
+class Timeline():
     currentLocation = 0
     line = []
     absoluteTime = 0

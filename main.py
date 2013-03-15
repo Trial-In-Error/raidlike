@@ -14,3 +14,4 @@ currentLevel = levelManager("playerSaveState", stdscr)
 stdscr.refresh()
 while(True):
     currentLevel.update()
+print("Be seeing you... (the real message, from main.py...)")

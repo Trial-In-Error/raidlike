@@ -1,33 +1,38 @@
 from unicurses import *
 
-class entity():
-    def __init__(self, xpos, ypos, currentLevel, display='.'):
-        self.currentLevel = currentLevel
-        self.currentGrid = currentLevel.currentGrid
-        self.display = display
-        self.displayPriority = 0
+class Entity():
+    def __init__(self, xpos, ypos, level, *,
+                 description="A floor.",
+                 display='.',
+                 displayColor="yellow",
+                 displayPriority=0,
+                 memoryDisplayColor="blue",
+                 name="floor"):
         self.xpos = xpos
         self.ypos = ypos
-        self.name = 'floor'
-        self.displayColor = "yellow"
-        self.memoryDisplayColor = "blue"
-        self.currentGrid.add(self, xpos, ypos)
-        self.description = "A floor."
+        self.level = level
+        self.description = description
+        self.display = display
+        self.displayColor = displayColor
+        self.displayPriority = displayPriority
+        self.memoryDisplayColor = memoryDisplayColor
+        self.name = name
+        self.level.currentGrid.add(self, xpos, ypos)
+
     def __lt__(self, other):
-        if(self.displayPriority < other.displayPriority):
+        if self.displayPriority < other.displayPriority:
             return True
-        elif(self.displayPriority < other.displayPriority):
+        else:
             return False
-        #else:
-            #raise CustomException #they're equal! D:
+
     def draw(self):
-        attron(COLOR_PAIR(self.currentLevel.colorDict[self.displayColor][0]))
-        mvaddch(self.currentLevel.levelHeight-self.ypos, self.xpos-1, self.display)
-        attroff(COLOR_PAIR(self.currentLevel.colorDict[self.displayColor][0]))
+        attron(COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
+        mvaddch(self.level.levelHeight-self.ypos, self.xpos-1, self.display)
+        attroff(COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
     def drawFromMemory(self):
-        attron(COLOR_PAIR(self.currentLevel.colorDict[self.memoryDisplayColor][0]))
-        mvaddch(self.currentLevel.levelHeight-self.ypos, self.xpos-1, self.display)
-        attroff(COLOR_PAIR(self.currentLevel.colorDict[self.memoryDisplayColor][0]))
+        attron(COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
+        mvaddch(self.level.levelHeight-self.ypos, self.xpos-1, self.display)
+        attroff(COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
     def describe(self):
         return(self.description)
     def remove(self):
@@ -35,13 +40,18 @@ class entity():
     def collide(self):
         return "false"
 
-class wall(entity):
-    def __init__(self, xpos, ypos, currentLevel, display='#'):
-        super().__init__(xpos, ypos, currentLevel, display='#')
-        self.name = 'wall'
-        self.displayPriority=1
-        self.displayColor = "cyan"
-        self.description = "A wall."
-        self.memoryDisplayColor = "blue"
+class Wall(Entity):
+    def __init__(self, xpos, ypos, level, **kwargs):
+        defaults = {
+            'description': "A wall.",
+            'display': '#',
+            'displayPriority': 1,
+            'displayColor': "cyan",
+            'memoryDisplayColor': "blue",
+            'name': 'wall',
+        }
+        defaults.update(kwargs)
+        super().__init__(xpos, ypos, level, **defaults)
+
     def collide(self):
         return "true"
