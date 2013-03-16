@@ -1,6 +1,8 @@
-from levelManager import *
+from levelManager import levelManager
+from enemy import Enemy, Zombie
 from player import *
-from unicurses import *
+import sys
+from unicurses import cbreak, curs_set, initscr, keypad, start_color, stdscr
 
 """
 The main loop. The magic all happens here.
@@ -10,8 +12,32 @@ actors in that quantum. The screen is drawn right
 before the players' quanta.
 """
 
-currentLevel = levelManager("playerSaveState", stdscr)
-stdscr.refresh()
-while(True):
-    currentLevel.update()
-print("Be seeing you... (the real message, from main.py...)")
+try:
+    stdscr = initscr()
+    start_color()
+    noecho()
+    cbreak()
+    curs_set(0)
+    keypad(stdscr, True)
+    start_color()
+
+    if len(sys.argv) > 1:
+        level = levelManager.load(sys.argv[1])
+    else:
+        # Set up default level
+        level = levelManager("playerSaveState", 8, 8)
+        level.setPlayer(Player(4, 4, level))
+        level.populateWalls()
+        level.populateFloor()
+        e1 = Enemy(5,5,level)
+        e2 = Zombie(5,2,level)
+
+    stdscr.refresh()
+    while(True):
+        level.update()
+    print("Be seeing you... (the real message, from main.py...)")
+except:
+    clear()
+    refresh()
+    endwin()
+    raise

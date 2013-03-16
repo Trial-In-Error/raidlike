@@ -13,9 +13,9 @@ class camera():
             for y in range(max(1, ypos-self.adjLensWidth), min(ypos+self.adjLensHeight + 1, self.currentLevel.levelHeight + 1)):
                 self.grid.drawCell(x,y)
     def drawFromMemory(self):
-        for x in range(1,self.currentLevel.levelWidth+1):
-            for y in range(1,self.currentLevel.levelHeight+1):
-                self.grid.DrawCellFromMemory(x,y)
+        for cell in self.grid:
+            if cell.hasBeenSeen:
+                cell.drawContentsFromMemory()
 
 """
 How do do this...
