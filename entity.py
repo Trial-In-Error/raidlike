@@ -153,8 +153,9 @@ class Player(Actor):
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
-        self.className = className
-        self.playerName = playerName
+        #default name/class
+        self.className = "Blessed of Kaia"
+        self.playerName = "Roderick"
 
     def act(self):
         self.level.draw()

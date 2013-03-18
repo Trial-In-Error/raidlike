@@ -1,8 +1,8 @@
 from levelManager import levelManager
 from enemy import Enemy, Zombie
-from player import *
+from entity import Player
 import sys
-from unicurses import cbreak, curs_set, initscr, keypad, start_color, stdscr
+from unicurses import cbreak, clear, curs_set, endwin, initscr, keypad, refresh, noecho, start_color, stdscr
 
 """
 The main loop. The magic all happens here.

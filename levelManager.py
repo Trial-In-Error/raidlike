@@ -80,9 +80,14 @@ class levelManager():
                 if char != ' ':
                     if class_dict[char] is Player:
                         level.setPlayer(Player(x, y, level))
+                        classes["floor"](x, y, level)
                     else:
-                        print("adding {} at x={} y={}".format(class_dict[char], x, y), file=sys.stderr)
-                        class_dict[char](x, y, level)
+                        if class_dict[char] in (Wall, Floor):
+                            #print("adding {} at x={} y={}".format(class_dict[char], x, y), file=sys.stderr)
+                            class_dict[char](x, y, level)
+                        else:
+                            class_dict[char](x, y, level)
+                            classes["floor"](x, y, level)
         # Triggers ...?
         return level
 

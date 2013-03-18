@@ -119,14 +119,20 @@ class Cell():
         return sorted(self.contents, reverse=True)[0]
 
     def getBottomContent(self):
-        return sorted(self.contents)[0]
+        try:
+            return sorted(self.contents)[0]
+        except IndexError:
+            pass
 
     def drawContents(self):
         self.hasBeenSeen = True
         self.getTopContent().draw()
 
     def drawContentsFromMemory(self):
-        self.getBottomContent().drawFromMemory()
+        try:
+            self.getBottomContent().drawFromMemory()
+        except AttributeError:
+            pass
 
     def remove(self, value):
         self.contents.remove(value)
