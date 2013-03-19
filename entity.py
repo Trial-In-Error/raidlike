@@ -1,5 +1,6 @@
 import unicurses
 from masterInputParser import masterInputParser
+from sys import exit
 
 class Entity():
     def __init__(self, xpos, ypos, level, *,
@@ -188,12 +189,12 @@ class Player(Actor):
         self.level.currentOutputBuffer.clear()
         self.level.currentOutputBuffer.add("You died! Game over.")
         self.level.draw()
-        getch()
-        clear()
-        refresh()
-        endwin()
+        unicurses.getch()
+        unicurses.clear()
+        unicurses.refresh()
+        unicurses.endwin()
         print("Be seeing you...")
-        sys.exit()
+        exit()
 
 class Enemy(Actor):
     def __init__(self, xpos, ypos, level, **kwargs):
