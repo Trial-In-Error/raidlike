@@ -60,13 +60,29 @@ class levelManager():
         classes = {name.lower(): getattr(entity, name) for name in dir(entity)
                                                        if name[0].isupper()}
         class_dict = {}
+        arg_dict = {}
         for line in (g for g in glyphs if g.strip()):
-            glyph, name = map(str.strip, line.split(':'))
+            glyph, name, args = map(str.strip, line.split(':'))
+            args = args.split(',')
+            argLeft = []
+            argRight = []
+            for arg in args:
+                if arg:
+                    argLeft.append(arg.split('=')[0])
+                    argRight.append(arg.split('=')[1])
+                    #    except:
+                    #        raise IndexError("\n"+str(arg)+"\n"+str(argLeft)+"\n"+str(argRight))
+            args = {}
+            #for arg, index in argLeft, range(0,argLeft):
+            #    args[argLeft[index]] = argRight[index]
+            for index in range(len(argLeft)):
+                args[argLeft[index].strip()] = argRight[index].strip()
             try:
                 class_dict[glyph] = classes[name]
             except KeyError:
                 raise KeyError("Error parsing glyph {!r}: no class named {}"
                                "".format(glyph, name))
+            arg_dict[glyph] = args
         # Parse the map
         map_ = [line.rstrip() for line in map_data.rstrip().split('\n')]
         width = max(len(line) for line in map_)
@@ -86,7 +102,7 @@ class levelManager():
                             #print("adding {} at x={} y={}".format(class_dict[char], x, y), file=sys.stderr)
                             class_dict[char](x, y, level)
                         else:
-                            class_dict[char](x, y, level)
+                            class_dict[char](x, y, level, **arg_dict[char])
                             classes["floor"](x, y, level)
         # Triggers ...?
         return level

@@ -91,7 +91,7 @@ class Actor(Entity):
         return(True)
 
     def takeDamage(self, attacker): #note: things only die if isDamaged
-        self.health = self.health - attacker.damage
+        self.health = self.health - int(attacker.damage)
         if(self.health <= 0):
             self.die(attacker)
         else:

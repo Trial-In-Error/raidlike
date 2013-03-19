@@ -10,11 +10,11 @@
 ############
 
 Glyphs
-@:player
-#:wall
-.:floor
-x:enemy
-X:zombie
+@:player:
+#:wall:
+.:floor:
+x:enemy:name = uhoh, description = a mess., damage = 9
+X:zombie:
 
 Triggers
 
