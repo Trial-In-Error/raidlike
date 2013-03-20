@@ -9,7 +9,7 @@ first half consists of draw().
 Currently does NOT support arrow keys, diagonals, or any new-fangled fanciness.
 """
 
-def masterInputParser(player, currentLevel):
+def masterInputParser(player, level):
     lineIn = ""
     lineIn = getch()
     if(lineIn==CCHAR('q')):
@@ -39,23 +39,23 @@ def masterInputParser(player, currentLevel):
     #elif(lineIn=='R'):
         #
     elif(lineIn==CCHAR('x')):
-        lookInputParser(player, currentLevel)
+        lookInputParser(player, level)
         player.andWait(0)
-        currentLevel.draw()
+        level.draw()
     else:
-        currentLevel.currentOutputBuffer.add("Unknown command.")
+        level.output_buffer.add("Unknown command.")
         player.andWait(0)
 
 
-def lookInputParser(player, currentLevel):
+def lookInputParser(player, level):
     xLook = player.xpos
     yLook = player.ypos
     lineIn=""
     while(True):
         if(lineIn!=CCHAR('z')):
-            currentLevel.currentOutputBuffer.add(
-            currentLevel.currentGrid.getCell(xLook, yLook).getTopContent().name)
-        currentLevel.draw()
+            level.output_buffer.add(
+            level.grid.getCell(xLook, yLook).getTopContent().name)
+        level.draw()
         lineIn = ""
         lineIn = getch()
         if(lineIn==CCHAR('h') or lineIn==KEY_LEFT):
@@ -65,13 +65,13 @@ def lookInputParser(player, currentLevel):
             if(yLook > 1):
                 yLook = yLook - 1
         elif(lineIn==CCHAR('k') or lineIn==KEY_UP):
-            if(yLook < currentLevel.levelHeight):
+            if(yLook < level.levelHeight):
                 yLook = yLook + 1
         elif(lineIn==CCHAR('l') or lineIn==KEY_RIGHT):
-            if(xLook < currentLevel.levelWidth):
+            if(xLook < level.levelWidth):
                 xLook = xLook + 1
         elif(lineIn==KEY_ENTER or lineIn==CCHAR('z')):
-            currentLevel.currentOutputBuffer.add(currentLevel.currentGrid.getTop(xLook, yLook).describe())
+            level.output_buffer.add(level.grid.getTop(xLook, yLook).describe())
         else:
             if(lineIn==CCHAR('q')):
                 break     

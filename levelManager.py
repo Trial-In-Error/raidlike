@@ -1,12 +1,12 @@
 from grid import Grid
 from timeline import Timeline
 from entity import *
-from enemy import *
-from player import *
-from outputBuffer import *
-from camera import *
+from outputBuffer import OutputBuffer
+from camera import Camera
+import unicurses
 import os
 import os.path
+import sys
 
 class levelManager():
     """
@@ -29,22 +29,22 @@ class levelManager():
     viewDistance = 3
 
     def __init__(self, playerSaveState, width, height, player=None):
-        self.levelWidth = width
-        self.levelHeight = height
-        self.currentGrid = Grid(width, height)
-        self.currentOutputBuffer = outputBuffer(height)
-        self.currentPlayer = player
-        self.currentCamera = camera(5,5,self)
+        self.width = width
+        self.height = height
+        self.grid = Grid(width, height)
+        self.output_buffer = OutputBuffer(height)
+        self.player = Player
+        self.camera = Camera(5,5,self)
         #these should be in entity, not levelmanager...
         self.coloringDict = {"enemy":"yellow"}
-        self.colorDict = {"yellow":[1, COLOR_YELLOW, COLOR_BLACK],
-            "cyan":[2, COLOR_CYAN, COLOR_BLACK],
-            "red":[3, COLOR_RED, COLOR_BLACK],
-            "white":[4, COLOR_WHITE, COLOR_BLACK],
-            "blue":[5, COLOR_BLUE, COLOR_BLACK]
+        self.colorDict = {"yellow":[1, unicurses.COLOR_YELLOW, unicurses.COLOR_BLACK],
+            "cyan":[2, unicurses.COLOR_CYAN, unicurses.COLOR_BLACK],
+            "red":[3, unicurses.COLOR_RED, unicurses.COLOR_BLACK],
+            "white":[4, unicurses.COLOR_WHITE, unicurses.COLOR_BLACK],
+            "blue":[5, unicurses.COLOR_BLUE, unicurses.COLOR_BLACK]
             }
         for entry in self.colorDict:
-            init_pair(self.colorDict[entry][0], self.colorDict[entry][1], self.colorDict[entry][2])
+            unicurses.init_pair(self.colorDict[entry][0], self.colorDict[entry][1], self.colorDict[entry][2])
 
     @staticmethod
     def load(name):
@@ -108,7 +108,7 @@ class levelManager():
         return level
 
     def setPlayer(self, player):
-        self.currentPlayer = player
+        self.player = player
 
     def update(self):
         for actor in self.timeline:
@@ -116,35 +116,35 @@ class levelManager():
         self.timeline.progress()
 
     def draw(self):
-        if self.currentPlayer is None:
+        if self.player is None:
             raise RuntimeError("You didn't call levelManager.setPlayer()!!!!")
-        clear()
+        unicurses.clear()
         self.drawHUD()
-        self.currentCamera.draw(self.currentPlayer.xpos, self.currentPlayer.ypos)
-        self.currentOutputBuffer.output()
+        self.camera.draw(self.player.xpos, self.player.ypos)
+        self.output_buffer.output()
 
     def drawHUD(self):
-        if self.currentPlayer is None:
+        if self.player is None:
             raise RuntimeError("You didn't call levelManager.setPlayer()!!!!")
-        attron(COLOR_PAIR(self.colorDict["white"][0]))
-        mvaddstr(0, self.levelWidth, self.currentPlayer.playerName)
-        mvaddstr(1, self.levelWidth, self.currentPlayer.className)
-        mvaddstr(2, self.levelWidth, "Health: "+str(self.currentPlayer.health))
-        attroff(COLOR_PAIR(self.colorDict["white"][0]))
+        unicurses.attron(unicurses.COLOR_PAIR(self.colorDict["white"][0]))
+        unicurses.mvaddstr(0, self.width, self.player.playerName)
+        unicurses.mvaddstr(1, self.width, self.player.className)
+        unicurses.mvaddstr(2, self.width, "Health: "+str(self.player.health))
+        unicurses.attroff(unicurses.COLOR_PAIR(self.colorDict["white"][0]))
 
     def populateFloor(self):
-        for y in range(1, self.levelHeight+1):
-            for x in range(1, self.levelWidth+1):
+        for y in range(1, self.height+1):
+            for x in range(1, self.width+1):
                 if all(not isinstance(i, Wall)
-                       for i in self.currentGrid.get(x, y)):
+                       for i in self.grid.get(x, y)):
                     #for debugging, use below to print column/row indices
                     #entity(x, y, self, str(y))
                     Entity(x, y, self, display='.')
 
     def populateWalls(self):
-        for x in range(1, self.levelWidth+1):
+        for x in range(1, self.width+1):
             Wall(x, 1, self)
-            Wall(x, self.levelHeight, self)
-        for y in range(2, self.levelHeight):
+            Wall(x, self.height, self)
+        for y in range(2, self.height):
             Wall(1, y, self)
-            Wall(self.levelWidth, y, self)
+            Wall(self.width, y, self)

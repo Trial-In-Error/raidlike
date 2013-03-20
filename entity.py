@@ -19,7 +19,7 @@ class Entity():
         self.displayPriority = displayPriority
         self.memoryDisplayColor = memoryDisplayColor
         self.name = name
-        self.level.currentGrid.add(self, xpos, ypos)
+        self.level.grid.add(self, xpos, ypos)
 
     def __lt__(self, other):
         if self.displayPriority < other.displayPriority:
@@ -29,11 +29,11 @@ class Entity():
 
     def draw(self):
         unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
-        unicurses.mvaddch(self.level.levelHeight-self.ypos, self.xpos-1, self.display)
+        unicurses.mvaddch(self.level.height-self.ypos, self.xpos-1, self.display)
         unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
     def drawFromMemory(self):
         unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
-        unicurses.mvaddch(self.level.levelHeight-self.ypos, self.xpos-1, self.display)
+        unicurses.mvaddch(self.level.height-self.ypos, self.xpos-1, self.display)
         unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
     def describe(self):
         return(self.description)
@@ -95,14 +95,14 @@ class Actor(Entity):
         if(self.health <= 0):
             self.die(attacker)
         else:
-            self.level.currentOutputBuffer.add(attacker.name.capitalize() +
+            self.level.output_buffer.add(attacker.name.capitalize() +
                 " hit " + self.name + " for " +
             str(attacker.damage) + " damage.\r")
 
     def die(self, killer):
-        self.level.currentOutputBuffer.add("AURGH! " + self.name.capitalize() + 
+        self.level.output_buffer.add("AURGH! " + self.name.capitalize() + 
         " was killed by " + killer.name + ".\r")
-        self.level.currentGrid.remove(self, self.xpos, self.ypos)
+        self.level.grid.remove(self, self.xpos, self.ypos)
         self.level.timeline.remove(self)
 
     def move(self, direction):
@@ -111,7 +111,7 @@ class Actor(Entity):
                     'west': [-1, 0],
                     'east': [1, 0]}
         temp = []
-        for entity in self.level.currentGrid.get(
+        for entity in self.level.grid.get(
         self.xpos+moveDict[direction][0], 
         self.ypos+moveDict[direction][1]):
             temp.append(entity.collide())
@@ -128,14 +128,14 @@ class Actor(Entity):
         self.level.timeline.add(self, time)
 
     def doMove(self, xDiff, yDiff):
-        self.level.currentGrid.add(self, self.xpos + xDiff, self.ypos + yDiff)
-        self.level.currentGrid.remove(self, self.xpos, self.ypos)
+        self.level.grid.add(self, self.xpos + xDiff, self.ypos + yDiff)
+        self.level.grid.remove(self, self.xpos, self.ypos)
         self.xpos = self.xpos + xDiff
         self.ypos = self.ypos + yDiff
         self.andWait(self.moveCost)
 
     def doAttack(self, xDiff, yDiff):
-        sorted(self.level.currentGrid.get(self.xpos + xDiff, self.ypos + yDiff),
+        sorted(self.level.grid.get(self.xpos + xDiff, self.ypos + yDiff),
                reverse=True)[0].isAttacked(self)
         self.andWait(2)
 
@@ -172,7 +172,7 @@ class Player(Actor):
                     'southwest': [-1 ,-1],
                     'southeast': [1, -1]}
         temp = []
-        for entity in self.level.currentGrid.get(self.xpos + moveDict[direction][0],
+        for entity in self.level.grid.get(self.xpos + moveDict[direction][0],
         self.ypos + moveDict[direction][1]):
             temp.append(entity.collide())
         if(temp.count("true")==0 and temp.count("combat_enemy")==0):
@@ -186,8 +186,8 @@ class Player(Actor):
         return "combat_player"
 
     def die(self, killer):
-        self.level.currentOutputBuffer.clear()
-        self.level.currentOutputBuffer.add("You died! Game over.")
+        self.level.output_buffer.clear()
+        self.level.output_buffer.add("You died! Game over.")
         self.level.draw()
         unicurses.getch()
         unicurses.clear()
@@ -213,8 +213,8 @@ class Enemy(Actor):
         super().__init__(xpos, ypos, level, **defaults)
 
     def act(self):
-        xDiff = self.xpos - self.level.currentPlayer.xpos
-        yDiff = self.ypos - self.level.currentPlayer.ypos
+        xDiff = self.xpos - self.level.player.xpos
+        yDiff = self.ypos - self.level.player.ypos
         if(abs(xDiff) >= abs(yDiff)):
             if(xDiff >= 0):
                 self.move("west")

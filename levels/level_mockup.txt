@@ -1,6 +1,6 @@
 #########   ######
 #.......#####....#
-#...@..........x.#
+....@..........x.#
 #.......#####....#
 ###############.##
 ############  #.#
@@ -13,7 +13,7 @@ Glyphs
 @:player:
 #:wall:
 .:floor:
-x:enemy:name = uhoh, description = a mess., damage = 9
+x:enemy:name = skeleton, description = a mess., damage = 1
 X:zombie:
 
 Triggers

@@ -15,15 +15,15 @@ class Grid():
     at the bottom left and moving row by row.
     """
 
-    def __init__(self, levelWidth, levelHeight):
-        self.levelHeight = levelHeight
-        self.levelWidth = levelWidth
-        self.grid = [[Cell(x,y,self) for x in range(levelWidth)] for y in range(levelHeight)]
+    def __init__(self, width, height):
+        self.height = height
+        self.width = width
+        self.grid = [[Cell(x,y,self) for x in range(width)] for y in range(height)]
 
     def __iter__(self):
         #goes row by row, starting at bottom left as per get/set ^> coordinates
-        for y in range(1, self.levelHeight + 1):
-            for x in range(1, self.levelWidth + 1):
+        for y in range(1, self.height + 1):
+            for x in range(1, self.width + 1):
                 try:
                     result = self.getCell(x, y)
                 except IndexError:
@@ -36,7 +36,7 @@ class Grid():
 
     def getCell(self, xpos, ypos):
         #print('\n'.join(' '.join(str(cell.getTopContent()) if len(cell.getContents()) > 0 else ' ' for cell in line) for line in self.grid), file=sys.stderr)
-        return self.grid[self.levelHeight-ypos][xpos-1]
+        return self.grid[self.height-ypos][xpos-1]
 
     def add(self, value, xpos, ypos):
         self.getCell(xpos, ypos).add(value)
@@ -45,8 +45,8 @@ class Grid():
         self.getCell(xpos, ypos).remove(value)
 
     def clear(self): #rewrite using iterator and .get
-        for y in range(1, self.levelHeight):
-            for x in range(1, self.levelWidth):
+        for y in range(1, self.height):
+            for x in range(1, self.width):
                 self.getCell(x, y).clear()
 
     def clearCell(self, xpos, ypos):
@@ -66,7 +66,7 @@ class Grid():
             if(len(element.contents)>1):
                 print("Double at:" +str(element[0].xpos)+", " + str(element[0].ypos))
 
-    def spreadDraw(self, width, height, direction="any"):
+    def spreadDraw(self, xpos, ypos, width, height, direction="all"):
         # invert spread/move dict's names
         moveDict = {'north': [0, 1, 0, -1],
                     'south': [0, -1, 0, -1],
@@ -77,33 +77,54 @@ class Grid():
                     'southwest': [-1 ,-1, -1, -1, "south", "west", "southwest"],
                     'southeast': [1, -1, -1, -1, "south", "east", "southeast"]}
         orthogonals = ['north',
-                       'south,',
+                       'south',
                        'west',
                        'east']
         diagonals = ['northwest',
                      'northeast',
                      'southwest',
                      'southeast']
+        """
         if direction=="all":
             for direction in orthogonals + diagonals:
-                self.currentGrid.get(self.xpos+moveDict[direction][0],
-                self.ypos+moveDict[direction][1]).spreadDraw(width+moveDict[2],
-                height+moveDict[3], direction).draw()
+                self.grid.drawCell(xpos, ypos)
+                new_xpos = self.xpos + moveDict[direction][0]
+                new_ypos = self.ypos + moveDict[direction][1]
+                self.grid.get(new_xpos, new_ypos).spreadDraw(width+moveDict[2],
+                height+moveDict[3], direction)
+        """
+        xpos = xpos
+        ypos = ypos
+        if direction=="all":
+            self.drawCell(xpos, ypos)
+            for direction in orthogonals + diagonals:
+                new_xpos = xpos + moveDict[direction][0]
+                new_ypos = ypos + moveDict[direction][1]
+                if(new_xpos > 0 and new_xpos < self.width+1 and new_ypos > 0 and new_ypos < self.height+1):
+                    self.spreadDraw(new_xpos, new_ypos, width+moveDict[direction][2],
+                    height+moveDict[direction][3], direction)
         else:
+            self.drawCell(xpos, ypos)
             if direction in diagonals:
-                for newDirection in moveDict[direction][4:]:
-                    self.currentGrid.get(self.xpos+moveDict[newDirection][0],
-                    self.ypos+moveDict[newDirection][1]).spreadDraw(width+moveDict[2],
-                    height+moveDict[3], newDirection).draw()
+                    for newDirection in moveDict[direction][4:]:
+                        new_xpos = xpos + moveDict[newDirection][0]
+                        new_ypos = ypos + moveDict[newDirection][1]
+                        if(new_xpos>0 and new_xpos<=self.width and new_ypos>0 and new_ypos<=self.height):
+                            if(width+moveDict[direction][2] > 0 and height+moveDict[direction][3] > 0):
+                                self.spreadDraw(new_xpos, new_ypos, width+moveDict[direction][2],
+                                height+moveDict[direction][3], newDirection)
             if direction in orthogonals:
-                self.currentGrid.get(self.xpos+moveDict[direction][0],
-                self.ypos+moveDict[direction][1]).spreadDraw(width+moveDict[2],
-                height+moveDict[3], direction).draw()
+                new_xpos = xpos + moveDict[direction][0]
+                new_ypos = ypos + moveDict[direction][1]
+                if(new_xpos>0 and new_xpos<=self.width and new_ypos>0 and new_ypos<=self.height):
+                    if(width+moveDict[direction][2] > 0 and height+moveDict[direction][3] > 0):
+                        self.spreadDraw(new_xpos, new_ypos, width+moveDict[direction][2],
+                        height+moveDict[direction][3], direction)
 
 class Cell():
-    def __init__(self, xpos, ypos, currentGrid):
-    # probably doesn't need access to currentGrid
-        self.currentGrid = currentGrid
+    def __init__(self, xpos, ypos, grid):
+    # probably doesn't need access to grid
+        self.grid = grid
         self.xpos = xpos
         self.ypos = ypos
         self.contents = []

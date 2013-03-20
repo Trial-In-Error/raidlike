@@ -1,17 +1,18 @@
-class camera():
-    def __init__(self, lensWidth, lensHeight, currentLevel):
-        self.currentLevel = currentLevel
+class Camera():
+    def __init__(self, lensWidth, lensHeight, level):
+        self.level = level
         self.lensWidth = lensWidth
         self.adjLensWidth = int((lensWidth/2))
         self.lensHeight = lensHeight
         self.adjLensHeight = int((lensHeight/2))
-        self.grid = self.currentLevel.currentGrid
-        self.player = self.currentLevel.currentPlayer
+        self.grid = self.level.grid
+        self.player = self.level.player
     def draw(self, xpos, ypos):
         self.drawFromMemory()
-        for x in range(max(1,xpos-self.adjLensWidth), max(1,xpos+self.adjLensWidth + 1)):
-            for y in range(max(1, ypos-self.adjLensWidth), min(ypos+self.adjLensHeight + 1, self.currentLevel.levelHeight + 1)):
-                self.grid.drawCell(x,y)
+        #for x in range(max(1,xpos-self.adjLensWidth), max(1,xpos+self.adjLensWidth + 1)):
+        #    for y in range(max(1, ypos-self.adjLensWidth), min(ypos+self.adjLensHeight + 1, self.level.height + 1)):
+        #        self.grid.drawCell(x,y)
+        self.level.grid.spreadDraw(self.level.player.xpos, self.level.player.ypos, 3, 3)
     def drawFromMemory(self):
         for cell in self.grid:
             if cell.hasBeenSeen:

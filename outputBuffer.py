@@ -1,6 +1,6 @@
 from unicurses import *
 
-class outputBuffer(): #rename outputManager?
+class OutputBuffer(): #rename outputManager?
     def __init__(self, levelHeight):
         self.oBuffer = []
         self.levelHeight = levelHeight

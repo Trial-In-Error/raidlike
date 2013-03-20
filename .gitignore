@@ -8,3 +8,6 @@ unicurses.py
 # Ignore sublime generated files
 *.sublime-project
 *.sublime-workspace
+
+# Ignore Logan's test level
+/levels/#...#
