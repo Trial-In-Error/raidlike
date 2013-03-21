@@ -1,4 +1,5 @@
 import sys
+from entity import Wall
 
 class Grid():
     """
@@ -66,12 +67,24 @@ class Grid():
             if(len(element.contents)>1):
                 print("Double at:" +str(element[0].xpos)+", " + str(element[0].ypos))
 
-    def spreadDraw(self, xpos, ypos, width, height, direction="all"):
+    def clearLine(self, player_xpos, player_ypos, xpos, ypos):
+        if xpos == player_xpos:
+            for cell in range(min(player_ypos, ypos), max(player_ypos, ypos)):
+                if type(self.getCell(xpos, cell).getBottomContent()) is Wall:
+                    return False
+        if ypos == player_ypos:
+            for cell in range(min(player_xpos, xpos), max(player_xpos, xpos)):
+                if type(self.getCell(cell, ypos).getBottomContent()) is Wall:
+                    return False
+            pass
+        return True
+
+    def spreadDraw(self, xpos, ypos, player_xpos, player_ypos, width, height, direction="all"):
         # invert spread/move dict's names
-        moveDict = {'north': [0, 1, 0, -1],
-                    'south': [0, -1, 0, -1],
-                    'west': [-1, 0, -1, 0],
-                    'east': [1, 0, -1, 0],
+        moveDict = {'north': [0, 1, 0, -1, "north", "northeast", "northwest"],
+                    'south': [0, -1, 0, -1, "south", "southeast", "southwest"],
+                    'west': [-1, 0, -1, 0, "west", "northwest", "southwest"],
+                    'east': [1, 0, -1, 0, "east", "northeast", "southeast"],
                     'northwest': [-1, 1, -1, -1, "north", "west", "northwest"],
                     'northeast': [1, 1, -1, -1, "north", "east", "northeast"],
                     'southwest': [-1 ,-1, -1, -1, "south", "west", "southwest"],
@@ -93,33 +106,41 @@ class Grid():
                 self.grid.get(new_xpos, new_ypos).spreadDraw(width+moveDict[2],
                 height+moveDict[3], direction)
         """
-        xpos = xpos
-        ypos = ypos
         if direction=="all":
+            player_xpos = xpos
+            player_ypos = ypos
             self.drawCell(xpos, ypos)
             for direction in orthogonals + diagonals:
                 new_xpos = xpos + moveDict[direction][0]
                 new_ypos = ypos + moveDict[direction][1]
                 if(new_xpos > 0 and new_xpos < self.width+1 and new_ypos > 0 and new_ypos < self.height+1):
-                    self.spreadDraw(new_xpos, new_ypos, width+moveDict[direction][2],
+                    self.spreadDraw(new_xpos, new_ypos, player_xpos, player_ypos, width+moveDict[direction][2],
                     height+moveDict[direction][3], direction)
         else:
             self.drawCell(xpos, ypos)
-            if direction in diagonals:
+            if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall):
+                if direction in diagonals:
                     for newDirection in moveDict[direction][4:]:
                         new_xpos = xpos + moveDict[newDirection][0]
                         new_ypos = ypos + moveDict[newDirection][1]
                         if(new_xpos>0 and new_xpos<=self.width and new_ypos>0 and new_ypos<=self.height):
                             if(width+moveDict[direction][2] > 0 and height+moveDict[direction][3] > 0):
-                                self.spreadDraw(new_xpos, new_ypos, width+moveDict[direction][2],
+                                self.spreadDraw(new_xpos, new_ypos, player_xpos, player_ypos, width+moveDict[direction][2],
                                 height+moveDict[direction][3], newDirection)
-            if direction in orthogonals:
-                new_xpos = xpos + moveDict[direction][0]
-                new_ypos = ypos + moveDict[direction][1]
-                if(new_xpos>0 and new_xpos<=self.width and new_ypos>0 and new_ypos<=self.height):
-                    if(width+moveDict[direction][2] > 0 and height+moveDict[direction][3] > 0):
-                        self.spreadDraw(new_xpos, new_ypos, width+moveDict[direction][2],
-                        height+moveDict[direction][3], direction)
+                if direction in orthogonals:
+
+                    for newDirection in moveDict[direction][4:]:
+                        new_xpos = xpos + moveDict[newDirection][0]
+                        new_ypos = ypos + moveDict[newDirection][1]
+                        if(new_xpos>0 and new_xpos<=self.width and new_ypos>0 and new_ypos<=self.height):
+                            if(width+moveDict[direction][2] > 0 and height+moveDict[direction][3] > 0):
+                                if(newDirection in orthogonals):
+                                    self.spreadDraw(new_xpos, new_ypos, player_xpos, player_ypos, width+moveDict[direction][2],
+                                    height+moveDict[direction][3], newDirection)
+                                else:
+                                    if(self.clearLine(player_xpos, player_ypos, new_xpos, new_ypos)):
+                                        self.spreadDraw(new_xpos, new_ypos, player_xpos, player_ypos, 1,
+                                        1, newDirection)
 
 class Cell():
     def __init__(self, xpos, ypos, grid):

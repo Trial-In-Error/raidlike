@@ -1,0 +1,20 @@
+..#........
+....#.##...
+.....####..
+...#..###..
+....#..##..
+.....@..#..
+##...#.....
+....####..#
+.#.....#..#
+...#...#...
+.#..#......
+
+Glyphs
+@:player:
+#:wall:
+.:floor:
+x:enemy:name = skeleton, description = a mess., damage = 1
+X:zombie:
+
+Triggers

@@ -12,7 +12,7 @@ class Camera():
         #for x in range(max(1,xpos-self.adjLensWidth), max(1,xpos+self.adjLensWidth + 1)):
         #    for y in range(max(1, ypos-self.adjLensWidth), min(ypos+self.adjLensHeight + 1, self.level.height + 1)):
         #        self.grid.drawCell(x,y)
-        self.level.grid.spreadDraw(self.level.player.xpos, self.level.player.ypos, 3, 3)
+        self.level.grid.spreadDraw(self.level.player.xpos, self.level.player.ypos, self.level.player.xpos, self.level.player.ypos, 5, 5)
     def drawFromMemory(self):
         for cell in self.grid:
             if cell.hasBeenSeen:
