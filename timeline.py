@@ -42,6 +42,9 @@ class Timeline():
     def add(self, object, displacement = 0):
         displacement = (self.currentLocation + displacement) % self.size
         self.line[displacement].append(object)
+    def addToTop(self, object, displacement = 0):
+        displacement = (self.currentLocation + displacement) % self.size
+        self.line[displacement].insert(0, object)
     def get(self):
         return self.line[self.currentLocation]
     def clear(self, displacement = 0):

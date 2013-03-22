@@ -40,11 +40,11 @@ def masterInputParser(player, level):
         #
     elif(lineIn==CCHAR('x')):
         lookInputParser(player, level)
-        player.andWait(0)
+        player.doNotWait()
         level.draw()
     else:
         level.output_buffer.add("Unknown command.")
-        player.andWait(0)
+        player.doNotWait()
 
 
 def lookInputParser(player, level):
@@ -65,10 +65,10 @@ def lookInputParser(player, level):
             if(yLook > 1):
                 yLook = yLook - 1
         elif(lineIn==CCHAR('k') or lineIn==KEY_UP):
-            if(yLook < level.levelHeight):
+            if(yLook < level.height):
                 yLook = yLook + 1
         elif(lineIn==CCHAR('l') or lineIn==KEY_RIGHT):
-            if(xLook < level.levelWidth):
+            if(xLook < level.width):
                 xLook = xLook + 1
         elif(lineIn==KEY_ENTER or lineIn==CCHAR('z')):
             level.output_buffer.add(level.grid.getTop(xLook, yLook).describe())

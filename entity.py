@@ -127,6 +127,9 @@ class Actor(Entity):
     def andWait(self, time):
         self.level.timeline.add(self, time)
 
+    def doNotWait(self):
+        self.level.timeline.addToTop(self)
+
     def doMove(self, xDiff, yDiff):
         self.level.grid.add(self, self.xpos + xDiff, self.ypos + yDiff)
         self.level.grid.remove(self, self.xpos, self.ypos)
