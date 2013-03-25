@@ -5,7 +5,6 @@ IMPORTANT:
 * level load from text
 * migrate colorDict & extend to type
 
-LOOK HAS A BUG; COSTS TIME T___T
 WALLS: WRAP AROUND SCARINESS
 
 NEW FEATURES:
@@ -25,7 +24,7 @@ TWEAKING:
         * protect against level edges!
 * re-route creatures on 'cannot move; other creatures in way' instead of current mode of waiting(1 quantum)
 * diagonal AI pathing
-    *ASTAR pathing
+    * ASTAR pathing
 * __string__ repr's for all entity children, grid, and timeLine
 * inventory & item management
 * make 'r'est wait until next quantum with an actor in item
@@ -40,4 +39,4 @@ TWEAKING:
 * memory Draw doesn't support drawing enemies from memory
 
 BUGS:
-* escape to leave "look" context requires two strokes
+* escape does not leave "look" context
