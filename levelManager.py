@@ -32,9 +32,9 @@ class levelManager():
         self.width = width
         self.height = height
         self.grid = Grid(width, height)
-        self.output_buffer = OutputBuffer(height)
         self.player = Player
-        self.camera = Camera(5,5,self)
+        self.camera = Camera(20,20,self)
+        self.output_buffer = OutputBuffer(self.camera.lensHeight)
         #these should be in entity, not levelmanager...
         self.coloringDict = {"enemy":"yellow"}
         self.colorDict = {"yellow":[1, unicurses.COLOR_YELLOW, unicurses.COLOR_BLACK],

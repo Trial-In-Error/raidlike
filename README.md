@@ -23,13 +23,13 @@ implemented keys are:
 editing raidlike levels
 ================
 the level (block one)
-
+---------------------
 this is a one-to-one map of the level, using 'glyphs' to represent in-game entities
 
 
 
 the glyph set (block two)
-
+------------------------
 this starts at the keyword "Glyphs"
 
 each glyph is mapped to one in-game class
@@ -40,10 +40,10 @@ for example, an enemy with 1 health and 0 damage might be E:enemy:health=1,damag
 
 the available classes and attributes are:
 
-    *entity: xpos, ypos, description, display, displayColor, displayPriority, memoryDisplayColor, name
-    *wall: (all above)
-    *enemy: (all above, plus) moveCost, health, damage
-    *player: (all above, plus) playerName, className
+*entity: xpos, ypos, description, display, displayColor, displayPriority, memoryDisplayColor, name
+*wall: (all above)
+*enemy: (all above, plus) moveCost, health, damage
+*player: (all above, plus) playerName, className
 
 the trigger set (block three)
 
@@ -53,7 +53,7 @@ it currently does nothing, but they keyword must be present!
 
  
 quirks, tips, and warnings
-
+--------------------------
 if no player glyph is added, the level will never render
 
 if multiple player glyphs are added, they will take turns taking turns

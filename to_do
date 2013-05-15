@@ -8,14 +8,11 @@ IMPORTANT:
 WALLS: WRAP AROUND SCARINESS
 
 NEW FEATURES:
-* line of sight
-    * differing time quantum costs by player/enemy type
 * level input parser
 * cell.drawContents() for drawing multiple things (color backgrounds)
 
 TWEAKING:
-* relative camera-drawing
-* overhaul grid to use cells
+* extend camera/lensing to have two parameters
 * "look" parsing mode
     * needs to enter description mode and cleanly exit it, too
         * shallow look vs. deep look
@@ -40,3 +37,4 @@ TWEAKING:
 
 BUGS:
 * escape does not leave "look" context
+* going off-map confuses the hell out of the AI?

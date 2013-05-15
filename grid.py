@@ -11,7 +11,7 @@ class Grid():
     All addresses to the grid should be made in this coordinate
     system; it does conversions to the array innately.
 
-    Newly iterable. Iteration goes through every cell and
+    Iterable; iteration goes through every cell and
     returns the whole list of data in each cell, starting
     at the bottom left and moving row by row.
     """
@@ -36,7 +36,6 @@ class Grid():
         return self.getCell(xpos,ypos).getContents()
 
     def getCell(self, xpos, ypos):
-        #print('\n'.join(' '.join(str(cell.getTopContent()) if len(cell.getContents()) > 0 else ' ' for cell in line) for line in self.grid), file=sys.stderr)
         return self.grid[self.height-ypos][xpos-1]
 
     def add(self, value, xpos, ypos):
@@ -45,7 +44,7 @@ class Grid():
     def remove(self, value, xpos, ypos):
         self.getCell(xpos, ypos).remove(value)
 
-    def clear(self): #rewrite using iterator and .get
+    def clear(self):
         for y in range(1, self.height):
             for x in range(1, self.width):
                 self.getCell(x, y).clear()
@@ -56,9 +55,23 @@ class Grid():
     def load(self):
         pass
 
-    def drawCell(self, xpos, ypos):
+    '''Depricated code for non-relative draw follows
+    def drawCell(self, xpos, ypos, player_xpos, player_ypos):
         try:
             self.getCell(xpos,ypos).drawContents()
+        except IndexError:
+            pass
+    '''
+    
+    def drawCellRelative(self, xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight):
+        try:
+            self.getCell(xpos,ypos).drawContentsRelative(player_xpos, player_ypos, lensWidth, lensHeight)
+        except IndexError:
+            pass
+
+    def drawCellRelativeFromMemory(self, xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight):
+        try:
+            self.getCell(xpos,ypos).drawContentsRelativeFromMemory(player_xpos, player_ypos, lensWidth, lensHeight)
         except IndexError:
             pass
 
@@ -79,7 +92,7 @@ class Grid():
             pass
         return True
 
-    def spreadDraw(self, xpos, ypos, player_xpos, player_ypos, width, height, direction="all"):
+    def spreadDraw(self, xpos, ypos, width, height, lensWidth, lensHeight, direction="all"):
         # invert spread/move dict's names
         moveDict = {'north': [0, 1, 0, -1, "north", "northeast", "northwest"],
                     'south': [0, -1, 0, -1, "south", "southeast", "southwest"],
@@ -98,34 +111,34 @@ class Grid():
                      'southwest',
                      'southeast']
         directions = diagonals + orthogonals
-
         if direction=="all":
             player_xpos = xpos
             player_ypos = ypos
-            self.drawCell(xpos, ypos)
+            self.drawCellRelative(xpos, ypos, xpos, ypos, lensWidth, lensHeight)
             for direction in (diagonals + orthogonals):
                 new_xpos = xpos + moveDict[direction][0]
                 new_ypos = ypos + moveDict[direction][1]
                 if(new_xpos>0 and new_xpos<=self.width and new_ypos>0 and new_ypos<=self.height): #necessary?
                     if direction in orthogonals:
-                        self.spreadPrimeOrthogonal(new_xpos, new_ypos, direction, width, height, moveDict)
+                        self.spreadPrimeOrthogonal(new_xpos, new_ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight)
                     if direction in diagonals:
-                        self.spreadDiagonal(new_xpos, new_ypos, direction, width, height, moveDict)
+                        self.spreadDiagonal(new_xpos, new_ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight)
 
-    def spreadOrthogonal(self,xpos, ypos,direction, width, height, moveDict):
-        self.drawCell(xpos, ypos)
+    def spreadOrthogonal(self,xpos, ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight):
+        self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight, memory)
         if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall):
                 new_xpos = xpos + moveDict[direction][0]
                 new_ypos = ypos + moveDict[direction][1]
                 if(new_xpos>0 and new_xpos<=self.width and new_ypos>0 and new_ypos<=self.height): #necessary?
                     if(width+moveDict[direction][2] > 0 and height+moveDict[direction][3] > 0):
                         if(direction in ["north", "west", "east", "south"]):
-                            self.spreadOrthogonal(new_xpos, new_ypos, direction, width+moveDict[direction][2], height+moveDict[direction][3], moveDict)
+                            self.spreadOrthogonal(new_xpos, new_ypos, player_xpos, player_ypos, direction, width+moveDict[direction][2], height+moveDict[direction][3], moveDict, lensWidth, lensHeight)
                         else:
-                            self.spreadDiagonal(new_xpos, new_ypos, direction, width, height, moveDict)
-    def spreadDiagonal(self, xpos, ypos,direction, width, height, moveDict):
+                            self.spreadDiagonal(new_xpos, new_ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight)
+
+    def spreadDiagonal(self, xpos, ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight):
         try:
-            self.drawCell(xpos, ypos)
+            self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
             if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall):
                 for newDirection in moveDict[direction][4:]:
                     new_xpos = xpos + moveDict[newDirection][0]
@@ -133,15 +146,15 @@ class Grid():
                     if(new_xpos>0 and new_xpos<=self.width and new_ypos>0 and new_ypos<=self.height): #necessary?
                         if(width+moveDict[direction][2] > 0 and height+moveDict[direction][3] > 0): #ND??
                             if(direction in ["north", "west", "east", "south"]):
-                                self.spreadOrthogonal(new_xpos, new_ypos, direction, width+moveDict[direction][2], height+moveDict[direction][3], moveDict)
+                                self.spreadOrthogonal(new_xpos, new_ypos, player_xpos, player_ypos, direction, width+moveDict[direction][2], height+moveDict[direction][3], moveDict, lensWidth, lensHeight)
                             else:
-                                self.spreadDiagonal(new_xpos, new_ypos, direction, width+moveDict[direction][2], height+moveDict[direction][3], moveDict)
+                                self.spreadDiagonal(new_xpos, new_ypos, player_xpos, player_ypos, direction, width+moveDict[direction][2], height+moveDict[direction][3], moveDict, lensWidth, lensHeight)
         except IndexError:
             pass
 
-    def spreadPrimeOrthogonal(self,xpos, ypos,direction, width, height, moveDict):
+    def spreadPrimeOrthogonal(self,xpos, ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight):
         try:
-            self.drawCell(xpos, ypos)
+            self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
             if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall):
                 for newDirection in moveDict[direction][4:]:
                     new_xpos = xpos + moveDict[newDirection][0]
@@ -149,10 +162,10 @@ class Grid():
                     if(new_xpos>0 and new_xpos<=self.width and new_ypos>0 and new_ypos<=self.height): #necessary?
                         if(width+moveDict[direction][2] > 0 and height+moveDict[direction][3] > 0):
                             if(direction == newDirection):
-                                self.spreadPrimeOrthogonal(new_xpos, new_ypos, direction, width+moveDict[direction][2], height+moveDict[direction][3], moveDict)
+                                self.spreadPrimeOrthogonal(new_xpos, new_ypos, player_xpos, player_ypos, direction, width+moveDict[direction][2], height+moveDict[direction][3], moveDict, lensWidth, lensHeight)
                             else:
                                 #check for clearLine(player_xpos, player_ypos, xpos, ypos)?
-                                self.spreadDiagonal(new_xpos, new_ypos, direction, 1, 1, moveDict)
+                                self.spreadDiagonal(new_xpos, new_ypos, player_xpos, player_ypos, direction, 1, 1, moveDict, lensWidth, lensHeight)
         except IndexError:
             pass
 
@@ -182,6 +195,7 @@ class Cell():
         except IndexError:
             pass
 
+    '''Depricated code for non-relative draw
     def drawContents(self):
         self.hasBeenSeen = True
         self.getTopContent().draw()
@@ -189,6 +203,17 @@ class Cell():
     def drawContentsFromMemory(self):
         try:
             self.getBottomContent().drawFromMemory()
+        except AttributeError:
+            pass
+    '''
+
+    def drawContentsRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
+        self.hasBeenSeen = True
+        self.getTopContent().drawRelative(player_xpos, player_ypos, lensWidth, lensHeight)
+
+    def drawContentsRelativeFromMemory(self, player_xpos, player_ypos, lensWidth, lensHeight):
+        try:
+            self.getBottomContent().drawRelativeFromMemory(player_xpos, player_ypos, lensWidth, lensHeight)
         except AttributeError:
             pass
 
