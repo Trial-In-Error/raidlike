@@ -55,14 +55,6 @@ class Grid():
     def load(self):
         pass
 
-    '''Depricated code for non-relative draw follows
-    def drawCell(self, xpos, ypos, player_xpos, player_ypos):
-        try:
-            self.getCell(xpos,ypos).drawContents()
-        except IndexError:
-            pass
-    '''
-    
     def drawCellRelative(self, xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight):
         try:
             self.getCell(xpos,ypos).drawContentsRelative(player_xpos, player_ypos, lensWidth, lensHeight)
@@ -194,18 +186,6 @@ class Cell():
             return sorted(self.contents)[0]
         except IndexError:
             pass
-
-    '''Depricated code for non-relative draw
-    def drawContents(self):
-        self.hasBeenSeen = True
-        self.getTopContent().draw()
-
-    def drawContentsFromMemory(self):
-        try:
-            self.getBottomContent().drawFromMemory()
-        except AttributeError:
-            pass
-    '''
 
     def drawContentsRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
         self.hasBeenSeen = True

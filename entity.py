@@ -27,16 +27,14 @@ class Entity():
         else:
             return False
 
-    def draw(self):
+    '''def draw(self):
         unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
         unicurses.mvaddch(self.level.height-self.ypos, self.xpos-1, self.display)
-        #unicurses.mvaddch((self.level.height-self.ypos)-abs(int((self.ypos-player_ypos)/2)), self.xpos-1, self.display)
         unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
     def drawFromMemory(self):
         unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
-        #unicurses.mvaddch(self.level.height-self.ypos, self.xpos-1, self.display)
-        #unicurses.mvaddch((self.level.height-self.ypos)-abs(self.ypos-player_ypos+1), self.xpos-1, self.display)
-        unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
+        unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))'''
+        
     def drawRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
         unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
         unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
