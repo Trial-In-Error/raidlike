@@ -46,9 +46,13 @@ for example, an enemy with 1 health and 0 damage might be E:enemy:health=1,damag
 the available classes and attributes are:
 
 *entity: xpos, ypos, description, display, displayColor, displayPriority, memoryDisplayColor, name
+
 *wall: (all above)
+
 *enemy: (all above, plus) moveCost, health, damage
+
 *player: (all above, plus) playerName, className
+
 
 the trigger set (block three)
 
@@ -65,9 +69,9 @@ if multiple player glyphs are added, they will take turns taking turns
 
 if a ring of outer walls are not added, the player CAN take a long walk into nowhere
 
-    if a wall exists on the opposite side of the level, they cannot
+if a wall exists on the opposite side of the level, they cannot take a walk into nowhere
 
-        but seriously, just make a ring of walls around all levels, please
+but seriously, just make a ring of walls around all levels, please
 
 if you specify an attribute that doesn't exist (or typo!), it will crash with a TypeError at runtime, 
 specifying the offending attribute
