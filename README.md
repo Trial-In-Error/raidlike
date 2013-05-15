@@ -23,13 +23,10 @@ as per most roguelikes
 implemented keys are:
 
     arrows: move
-
     hyujklbn: move
-
     x: look
-
     q: quit (or leave look context)
-    
+
 
 editing raidlike levels
 ================
@@ -61,7 +58,7 @@ the available classes and attributes are:
 
 
 the trigger set (block three)
-
+-----------------------------
 this starts at the keyword "Triggers"
 
 it currently does nothing, but they keyword must be present!
