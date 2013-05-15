@@ -19,11 +19,17 @@ to run an interesting line of sight test, type: python3 main.py los_test
 playing raidlike
 ================
 as per most roguelikes
+
 implemented keys are:
+
     arrows: move
+
     hyujklbn: move
+
     x: look
+
     q: quit (or leave look context)
+    
 
 editing raidlike levels
 ================
@@ -45,13 +51,13 @@ for example, an enemy with 1 health and 0 damage might be E:enemy:health=1,damag
 
 the available classes and attributes are:
 
-*entity: xpos, ypos, description, display, displayColor, displayPriority, memoryDisplayColor, name
+* entity: xpos, ypos, description, display, displayColor, displayPriority, memoryDisplayColor, name
 
-*wall: (all above)
+* wall: (all above)
 
-*enemy: (all above, plus) moveCost, health, damage
+* enemy: (all above, plus) moveCost, health, damage
 
-*player: (all above, plus) playerName, className
+* player: (all above, plus) playerName, className
 
 
 the trigger set (block three)
