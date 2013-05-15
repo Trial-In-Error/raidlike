@@ -27,14 +27,6 @@ class Entity():
         else:
             return False
 
-    '''def draw(self):
-        unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
-        unicurses.mvaddch(self.level.height-self.ypos, self.xpos-1, self.display)
-        unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
-    def drawFromMemory(self):
-        unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
-        unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))'''
-        
     def drawRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
         unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
         unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
@@ -47,10 +39,10 @@ class Entity():
 
     def describe(self):
         return(self.description)
-    def remove(self):
-        pass
+
     def collide(self):
         return "false"
+
     def __str__(self):
         return self.display
 
@@ -77,7 +69,7 @@ class Actor(Entity):
                  **kwargs):
         defaults = {
             'description': "An actor. This shouldn't be instantiated!",
-            'display': "x", # Perhaps this should be ("X", "cyan")
+            'display': "x",
             'displayColor': "red",
             'displayPriority': 1,
             'memoryDisplayColor': "blue",
@@ -214,7 +206,7 @@ class Enemy(Actor):
         defaults = {
             'damage': 1,
             'description': "A generic enemy.",
-            'display': "x", # Perhaps this should be ("X", "cyan")
+            'display': "x",
             'displayColor': "red",
             'displayPriority': 1,
             'health': 3,
