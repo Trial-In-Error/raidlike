@@ -1,6 +1,5 @@
 from levelManager import levelManager
-from enemy import Enemy, Zombie
-from entity import Player
+from entity import Player, Enemy, Zombie
 import sys
 from unicurses import cbreak, clear, curs_set, endwin, initscr, keypad, refresh, noecho, start_color, stdscr
 
@@ -25,7 +24,7 @@ try:
         level = levelManager.load(sys.argv[1])
     else:
         # Set up default level
-        level = levelManager("playerSaveState", 8, 8)
+        level = levelManager("playerSaveState", 21 , 21)
         level.setPlayer(Player(4, 4, level))
         level.populateWalls()
         level.populateFloor()

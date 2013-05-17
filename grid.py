@@ -117,7 +117,7 @@ class Grid():
                         self.spreadDiagonal(new_xpos, new_ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight)
 
     def spreadOrthogonal(self,xpos, ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight):
-        self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight, memory)
+        self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
         if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall):
                 new_xpos = xpos + moveDict[direction][0]
                 new_ypos = ypos + moveDict[direction][1]

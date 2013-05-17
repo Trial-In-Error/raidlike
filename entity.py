@@ -34,7 +34,7 @@ class Entity():
 
     def drawRelativeFromMemory(self,player_xpos, player_ypos, lensWidth, lensHeight):
         unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
-        unicurses.mvaddch(-self.ypos+player_ypos+int(lensHeight/2), self.xpos-player_xpos+int(lensWidth/2), self.display)
+        unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
         unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
 
     def describe(self):

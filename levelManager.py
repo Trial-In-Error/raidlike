@@ -33,7 +33,7 @@ class levelManager():
         self.height = height
         self.grid = Grid(width, height)
         self.player = Player
-        self.camera = Camera(20,20,self)
+        self.camera = Camera(width,height,self)
         self.output_buffer = OutputBuffer(self.camera.lensHeight)
         #these should be in entity, not levelmanager...
         self.coloringDict = {"enemy":"yellow"}
@@ -123,7 +123,7 @@ class levelManager():
         self.camera.draw(self.player.xpos, self.player.ypos)
         self.output_buffer.output()
 
-    def drawHUD(self):
+    def drawHUD(self): #move to camera?
         if self.player is None:
             raise RuntimeError("You didn't call levelManager.setPlayer()!!!!")
         unicurses.attron(unicurses.COLOR_PAIR(self.colorDict["white"][0]))

@@ -61,7 +61,7 @@ the trigger set (block three)
 -----------------------------
 this starts at the keyword "Triggers"
 
-it currently does nothing, but they keyword must be present!
+it currently does nothing, but the keyword must be present!
 
  
 quirks, tips, and warnings
