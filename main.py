@@ -1,5 +1,5 @@
 from levelManager import levelManager
-from entity import Player, Enemy, Zombie
+from entity import Player, Enemy, Zombie, Item
 import sys
 from unicurses import cbreak, clear, curs_set, endwin, initscr, keypad, refresh, noecho, start_color, stdscr
 
@@ -34,7 +34,7 @@ try:
     stdscr.refresh()
     while(True):
         level.update()
-    print("Be seeing you... (the real message, from main.py...)")
+    #print("Be seeing you... (the real message, from main.py...)")
 except:
     clear()
     refresh()

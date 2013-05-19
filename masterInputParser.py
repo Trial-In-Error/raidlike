@@ -42,6 +42,8 @@ def masterInputParser(player, level):
         lookInputParser(player, level)
         player.doNotWait()
         level.draw()
+    elif(lineIn==CCHAR('g')):
+        player.get()
     else:
         level.output_buffer.add("Unknown command.")
         player.doNotWait()
@@ -53,9 +55,14 @@ def lookInputParser(player, level):
     lineIn=""
     while(True):
         if(lineIn!=CCHAR('z')):
-            level.output_buffer.add(
-            level.grid.getCell(xLook, yLook).getTopContent().name)
+            level.output_buffer.add("Press z to inspect the current tile or q to stop looking.")
+            if(level.grid.getCell(xLook, yLook).hasBeenSeen):
+                level.output_buffer.add(
+                level.grid.getCell(xLook, yLook).getTopContent().name)
+            else:
+                level.output_buffer.add("unknown tile")
         level.draw()
+        level.drawLookInputParser(xLook, yLook)
         lineIn = ""
         lineIn = getch()
         if(lineIn==CCHAR('h') or lineIn==KEY_LEFT):
@@ -71,7 +78,8 @@ def lookInputParser(player, level):
             if(xLook < level.width):
                 xLook = xLook + 1
         elif(lineIn==KEY_ENTER or lineIn==CCHAR('z')):
-            level.output_buffer.add(level.grid.getTop(xLook, yLook).describe())
+            if(level.grid.getCell(xLook, yLook).hasBeenSeen):
+                level.output_buffer.add(level.grid.getCell(xLook, yLook).getTopContent().describe())
         else:
             if(lineIn==CCHAR('q')):
                 break     

@@ -1,5 +1,5 @@
 import sys
-from entity import Wall
+from entity import Wall, Item
 
 class Grid():
     """
@@ -61,6 +61,12 @@ class Grid():
         except IndexError:
             pass
 
+    def drawCellBold(self, xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight):
+        try:
+            self.getCell(xpos,ypos).drawContentsBold(player_xpos, player_ypos, lensWidth, lensHeight)
+        except IndexError:
+            pass
+
     def drawCellRelativeFromMemory(self, xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight):
         try:
             self.getCell(xpos,ypos).drawContentsRelativeFromMemory(player_xpos, player_ypos, lensWidth, lensHeight)
@@ -71,6 +77,9 @@ class Grid():
         for element in self:
             if(len(element.contents)>1):
                 print("Double at:" +str(element[0].xpos)+", " + str(element[0].ypos))
+
+    def getItem(self, xpos, ypos):
+        return self.getCell(xpos, ypos).getItem()                
 
     def clearLine(self, player_xpos, player_ypos, xpos, ypos):
         if xpos == player_xpos:
@@ -202,3 +211,12 @@ class Cell():
 
     def add(self, value):
         self.contents.append(value)
+
+    def getItem(self):
+        for element in self.contents:
+            if(isinstance(element, Item)):
+                self.remove(element)
+                return element
+
+    def drawContentsBold(self, player_xpos, player_ypos, lensWidth, lensHeight):
+        self.getTopContent().drawRelativeBold(player_xpos, player_ypos, lensWidth, lensHeight)

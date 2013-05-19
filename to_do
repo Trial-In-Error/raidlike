@@ -1,18 +1,20 @@
 To do and other general notes:
 
 IMPORTANT:
-* camera off-set
-* level load from text
+* inventory
 * migrate colorDict & extend to type
 
 WALLS: WRAP AROUND SCARINESS
+FIX GRID TO NOT ACCEPT NEGATIVE
 
 NEW FEATURES:
 * level input parser
+* add a wall to the drawing of the camera
 * cell.drawContents() for drawing multiple things (color backgrounds)
+* pad all around the level with blank tiles
+* FIX DRAWING OF LOOK GOING OUT OF CAMERA BOUNDS
 
 TWEAKING:
-* extend camera/lensing to have two parameters
 * "look" parsing mode
     * needs to enter description mode and cleanly exit it, too
         * shallow look vs. deep look

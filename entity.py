@@ -1,6 +1,7 @@
 import unicurses
 from masterInputParser import masterInputParser
 from sys import exit
+from inventory import Inventory
 
 class Entity():
     def __init__(self, xpos, ypos, level, *,
@@ -32,6 +33,11 @@ class Entity():
         unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
         unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
 
+    def drawRelativeBold(self, player_xpos, player_ypos, lensWidth, lensHeight):
+        unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
+        unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display, unicurses.A_REVERSE)
+        unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
+
     def drawRelativeFromMemory(self,player_xpos, player_ypos, lensWidth, lensHeight):
         unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
         unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
@@ -46,7 +52,19 @@ class Entity():
     def __str__(self):
         return self.display
 
-Floor = Entity
+class Floor(Entity):
+    def __init__(self, xpos, ypos, level, type='solid', moveCost='0', **kwargs):
+        defaults = {
+            'description': "A floor.",
+            'display': '.',
+            'displayPriority': 0,
+            'displayColor': "yellow",
+            'memoryDisplayColor': "blue",
+            'name': 'floor',
+        }
+
+        defaults.update(kwargs)
+        super().__init__(xpos, ypos, level, **defaults)
 
 class Wall(Entity):
     def __init__(self, xpos, ypos, level, **kwargs):
@@ -162,6 +180,7 @@ class Player(Actor):
         #default name/class
         self.className = "Blessed of Kaia"
         self.playerName = "Roderick"
+        self.inventory = Inventory()
 
     def act(self):
         self.level.draw()
@@ -182,13 +201,38 @@ class Player(Actor):
             temp.append(entity.collide())
         if(temp.count("true")==0 and temp.count("combat_enemy")==0):
             self.doMove(moveDict[direction][0], moveDict[direction][1])
+            self.postMoveDescribe()
         elif(temp.count("combat_enemy")==1):
             self.doAttack(moveDict[direction][0], moveDict[direction][1])
         else:
             self.andWait(0)
 
+    def postMoveDescribe(self):
+        cell = self.level.grid.getCell(self.xpos, self.ypos)
+        for content in cell.getContents():
+            if(isinstance(content, Item)):
+                self.level.output_buffer.add("You're standing on an "+content.name+".")
+
     def collide(self):
         return "combat_player"
+
+    def get(self):
+        grounded_item = self.level.grid.getItem(self.xpos, self.ypos)
+        if(not isinstance(grounded_item, Item)):
+            self.level.output_buffer.add("There's no item here!")
+            self.andWait(0)
+            return
+        elif(not self.inventory.hasSpace(more=1)):
+            self.level.output_buffer.add("You're carrying too many things to pick that up.")
+            self.andWait(0)
+            return
+        elif(not self.inventory.hasWeightSpace(more=grounded_item.weight)):
+            self.level.output_buffer.add("You're carrying too much weight to pick that up.")
+            self.andWait(0)
+            return
+        self.inventory.add(grounded_item)
+        self.level.output_buffer.add("You picked up an "+grounded_item.name+".")
+        self.andWait(1)
 
     def die(self, killer):
         self.level.output_buffer.clear()
@@ -236,3 +280,20 @@ class Enemy(Actor):
 def Zombie(x, y, level):
     return Enemy(x, y, level, name="zombie", display='X', moveCost=8,
                  description="A lumbering zombie.")
+
+class Item(Entity):
+    def __init__(self, xpos, ypos, level, weight=1, **kwargs):
+        defaults = {
+            'description': "An item",
+            'display': '?',
+            'displayPriority': 0,
+            'displayColor': "cyan",
+            'memoryDisplayColor': "blue",
+            'name': 'item',
+        }
+        self.weight = weight
+        defaults.update(kwargs)
+        super().__init__(xpos, ypos, level, **defaults)
+
+    def collide(self):
+        return "false"

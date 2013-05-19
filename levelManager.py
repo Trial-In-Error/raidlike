@@ -35,6 +35,9 @@ class levelManager():
         self.player = Player
         self.camera = Camera(width,height,self)
         self.output_buffer = OutputBuffer(self.camera.lensHeight)
+
+
+
         #these should be in entity, not levelmanager...
         self.coloringDict = {"enemy":"yellow"}
         self.colorDict = {"yellow":[1, unicurses.COLOR_YELLOW, unicurses.COLOR_BLACK],
@@ -131,6 +134,13 @@ class levelManager():
         unicurses.mvaddstr(1, self.width, self.player.className)
         unicurses.mvaddstr(2, self.width, "Health: "+str(self.player.health))
         unicurses.attroff(unicurses.COLOR_PAIR(self.colorDict["white"][0]))
+
+    def drawLookInputParser(self, xpos, ypos): #actually xlook, ylook
+        if(self.grid.getCell(xpos,ypos).hasBeenSeen):
+            self.grid.drawCellBold(xpos, ypos, self.player.xpos, self.player.ypos, int(self.camera.lensWidth/2), int(self.camera.lensHeight/2))
+        else:
+            self.camera.drawArbitrary(xpos, ypos, '*', 'blue')
+        #self.output_buffer.add("Press z to inspect the current object or q to stop looking.")
 
     def populateFloor(self):
         for y in range(1, self.height+1):
