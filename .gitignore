@@ -11,3 +11,6 @@ unicurses.py
 
 # Ignore Logan's test level
 /levels/#...#
+
+# Ignore the HUD scratchpad
+hud_drawing_study

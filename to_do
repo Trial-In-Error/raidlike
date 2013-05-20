@@ -6,6 +6,7 @@ IMPORTANT:
 
 WALLS: WRAP AROUND SCARINESS
 FIX GRID TO NOT ACCEPT NEGATIVE
+SAFEGUARD LOOKING AT AN EMPTY TILE
 
 NEW FEATURES:
 * level input parser
@@ -15,6 +16,7 @@ NEW FEATURES:
 * FIX DRAWING OF LOOK GOING OUT OF CAMERA BOUNDS
 
 TWEAKING:
+* get rid of screen flicker
 * "look" parsing mode
     * needs to enter description mode and cleanly exit it, too
         * shallow look vs. deep look
@@ -30,7 +32,6 @@ TWEAKING:
     * make that 'R'est and start differentiating case
 * __doc__strings
 * test in Windows environment
-* split floor from entity
 * develop deep look as a separate input parser
 * wall collision error text
 * clean up grid / cell / levelManager interactions

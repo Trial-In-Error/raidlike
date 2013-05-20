@@ -103,7 +103,7 @@ class levelManager():
                     else:
                         if class_dict[char] in (Wall, Floor):
                             #print("adding {} at x={} y={}".format(class_dict[char], x, y), file=sys.stderr)
-                            class_dict[char](x, y, level)
+                            class_dict[char](x, y, level, **arg_dict[char])
                         else:
                             class_dict[char](x, y, level, **arg_dict[char])
                             classes["floor"](x, y, level)
@@ -122,23 +122,16 @@ class levelManager():
         if self.player is None:
             raise RuntimeError("You didn't call levelManager.setPlayer()!!!!")
         unicurses.clear()
-        self.drawHUD()
+        #self.drawHUD()
         self.camera.draw(self.player.xpos, self.player.ypos)
+        #self.drawHUD()
         self.output_buffer.output()
-
-    def drawHUD(self): #move to camera?
-        if self.player is None:
-            raise RuntimeError("You didn't call levelManager.setPlayer()!!!!")
-        unicurses.attron(unicurses.COLOR_PAIR(self.colorDict["white"][0]))
-        unicurses.mvaddstr(0, self.width, self.player.playerName)
-        unicurses.mvaddstr(1, self.width, self.player.className)
-        unicurses.mvaddstr(2, self.width, "Health: "+str(self.player.health))
-        unicurses.attroff(unicurses.COLOR_PAIR(self.colorDict["white"][0]))
 
     def drawLookInputParser(self, xpos, ypos): #actually xlook, ylook
         if(self.grid.getCell(xpos,ypos).hasBeenSeen):
             self.grid.drawCellBold(xpos, ypos, self.player.xpos, self.player.ypos, int(self.camera.lensWidth/2), int(self.camera.lensHeight/2))
         else:
+            #self.grid.drawCellBold(xpos, ypos, self.player.xpos, self.player.ypos, int(self.camera.lensWidth/2), int(self.camera.lensHeight/2))
             self.camera.drawArbitrary(xpos, ypos, '*', 'blue')
         #self.output_buffer.add("Press z to inspect the current object or q to stop looking.")
 
@@ -149,7 +142,7 @@ class levelManager():
                        for i in self.grid.get(x, y)):
                     #for debugging, use below to print column/row indices
                     #entity(x, y, self, str(y))
-                    Entity(x, y, self, display='.')
+                    Floor(x, y, self, display='.')
 
     def populateWalls(self):
         for x in range(1, self.width+1):

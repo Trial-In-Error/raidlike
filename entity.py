@@ -52,36 +52,6 @@ class Entity():
     def __str__(self):
         return self.display
 
-class Floor(Entity):
-    def __init__(self, xpos, ypos, level, type='solid', moveCost='0', **kwargs):
-        defaults = {
-            'description': "A floor.",
-            'display': '.',
-            'displayPriority': 0,
-            'displayColor': "yellow",
-            'memoryDisplayColor': "blue",
-            'name': 'floor',
-        }
-
-        defaults.update(kwargs)
-        super().__init__(xpos, ypos, level, **defaults)
-
-class Wall(Entity):
-    def __init__(self, xpos, ypos, level, **kwargs):
-        defaults = {
-            'description': "A wall.",
-            'display': '#',
-            'displayPriority': 1,
-            'displayColor': "cyan",
-            'memoryDisplayColor': "blue",
-            'name': 'wall',
-        }
-        defaults.update(kwargs)
-        super().__init__(xpos, ypos, level, **defaults)
-
-    def collide(self):
-        return "true"
-
 class Actor(Entity):
     def __init__(self, xpos, ypos, level, *, damage=1, health=3, moveCost=3,
                  **kwargs):
@@ -297,3 +267,33 @@ class Item(Entity):
 
     def collide(self):
         return "false"
+
+class Floor(Entity):
+    def __init__(self, xpos, ypos, level, type='solid', moveCost='0', **kwargs):
+        defaults = {
+            'description': "A floor.",
+            'display': '.',
+            'displayPriority': 0,
+            'displayColor': "yellow",
+            'memoryDisplayColor': "blue",
+            'name': 'floor',
+        }
+        self.moveCost = moveCost
+        defaults.update(kwargs)
+        super().__init__(xpos, ypos, level, **defaults)
+
+class Wall(Entity):
+    def __init__(self, xpos, ypos, level, **kwargs):
+        defaults = {
+            'description': "A wall.",
+            'display': '#',
+            'displayPriority': 1,
+            'displayColor': "cyan",
+            'memoryDisplayColor': "blue",
+            'name': 'wall',
+        }
+        defaults.update(kwargs)
+        super().__init__(xpos, ypos, level, **defaults)
+
+    def collide(self):
+        return "true"

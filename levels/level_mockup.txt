@@ -1,11 +1,11 @@
 #########   ####################
-#.......#####....#.............#
-.?..@..........x.#.............#
+#.......#####....&.............#
+.?..@............#.............#
 #.......#####....#############.#
 ###############.##           #.#
 ############  #.#            #.#
 #..........####.##############.######################
-#.X.................................................#
+#................SECRET.TUNNEL......................#
 #..........############.#############################
 #####.######          #.#
     #.#               #.#
@@ -19,13 +19,23 @@
              #.#
              #.#             
              ###
+
 Glyphs
 @:player:
 #:wall:
-.:floor:
 x:enemy:name = skeleton, description = a mess., damage = 1
 X:zombie:
-?:item:
+?:item:display = %
+S:floor:display = S, displayColor = yellow
+E:floor:display = E, displayColor = yellow
+C:floor:display = C, displayColor = yellow
+R:floor:display = R, displayColor = yellow
+T:floor:display = T, displayColor = yellow
+U:floor:display = U, displayColor = yellow
+N:floor:display = N, displayColor = yellow
+L:floor:display = L, displayColor = yellow
+.:floor:
+&:wall:description = A secret doorway to other places...
 
 Triggers
 
