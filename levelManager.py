@@ -121,7 +121,7 @@ class levelManager():
     def draw(self):
         if self.player is None:
             raise RuntimeError("You didn't call levelManager.setPlayer()!!!!")
-        unicurses.clear()
+        unicurses.erase()
         #self.drawHUD()
         self.camera.draw(self.player.xpos, self.player.ypos)
         #self.drawHUD()

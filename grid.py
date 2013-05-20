@@ -178,6 +178,8 @@ class Cell():
         self.grid = grid
         self.xpos = xpos
         self.ypos = ypos
+        self.gridxpos = self.xpos+1
+        self.gridypos = self.grid.height-ypos
         self.contents = []
         self.hasBeenSeen = False
 
@@ -188,13 +190,16 @@ class Cell():
         return self.contents
 
     def getTopContent(self):
-        return sorted(self.contents, reverse=True)[0]
+        try:
+            return sorted(self.contents, reverse=True)[0]
+        except IndexError:
+            raise RuntimeError("Theres an empty cell at: ("+str(self.gridxpos)+", "+str(self.gridypos)+").")
 
     def getBottomContent(self):
         try:
             return sorted(self.contents)[0]
         except IndexError:
-            pass
+            raise RuntimeError("Theres an empty cell at: ("+str(self.gridxpos)+", "+str(self.gridypos)+").")
 
     def drawContentsRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
         self.hasBeenSeen = True
