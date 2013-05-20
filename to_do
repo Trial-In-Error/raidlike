@@ -12,7 +12,7 @@ NEW FEATURES:
 * add a wall to the drawing of the camera
 * cell.drawContents() for drawing multiple things (color backgrounds)
 * pad all around the level with blank tiles
-* FIX DRAWING OF LOOK GOING OUT OF CAMERA BOUNDS
+* death screen needs work (any input ends it, so players breeze right through)
 
 TWEAKING:
 * get rid of screen flicker

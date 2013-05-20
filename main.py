@@ -34,7 +34,7 @@ try:
     stdscr.refresh()
     while(True):
         level.update()
-    #print("Be seeing you... (the real message, from main.py...)")
+
 except:
     clear()
     refresh()

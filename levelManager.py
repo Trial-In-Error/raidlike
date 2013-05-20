@@ -122,18 +122,14 @@ class levelManager():
         if self.player is None:
             raise RuntimeError("You didn't call levelManager.setPlayer()!!!!")
         unicurses.erase()
-        #self.drawHUD()
         self.camera.draw(self.player.xpos, self.player.ypos)
-        #self.drawHUD()
         self.output_buffer.output()
 
     def drawLookInputParser(self, xpos, ypos): #actually xlook, ylook
         if(self.grid.getCell(xpos,ypos).hasBeenSeen):
             self.grid.drawCellBold(xpos, ypos, self.player.xpos, self.player.ypos, int(self.camera.lensWidth/2), int(self.camera.lensHeight/2))
-        else:
-            #self.grid.drawCellBold(xpos, ypos, self.player.xpos, self.player.ypos, int(self.camera.lensWidth/2), int(self.camera.lensHeight/2))
+        elif (abs(xpos - self.player.xpos) < self.camera.adjLensWidth) and abs(self.player.ypos-ypos) < self.camera.adjLensHeight:
             self.camera.drawArbitrary(xpos, ypos, '*', 'blue')
-        #self.output_buffer.add("Press z to inspect the current object or q to stop looking.")
 
     def populateFloor(self):
         for y in range(1, self.height+1):
