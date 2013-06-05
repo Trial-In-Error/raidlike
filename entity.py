@@ -8,7 +8,7 @@ class Entity():
                  description="A floor.",
                  display='.',
                  displayColor="yellow",
-                 displayPriority=0,
+                 displayPriority=1,
                  memoryDisplayColor="blue",
                  name="floor"):
         self.xpos = xpos
@@ -59,7 +59,7 @@ class Actor(Entity):
             'description': "An actor. This shouldn't be instantiated!",
             'display': "x",
             'displayColor': "red",
-            'displayPriority': 1,
+            'displayPriority': 2,
             'memoryDisplayColor': "blue",
             'name': "actor",
         }
@@ -140,7 +140,7 @@ class Player(Actor):
             'description': "It's you.",
             'display': '@',
             'displayColor': "white",
-            'displayPriority': 1,
+            'displayPriority': 3,
             'health': 10,
             'moveCost': 3,
             'name': "player",
@@ -150,7 +150,7 @@ class Player(Actor):
         #default name/class
         self.className = "Blessed of Kaia"
         self.playerName = "Roderick"
-        self.inventory = Inventory()
+        self.inventory = Inventory(self, self.level)
 
     def act(self):
         self.level.draw()
@@ -204,6 +204,9 @@ class Player(Actor):
         self.level.output_buffer.add("You picked up an "+grounded_item.name+".")
         self.andWait(1)
 
+    def drop(self, letter):
+        self.inventory.drop(letter)
+
     def die(self, killer):
         self.level.output_buffer.clear()
         self.level.output_buffer.add("You died! Game over.")
@@ -222,7 +225,7 @@ class Enemy(Actor):
             'description': "A generic enemy.",
             'display': "x",
             'displayColor': "red",
-            'displayPriority': 1,
+            'displayPriority': 2,
             'health': 3,
             'memoryDisplayColor': "blue",
             'moveCost': 3,
@@ -256,7 +259,7 @@ class Item(Entity):
         defaults = {
             'description': "An item",
             'display': '?',
-            'displayPriority': 0,
+            'displayPriority': 1,
             'displayColor': "cyan",
             'memoryDisplayColor': "blue",
             'name': 'item',

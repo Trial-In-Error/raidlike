@@ -79,7 +79,12 @@ class Grid():
                 print("Double at:" +str(element[0].xpos)+", " + str(element[0].ypos))
 
     def getItem(self, xpos, ypos):
-        return self.getCell(xpos, ypos).getItem()                
+        return self.getCell(xpos, ypos).getItem() 
+
+    def dropItem(self, xpos, ypos, item):
+        item.xpos = xpos
+        item.ypos = ypos
+        self.getCell(xpos, ypos).dropItem(item)               
 
     def clearLine(self, player_xpos, player_ypos, xpos, ypos):
         if xpos == player_xpos:
@@ -220,8 +225,12 @@ class Cell():
     def getItem(self):
         for element in self.contents:
             if(isinstance(element, Item)):
-                self.remove(element)
+                self.contents.remove(element)
                 return element
+
+    def dropItem(self, item):
+        self.contents.append(item)
+        self.contents = sorted(self.contents)
 
     def drawContentsBold(self, player_xpos, player_ypos, lensWidth, lensHeight):
         self.getTopContent().drawRelativeBold(player_xpos, player_ypos, lensWidth, lensHeight)

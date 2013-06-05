@@ -13,6 +13,7 @@ NEW FEATURES:
 * cell.drawContents() for drawing multiple things (color backgrounds)
 * pad all around the level with blank tiles
 * death screen needs work (any input ends it, so players breeze right through)
+* add output buffer management to level
 
 TWEAKING:
 * get rid of screen flicker

@@ -1,15 +1,15 @@
 #########   ####################
-#.......#####....&.............#
-.?...............#.............#
-#.......#####....#############.#
+#.......#####....&.............#                    #
+.?...............#.............#                    #
+#.......#####....#############.#                    #
 ###############.##           #.#
 ############  #.#            #.#
 #..........####.##############.######################
 #................SECRET.TUNNEL......................#
-#..........############.#############################
-#####.######          #.#
-    #.#               #.#
-    #.#################.#
+#..........############?#############################
+#####.######          #&#
+    #.#               #%#
+    #.#################?#
     #..................@#
     ##########.##########
              #.#
@@ -25,7 +25,9 @@ Glyphs
 #:wall:
 x:enemy:name = skeleton, description = a mess., damage = 1
 X:zombie:
-?:item:display = %
+?:item:display = ?, description = item one
+%:item:display = %, description = item two
+&:item:display = &, description = item three
 S:floor:display = S, displayColor = yellow
 E:floor:display = E, displayColor = yellow
 C:floor:display = C, displayColor = yellow
@@ -35,7 +37,6 @@ U:floor:display = U, displayColor = yellow
 N:floor:display = N, displayColor = yellow
 L:floor:display = L, displayColor = yellow
 .:floor:
-&:wall:description = A secret doorway to other places...
 
 Triggers
 

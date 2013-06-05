@@ -125,11 +125,21 @@ class levelManager():
         self.camera.draw(self.player.xpos, self.player.ypos)
         self.output_buffer.output()
 
-    def drawLookInputParser(self, xpos, ypos): #actually xlook, ylook
-        if(self.grid.getCell(xpos,ypos).hasBeenSeen):
-            self.grid.drawCellBold(xpos, ypos, self.player.xpos, self.player.ypos, int(self.camera.lensWidth/2), int(self.camera.lensHeight/2))
-        elif (abs(xpos - self.player.xpos) < self.camera.adjLensWidth) and abs(self.player.ypos-ypos) < self.camera.adjLensHeight:
-            self.camera.drawArbitrary(xpos, ypos, '*', 'blue')
+    def drawDropInputParser(self):
+        self.drawInventoryInputParser()
+
+    def drawInventoryInputParser(self):
+        unicurses.erase()
+        for index, item in enumerate(self.player.inventory.inventoryList):
+            unicurses.attron(unicurses.COLOR_PAIR(self.colorDict["white"][0]))
+            unicurses.mvaddstr(index, 0, self.player.inventory.letterList[index+1]+") "+self.player.inventory.inventoryList[index].description)
+            unicurses.attroff(unicurses.COLOR_PAIR(self.colorDict["white"][0]))
+
+    def drawLookInputParser(self, xLook, yLook):
+        if(self.grid.getCell(xLook, yLook).hasBeenSeen):
+            self.grid.drawCellBold(xLook, yLook, self.player.xpos, self.player.ypos, int(self.camera.lensWidth/2), int(self.camera.lensHeight/2))
+        elif (abs(xLook - self.player.xpos) < self.camera.adjLensWidth) and abs(self.player.ypos-yLook) < self.camera.adjLensHeight:
+            self.camera.drawArbitrary(xLook, yLook, '*', 'blue')
 
     def populateFloor(self):
         for y in range(1, self.height+1):

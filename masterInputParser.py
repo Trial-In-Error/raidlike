@@ -1,5 +1,6 @@
 import sys
 from unicurses import *
+import string
 
 
 """
@@ -41,12 +42,41 @@ def masterInputParser(player, level):
     elif(lineIn==CCHAR('x')):
         lookInputParser(player, level)
         player.doNotWait()
-        level.draw()
+    elif(lineIn==CCHAR('i')):
+        inventoryInputParser(player, level)
+        player.doNotWait()
+    elif(lineIn==CCHAR('d')): #inventory drop code!
+        dropInputParser(player, level)
+        player.doNotWait()
     elif(lineIn==CCHAR('g')):
         player.get()
     else:
         level.output_buffer.add("Unknown command.")
         player.doNotWait()
+
+def inventoryInputParser(player, level):
+    lineIn=""
+    while(True):
+        if(lineIn==CCHAR('q')):
+            break
+        level.drawInventoryInputParser()
+        lineIn = ""
+        lineIn = getch()
+
+def dropInputParser(player, level):
+    lineIn=""
+    level.drawDropInputParser()
+    charList = {}
+    for letter in string.ascii_letters:
+        charList[CCHAR(letter)] = letter
+    while(True):
+        if(lineIn in charList):
+            player.drop(charList[lineIn])
+            break
+        level.drawDropInputParser()
+        lineIn = ""
+        lineIn = getch()
+    level.draw()
 
 
 def lookInputParser(player, level):

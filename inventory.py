@@ -1,9 +1,14 @@
 import string
 
 class Inventory():
-    def __init__(self):
+    def __init__(self, player, level):
+        self.player = player
+        self.level = level
         self.inventoryList = []
-        self.letterList = [letter for letter in string.ascii_letters]
+        self.letterList = {}
+        for index, letter in enumerate(string.ascii_letters):
+            self.letterList[index+1] = letter
+            self.letterList[letter] = index+1
         self.MAGICALCARRYWEIGHT = 100
 
     def hasSpace(self, more=0):
@@ -13,7 +18,7 @@ class Inventory():
             return True
 
     def hasWeightSpace(self, more=0):
-        if(self.getWeight()+more >= self.MAGICALCARRYWEIGHT):
+        if(self.getWeight()+more > self.MAGICALCARRYWEIGHT):
             return False
         else:
             return True
@@ -27,9 +32,19 @@ class Inventory():
     def add(self, item):
         self.inventoryList.append(item)
 
+    def drop(self, letter):
+        self.level.grid.dropItem(self.level.player.xpos, self.level.player.ypos, self.get(letter))
+        temp = self.remove(letter)
+
     def remove(self, letter):
-        #self.inventoryList.
+        del self.inventoryList[self.getIndex(letter)]
         pass
+
+    def get(self, letter):
+        return self.inventoryList[self.letterList[letter]-1]
+
+    def getIndex(self, letter):
+        return self.letterList[letter]-1
 
     def sort(self):
         pass
