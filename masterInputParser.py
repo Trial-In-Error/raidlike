@@ -6,8 +6,6 @@ import string
 """
 The input parser. Called as the second half of the player's act() function; the
 first half consists of draw().
-
-Currently does NOT support arrow keys, diagonals, or any new-fangled fanciness.
 """
 
 def masterInputParser(player, level):
@@ -107,6 +105,26 @@ def lookInputParser(player, level):
         elif(lineIn==CCHAR('l') or lineIn==KEY_RIGHT):
             if(xLook < level.width):
                 xLook = xLook + 1
+        elif(lineIn==CCHAR('y') or lineIn==KEY_HOME):
+            if(xLook > 1):
+                xLook = xLook - 1
+            if(yLook < level.height):
+                yLook = yLook + 1
+        elif(lineIn==CCHAR('b') or lineIn==KEY_END):
+            if(xLook > 1):
+                xLook = xLook - 1
+            if(yLook > 1):
+                yLook = yLook - 1
+        elif(lineIn==CCHAR('u') or lineIn==KEY_PPAGE):
+            if(xLook < level.width):
+                xLook = xLook + 1
+            if(yLook < level.height):
+                yLook = yLook + 1
+        elif(lineIn==CCHAR('n') or lineIn==KEY_NPAGE):
+            if(xLook < level.width):
+                xLook = xLook + 1
+            if(yLook > 1):
+                yLook = yLook - 1
         elif(lineIn==KEY_ENTER or lineIn==CCHAR('z')):
             if(level.grid.getCell(xLook, yLook).hasBeenSeen):
                 level.output_buffer.add(level.grid.getCell(xLook, yLook).getTopContent().describe())
