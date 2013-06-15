@@ -1,4 +1,4 @@
-import string
+import string, entity
 
 class Inventory():
     def __init__(self, player, level):
@@ -38,10 +38,12 @@ class Inventory():
 
     def remove(self, letter):
         del self.inventoryList[self.getIndex(letter)]
-        pass
 
     def get(self, letter):
-        return self.inventoryList[self.letterList[letter]-1]
+        try:
+            return self.inventoryList[self.letterList[letter]-1]
+        except:
+            pass
 
     def getIndex(self, letter):
         return self.letterList[letter]-1
@@ -56,4 +58,15 @@ class Equipment():
     def __init__(self):
         self.equipmentSlots = ["weapon", "offhand", "armor"]
         self.slotCount = len(self.equipmentSlots)
-        self.equipmentList = [[[x], [self.equipmentSlots[x]]] for x in range(slotCount)]
+        self.equipmentList = [[] for x in range(slotCount)]
+        self.letterList = {}
+        try:
+            for index, letter in enumerate(string.ascii_letters[:self.slotCount]):
+                self.letterList[index+1] = letter
+                self.letterList[letter] = index+1
+        except:
+            pass
+        self.MAGICALEQUIPWEIGHT = 100
+
+    def equip(self, equipmentSlots):
+        pass

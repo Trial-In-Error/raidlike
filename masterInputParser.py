@@ -76,7 +76,7 @@ def dropInputParser(player, level):
         level.drawDropInputParser()
         lineIn = ""
         lineIn = getch()
-    level.draw()
+    #level.draw()
 
 
 def lookInputParser(player, level):

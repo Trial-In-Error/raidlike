@@ -53,7 +53,7 @@ class Entity():
         return self.display
 
 class Actor(Entity):
-    def __init__(self, xpos, ypos, level, *, damage=1, health=3, moveCost=3,
+    def __init__(self, xpos, ypos, level, *, attackCost=2, damage=1, health=3, moveCost=3,
                  **kwargs):
         defaults = {
             'description': "An actor. This shouldn't be instantiated!",
@@ -65,6 +65,7 @@ class Actor(Entity):
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
+        self.attackCost = attackCost
         self.damage = damage
         self.health = health
         self.moveCost = moveCost # preferred spelling would be move_cost
@@ -130,7 +131,7 @@ class Actor(Entity):
     def doAttack(self, xDiff, yDiff):
         sorted(self.level.grid.get(self.xpos + xDiff, self.ypos + yDiff),
                reverse=True)[0].isAttacked(self)
-        self.andWait(2)
+        self.andWait(self.attackCost)
 
 class Player(Actor):
     def __init__(self, xpos, ypos, level, *, playerName=None, className=None,
@@ -205,7 +206,16 @@ class Player(Actor):
         self.andWait(1)
 
     def drop(self, letter):
-        self.inventory.drop(letter)
+        if(isinstance(self.inventory.get(letter), Item)):
+            self.level.output_buffer.add("You dropped "+str(self.inventory.get(letter).name+"."))
+            self.inventory.drop(letter)
+            #self.level.draw()
+            self.andWait(1)
+        else:
+            self.level.output_buffer.add("That item isn't in your inventory!")
+            #self.level.draw()
+            self.andWait(0)
+        self.andWait(0)            
 
     def die(self, killer):
         self.level.output_buffer.clear()
@@ -270,6 +280,61 @@ class Item(Entity):
 
     def collide(self):
         return "false"
+
+class Equippable(Item):
+    def __init__(self, xpos, ypos, level, slot='???', **kwargs):
+        defaults = {
+            'description': "A weapon",
+            'display': '/',
+            'displayPriority': 1,
+            'displayColor': "cyan",
+            'memoryDisplayColor': "blue",
+            'name': 'weapon',
+            'weight': "1"
+        }
+        self.slot = slot
+        defaults.update(kwargs)
+        super().__init__(xpos, ypos, level, **defaults) 
+
+class Armor(Equippable):
+    def __init__(self, xpos, ypos, level, **kwargs):
+        defaults = {
+            'description': "A weapon",
+            'display': '/',
+            'displayPriority': 1,
+            'displayColor': "cyan",
+            'memoryDisplayColor': "blue",
+            'name': 'weapon',
+            'weight': "1",
+            #'slot': '???'
+        }
+        moveCost = 0
+        armorBonus = 0
+        poise = 0
+        #self.slot = slot
+        defaults.update(kwargs)
+        super().__init__(xpos, ypos, level, **defaults) 
+
+class Weapon(Equippable):
+    def __init__(self, xpos, ypos, level, **kwargs):
+        defaults = {
+            'description': "A weapon",
+            'display': '/',
+            'displayPriority': 1,
+            'displayColor': "cyan",
+            'memoryDisplayColor': "blue",
+            'name': 'weapon',
+            'weight': "1",
+            'slot': 'weapon'
+        }
+        self.damage = 2 #what damage system to use later?
+        self.toHitBonus = 0
+        #self.sizeClass
+        self.attackCost = 2
+        #self.poiseDamage
+        #self.handRequirements
+        defaults.update(kwargs)
+        super().__init__(xpos, ypos, level, **defaults)    
 
 class Floor(Entity):
     def __init__(self, xpos, ypos, level, type='solid', moveCost='0', **kwargs):

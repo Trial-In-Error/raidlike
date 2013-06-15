@@ -9,6 +9,6 @@ class OutputBuffer(): #rename outputManager?
     def output(self):
         for stringCount, string in enumerate(self.oBuffer):
             mvaddstr(self.cameraHeight + stringCount, 0, str(string))
-        self.oBuffer = []
+        self.clear()
     def clear(self):
         self.oBuffer = []

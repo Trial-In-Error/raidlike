@@ -14,11 +14,11 @@ class levelManager():
     iteration of the main while loop. Every update act()s
     for every actor in that quantum of the timeline. It
     also contains the draw() function, which is called
-    as the first part of the player's act().
+    as the first part of the player's act() and which
+    draw()s and clear()s the output_buffer.
 
-    Currently, the __init__() is taking the place of
-    load(), because there is no data structure in place
-    for loading levels.
+    Currently, __init__() takes the place of load() if 
+    no level is loaded.
 
     The player must always be initialized last, or else
     the enemies will appear to double-move on the first
