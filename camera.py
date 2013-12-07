@@ -11,8 +11,10 @@ class Camera():
         self.player = self.level.player
 
     def isInView(self, xpos, ypos):
-        if(xpos < (self.player.xpos - self.adjLensWidth) and xpos > self.player.xpos + self.adjLensWidth
-            and ypos < self.player.ypos - self.adjLensHeight and ypos > self.player.ypos + self.adjLensHeight):
+        if(xpos > (self.player.xpos - self.adjLensWidth) and
+            xpos < self.player.xpos + self.adjLensWidth and
+            ypos > self.player.ypos - self.adjLensHeight and
+            ypos < self.player.ypos + self.adjLensHeight):
             return True
         else:
             return False
