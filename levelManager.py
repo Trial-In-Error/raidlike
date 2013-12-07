@@ -99,6 +99,7 @@ class levelManager():
                 if char != ' ':
                     if class_dict[char] is Player:
                         level.setPlayer(Player(x, y, level))
+                        level.camera.player = level.player
                         classes["floor"](x, y, level)
                     else:
                         if class_dict[char] in (Wall, Floor):

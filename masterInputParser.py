@@ -84,7 +84,8 @@ def lookInputParser(player, level):
     while(True):
         if(lineIn!=CCHAR('z')):
             level.output_buffer.add("Press z to inspect the current tile or q to stop looking.")
-            if(level.grid.getCell(xLook, yLook).hasBeenSeen):
+            #if(level.grid.getCell(xLook, yLook).hasBeenSeen):
+            if(level.grid.getCell(xLook, yLook).hasBeenSeen and level.camera.isInView(xLook, yLook)):
                 level.output_buffer.add(
                 level.grid.getCell(xLook, yLook).getTopContent().name)
             else:
