@@ -37,17 +37,19 @@ class levelManager():
         self.output_buffer = OutputBuffer(self.camera.lensHeight)
 
 
-
+        #unicurses.init_pair(20, unicurses.COLOR_CYAN, unicurses.COLOR_BLACK)
+        #unicurses.init_color(20, 950, 300, 450)
         #these should be in entity, not levelmanager...
         self.coloringDict = {"enemy":"yellow"}
         self.colorDict = {"yellow":[1, unicurses.COLOR_YELLOW, unicurses.COLOR_BLACK],
             "cyan":[2, unicurses.COLOR_CYAN, unicurses.COLOR_BLACK],
             "red":[3, unicurses.COLOR_RED, unicurses.COLOR_BLACK],
             "white":[4, unicurses.COLOR_WHITE, unicurses.COLOR_BLACK],
-            "blue":[5, unicurses.COLOR_BLUE, unicurses.COLOR_BLACK]
+            "blue":[5, unicurses.COLOR_BLUE, unicurses.COLOR_BLACK],
+            "player":[20, unicurses.COLOR_WHITE, unicurses.COLOR_BLACK]
             }
         for entry in self.colorDict:
-            unicurses.init_pair(self.colorDict[entry][0], self.colorDict[entry][1], self.colorDict[entry][2])
+           unicurses.init_pair(self.colorDict[entry][0], self.colorDict[entry][1], self.colorDict[entry][2])
 
     @staticmethod
     def load(name):

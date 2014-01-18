@@ -29,6 +29,7 @@ class Entity():
             return False
 
     def drawRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
+        #TO CHANGE THE WAY COLOR DICT WORKS, REMOVE self.level.colorDict TO SELF.COLORDICT
         unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
         unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
         unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
@@ -140,7 +141,7 @@ class Player(Actor):
             'damage': 1,
             'description': "It's you.",
             'display': '@',
-            'displayColor': "white",
+            'displayColor': "player",
             'displayPriority': 3,
             'health': 10,
             'moveCost': 3,

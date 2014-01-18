@@ -1,5 +1,9 @@
 To do and other general notes:
 
+# TERM = xterm-256color
+COLOR WORKS! YAY!
+How do I automate this so it works on all machines?
+
 IMPORTANT:
 * equipment
 * migrate colorDict & extend to type
@@ -8,13 +12,19 @@ WALLS: WRAP AROUND SCARINESS
 FIX GRID TO NOT ACCEPT NEGATIVE
 
 NEW FEATURES:
+* player response generator
+	* part of player class
+		* allows customizing lines by god!
 * level input parser
 * cell.drawContents() for drawing multiple things (color backgrounds)
 * pad all around the level with blank tiles
+	* blank tiles->walls
+		* blank tiles are for fooling look input parser
 * death screen needs work (any input ends it, so players breeze right through)
 * add output buffer management to level
 
 TWEAKING:
+* investigate curses.keypad for ways to change escape key's behavior
 * "look" parsing mode
     * needs to enter description mode and cleanly exit it, too
         * shallow look vs. deep look
