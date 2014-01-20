@@ -1,6 +1,5 @@
 To do and other general notes:
-
-# TERM = xterm-256color
+# TERM=xterm-256color
 COLOR WORKS! YAY!
 How do I automate this so it works on all machines?
 
@@ -24,6 +23,8 @@ NEW FEATURES:
 * add output buffer management to level
 
 TWEAKING:
+* vertical display jitter issues
+	* suspect draw issues
 * investigate curses.keypad for ways to change escape key's behavior
 * "look" parsing mode
     * needs to enter description mode and cleanly exit it, too

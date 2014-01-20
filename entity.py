@@ -10,7 +10,7 @@ class Entity():
                  displayColor="yellow",
                  displayPriority=1,
                  memoryDisplayColor="blue",
-                 name="floor"):
+                 name="floor", collideType="false"):
         self.xpos = xpos
         self.ypos = ypos
         self.level = level
@@ -45,16 +45,16 @@ class Entity():
         unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
 
     def describe(self):
-        return(self.description)
+        return self.description
 
     def collide(self):
-        return "false"
+        return self.collideType
 
     def __str__(self):
         return self.display
 
 class Actor(Entity):
-    def __init__(self, xpos, ypos, level, *, attackCost=2, damage=1, health=3, moveCost=3,
+    def __init__(self, xpos, ypos, level, *, collideType="actor", attackCost=2, damage=1, health=3, moveCost=3,
                  **kwargs):
         defaults = {
             'description': "An actor. This shouldn't be instantiated!",
@@ -63,6 +63,7 @@ class Actor(Entity):
             'displayPriority': 2,
             'memoryDisplayColor': "blue",
             'name': "actor",
+            'collideType': "actor",
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
@@ -107,6 +108,8 @@ class Actor(Entity):
         self.xpos+moveDict[direction][0], 
         self.ypos+moveDict[direction][1]):
             temp.append(entity.collide())
+        if(temp.count("actor")>0):
+            raise IndexError #HOW DO I DO EXCEPTIONS???
         if(temp.count("true")==0
         and temp.count("combat_player")==0
         and temp.count("combat_enemy")==0):
@@ -135,7 +138,7 @@ class Actor(Entity):
         self.andWait(self.attackCost)
 
 class Player(Actor):
-    def __init__(self, xpos, ypos, level, *, playerName=None, className=None,
+    def __init__(self, xpos, ypos, level, *, collideType="combat_player", playerName=None, className=None,
                  **kwargs):
         defaults = {
             'damage': 1,
@@ -146,10 +149,12 @@ class Player(Actor):
             'health': 10,
             'moveCost': 3,
             'name': "player",
+            'collideType': "combat_player",
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
         #default name/class
+        self.collideType = collideType
         self.className = "Blessed of Kaia"
         self.playerName = "Roderick"
         self.inventory = Inventory(self, self.level)
@@ -167,10 +172,13 @@ class Player(Actor):
                     'northeast': [1, 1],
                     'southwest': [-1 ,-1],
                     'southeast': [1, -1]}
+        #MOVE THIS CODE TO GRID/CELL
         temp = []
         for entity in self.level.grid.get(self.xpos + moveDict[direction][0],
         self.ypos + moveDict[direction][1]):
             temp.append(entity.collide())
+        if(temp.count("actor")>0):
+            raise IndexError #HOW DO I DO EXCEPTIONS???
         if(temp.count("true")==0 and temp.count("combat_enemy")==0):
             self.doMove(moveDict[direction][0], moveDict[direction][1])
             self.postMoveDescribe()
@@ -185,8 +193,8 @@ class Player(Actor):
             if(isinstance(content, Item)):
                 self.level.output_buffer.add("You're standing on an "+content.name+".")
 
-    def collide(self):
-        return "combat_player"
+    #def collide(self):
+    #    return self.collideType
 
     def get(self):
         grounded_item = self.level.grid.getItem(self.xpos, self.ypos)
@@ -230,7 +238,7 @@ class Player(Actor):
         exit()
 
 class Enemy(Actor):
-    def __init__(self, xpos, ypos, level, **kwargs):
+    def __init__(self, xpos, ypos, level, collideType="combat_enemy", **kwargs):
         defaults = {
             'damage': 1,
             'description': "A generic enemy.",
@@ -241,7 +249,9 @@ class Enemy(Actor):
             'memoryDisplayColor': "blue",
             'moveCost': 3,
             'name': "generic enemy",
+            'collideType': "combat_enemy"
         }
+        self.collideType = collideType
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
 
@@ -258,29 +268,31 @@ class Enemy(Actor):
         else:
             self.move("north")
 
-    def collide(self):
-        return "combat_enemy"
+    #def collide(self):
+    #    return "combat_enemy"
 
 def Zombie(x, y, level):
     return Enemy(x, y, level, name="zombie", display='X', moveCost=8,
                  description="A lumbering zombie.")
 
 class Item(Entity):
-    def __init__(self, xpos, ypos, level, weight=1, **kwargs):
+    def __init__(self, xpos, ypos, level, weight=1, collideType='false', **kwargs):
         defaults = {
             'description': "An item",
             'display': '?',
             'displayPriority': 1,
             'displayColor': "cyan",
             'memoryDisplayColor': "blue",
-            'name': 'item',
+            'name': "item",
+            'collideType':"false",
         }
         self.weight = weight
+        self.collideType = collideType
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
 
     def collide(self):
-        return "false"
+        return self.collideType
 
 class Equippable(Item):
     def __init__(self, xpos, ypos, level, slot='???', **kwargs):
@@ -338,21 +350,23 @@ class Weapon(Equippable):
         super().__init__(xpos, ypos, level, **defaults)    
 
 class Floor(Entity):
-    def __init__(self, xpos, ypos, level, type='solid', moveCost='0', **kwargs):
+    def __init__(self, xpos, ypos, level, collideType="false", type='solid', moveCost='0', **kwargs):
         defaults = {
             'description': "A floor.",
             'display': '.',
             'displayPriority': 0,
             'displayColor': "yellow",
             'memoryDisplayColor': "blue",
-            'name': 'floor',
+            'name': "floor",
+            'collideType':"false",
         }
         self.moveCost = moveCost
+        self.collideType = collideType
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
 
 class Wall(Entity):
-    def __init__(self, xpos, ypos, level, **kwargs):
+    def __init__(self, xpos, ypos, level, collideType="true", **kwargs):
         defaults = {
             'description': "A wall.",
             'display': '#',
@@ -360,9 +374,11 @@ class Wall(Entity):
             'displayColor': "cyan",
             'memoryDisplayColor': "blue",
             'name': 'wall',
+            'collideType': "true",
         }
+        self.collideType = collideType
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
 
     def collide(self):
-        return "true"
+        return self.collideType

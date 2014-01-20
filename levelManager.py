@@ -46,7 +46,10 @@ class levelManager():
             "red":[3, unicurses.COLOR_RED, unicurses.COLOR_BLACK],
             "white":[4, unicurses.COLOR_WHITE, unicurses.COLOR_BLACK],
             "blue":[5, unicurses.COLOR_BLUE, unicurses.COLOR_BLACK],
-            "player":[20, unicurses.COLOR_WHITE, unicurses.COLOR_BLACK]
+            "player":[20, unicurses.COLOR_WHITE, unicurses.COLOR_BLACK],
+            "one":[6, 124, unicurses.COLOR_BLACK],
+            "two":[7, 56, unicurses.COLOR_BLACK],
+            "three":[8, 210, unicurses.COLOR_BLACK]
             }
         for entry in self.colorDict:
            unicurses.init_pair(self.colorDict[entry][0], self.colorDict[entry][1], self.colorDict[entry][2])
@@ -99,17 +102,20 @@ class levelManager():
         for y, line in enumerate(map_[::-1], 1):
             for x, char in enumerate(line, 1):
                 if char != ' ':
-                    if class_dict[char] is Player:
-                        level.setPlayer(Player(x, y, level))
-                        level.camera.player = level.player
-                        classes["floor"](x, y, level)
-                    else:
-                        if class_dict[char] in (Wall, Floor):
-                            #print("adding {} at x={} y={}".format(class_dict[char], x, y), file=sys.stderr)
-                            class_dict[char](x, y, level, **arg_dict[char])
-                        else:
-                            class_dict[char](x, y, level, **arg_dict[char])
+                    #try: #this almost works, but I don't have a python resource at hand
+                        if class_dict[char] is Player:
+                            level.setPlayer(Player(x, y, level))
+                            level.camera.player = level.player
                             classes["floor"](x, y, level)
+                        else:
+                            if class_dict[char] in (Wall, Floor):
+                                #print("adding {} at x={} y={}".format(class_dict[char], x, y), file=sys.stderr)
+                                class_dict[char](x, y, level, **arg_dict[char])
+                            else:
+                                class_dict[char](x, y, level, **arg_dict[char])
+                                classes["floor"](x, y, level)
+                    #except:
+                        #raise(KeyError ("There isn't a matching line for glyph: ", char))
         # Triggers ...?
         return level
 

@@ -1,14 +1,14 @@
-#########   ####################
-#.......#####....&.............#                    #
-.?...............#.............#                    #
-#.......#####....#############.#                    #
-###############.##           #.#
-############  #.#            #.#
-#.x........####.##############.######################
-#....x...........SECRET.TUNNEL......................#
-#.x........############?#############################
-#####.######          #&#
-    #.#               #%#
+#########   #####################
+#.......#####....&..............#                   #
+.?...............#..............#                   #
+#.......#####....##############.#                   #
+###############.###############.#
+############  #.###############.#
+#.x........####.###############.#####################
+#....x..........iSECRET.TUNNELi.....................#
+#.x........############i#############################
+#####.#################&#
+    #.#################%#
     #.#################?#
     #..................@#
     ##########.##########
@@ -28,15 +28,16 @@ X:zombie:
 ?:item:display = ?, description = item one
 %:item:display = %, description = item two
 &:item:display = &, description = item three
-S:floor:display = S, displayColor = yellow
-E:floor:display = E, displayColor = yellow
-C:floor:display = C, displayColor = yellow
-R:floor:display = R, displayColor = yellow
-T:floor:display = T, displayColor = yellow
-U:floor:display = U, displayColor = yellow
-N:floor:display = N, displayColor = yellow
-L:floor:display = L, displayColor = yellow
+S:floor:display = S, displayColor = one
+E:floor:display = E, displayColor = two
+C:floor:display = C, displayColor = three
+R:floor:display = R, displayColor = one
+T:floor:display = T, displayColor = two
+U:floor:display = U, displayColor = three
+N:floor:display = N, displayColor = one
+L:floor:display = L, displayColor = two
 .:floor:
+i:wall:display = #, displayColor = cyan, collideType = "vision"
 
 Triggers
 

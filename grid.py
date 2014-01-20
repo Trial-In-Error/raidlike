@@ -131,8 +131,15 @@ class Grid():
                         self.spreadDiagonal(new_xpos, new_ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight)
 
     def spreadOrthogonal(self,xpos, ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight):
+        #MOVE THIS CODE TO GRID/CELL
+        temp = []
+        for entity in self.level.grid.get(xpos, ypos):
+            temp.append(entity.collide())
+        if(temp.count("vision_block")>0 or temp.count("true")>0):
+            return
         self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
         if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall):
+        #THIS LINE
                 new_xpos = xpos + moveDict[direction][0]
                 new_ypos = ypos + moveDict[direction][1]
                 if(new_xpos>0 and new_xpos<=self.width and new_ypos>0 and new_ypos<=self.height): #necessary?
@@ -146,6 +153,7 @@ class Grid():
         try:
             self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
             if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall):
+            #AND THIS LINE
                 for newDirection in moveDict[direction][4:]:
                     new_xpos = xpos + moveDict[newDirection][0]
                     new_ypos = ypos + moveDict[newDirection][1]
