@@ -4,6 +4,7 @@ import sys
 from unicurses import cbreak, clear, curs_set, endwin, initscr, keypad, refresh, noecho, start_color, stdscr
 from worldManager import worldManager
 import config
+import os
 
 """
 The main loop. The magic all happens here.
@@ -14,6 +15,12 @@ before the players' quanta.
 """
 
 try:
+    try:
+        print(os.environ['TERM'])
+    except KeyError:
+        os.environ['TERM'] = foo
+    os.environ['TERM'] = "xterm-256color"
+
     stdscr = initscr()
     start_color()
     noecho()
@@ -23,7 +30,6 @@ try:
     start_color()
     world = worldManager()
     config.world = world
-    #world.load()
 
     stdscr.refresh()
     while(True):
