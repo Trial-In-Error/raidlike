@@ -26,8 +26,7 @@ class levelManager():
     turn. It looks really awkward.
     """
 
-    timeline = Timeline(16)
-    viewDistance = 3
+
 
     def __init__(self, playerSaveState, width, height, player=None):
         self.width = width
@@ -36,7 +35,8 @@ class levelManager():
         self.player = Player
         self.camera = Camera(width,height,self)
         self.output_buffer = OutputBuffer(self.camera.lensHeight)
-
+        self.timeline = Timeline(16)
+        self.viewDistance = 3
         #these should be in entity, not levelmanager...
         self.coloringDict = {"enemy":"yellow"}
         self.colorDict = {"yellow":[1, unicurses.COLOR_YELLOW, unicurses.COLOR_BLACK],

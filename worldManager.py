@@ -8,7 +8,7 @@ class worldManager():
 		self.currentLevel = self.levelOne
 		#levelList = {levelOne, levelTwo}
 	def update(self):
-		self.currentLevel.update()
+		self.levelOne.update()
 		#pass
 	def menu(self):
 		pass
