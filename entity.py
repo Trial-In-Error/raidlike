@@ -2,6 +2,7 @@ import unicurses
 from masterInputParser import masterInputParser
 from sys import exit
 from inventory import Inventory
+import config
 
 class Entity():
     def __init__(self, xpos, ypos, level, *,
@@ -54,6 +55,23 @@ class Entity():
     def __str__(self):
         return self.display
 
+class Portal(Entity):
+        def __init__(self, xpos, ypos, level, *, toWhere, **kwargs):
+            defaults = {
+                'description': "A portal to somewhere else.",
+                'display': "*",
+                'displayColor': "red",
+                'displayPriority': 2,
+                'memoryDisplayColor': "red",
+                'name': "portal",
+                'collideType': "none",
+            }
+            defaults.update(kwargs)
+            super().__init__(xpos, ypos, level, **defaults)
+            self.toWhere = toWhere
+        def collide(self):
+            config.world.currentLevel = config.world.levelDict[self.toWhere]
+
 class Actor(Entity):
     def __init__(self, xpos, ypos, level, *, attackCost=2, damage=1, health=3, moveCost=3,
                  **kwargs):
@@ -64,14 +82,14 @@ class Actor(Entity):
             'displayPriority': 2,
             'memoryDisplayColor': "blue",
             'name': "actor",
-            'collideType': "actor",
+            'collideType': "false",
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
         self.attackCost = attackCost
         self.damage = damage
         self.health = health
-        self.moveCost = moveCost # preferred spelling would be move_cost
+        self.moveCost = moveCost
         self.level.timeline.add(self)
 
     def act(self):

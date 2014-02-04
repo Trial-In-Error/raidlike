@@ -3,6 +3,7 @@ from entity import Player, Enemy, Zombie, Item
 import sys
 from unicurses import cbreak, clear, curs_set, endwin, initscr, keypad, refresh, noecho, start_color, stdscr
 from worldManager import worldManager
+import config
 
 """
 The main loop. The magic all happens here.
@@ -20,24 +21,13 @@ try:
     curs_set(0)
     keypad(stdscr, True)
     start_color()
-    global world
     world = worldManager()
-    #world.menu()
-    #if len(sys.argv) > 1:
-    #    level = levelManager.load(sys.argv[1])
-    #else:
-        # Set up default level
-    #    level = levelManager("playerSaveState", 21 , 21)
-    #    level.setPlayer(Player(4, 4, level))
-    #    level.populateWalls()
-    #    level.populateFloor()
-    #    e1 = Enemy(5,5,level)
-    #    e2 = Zombie(5,2,level)
+    config.world = world
+    #world.load()
 
     stdscr.refresh()
     while(True):
         world.update()
-        #level.update()
 
 except:
     clear()

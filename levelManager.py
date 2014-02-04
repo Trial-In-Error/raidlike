@@ -36,7 +36,10 @@ class levelManager():
         self.camera = Camera(width,height,self)
         self.output_buffer = OutputBuffer(self.camera.lensHeight)
         self.timeline = Timeline(16)
+
+        #not used
         self.viewDistance = 3
+
         #these should be in entity, not levelmanager...
         self.coloringDict = {"enemy":"yellow"}
         self.colorDict = {"yellow":[1, unicurses.COLOR_YELLOW, unicurses.COLOR_BLACK],
@@ -165,10 +168,10 @@ class levelManager():
             Wall(1, y, self)
             Wall(self.width, y, self)
 
-    def save(self):
-        #DEPRECATED BY WORLDMANAGER.SAVE()
-        with open('./levels/original/io_test', mode='wb') as io_test:
-            pickle.dump(self, io_test)
+    #def save(self):
+    #    #DEPRECATED BY WORLDMANAGER.SAVE()
+    #    with open('./levels/original/io_test', mode='wb') as io_test:
+    #        pickle.dump(self, io_test)
 
 #import pickle
 #with open('./levels/original/io_test', mode='rb') as io_test:

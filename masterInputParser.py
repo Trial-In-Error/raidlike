@@ -1,6 +1,9 @@
 import sys
 from unicurses import *
 import string
+import config
+#from levelManager import levelManager
+#from main import world
 
 
 """
@@ -49,7 +52,7 @@ def masterInputParser(player, level):
     elif(lineIn==CCHAR('g')):
         player.get()
     elif(lineIn==CCHAR('s')):
-        world.save()
+        config.world.save()
         player.doNotWait()
     else:
         level.output_buffer.add("Unknown command.")
