@@ -19,6 +19,7 @@ class Entity():
         self.displayColor = displayColor
         self.displayPriority = displayPriority
         self.memoryDisplayColor = memoryDisplayColor
+        self.collideType = collideType
         self.name = name
         self.level.grid.add(self, xpos, ypos)
 
@@ -54,7 +55,7 @@ class Entity():
         return self.display
 
 class Actor(Entity):
-    def __init__(self, xpos, ypos, level, *, collideType="actor", attackCost=2, damage=1, health=3, moveCost=3,
+    def __init__(self, xpos, ypos, level, *, attackCost=2, damage=1, health=3, moveCost=3,
                  **kwargs):
         defaults = {
             'description': "An actor. This shouldn't be instantiated!",
@@ -138,7 +139,7 @@ class Actor(Entity):
         self.andWait(self.attackCost)
 
 class Player(Actor):
-    def __init__(self, xpos, ypos, level, *, collideType="combat_player", playerName=None, className=None,
+    def __init__(self, xpos, ypos, level, *, playerName=None, className=None,
                  **kwargs):
         defaults = {
             'damage': 1,
@@ -154,7 +155,6 @@ class Player(Actor):
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
         #default name/class
-        self.collideType = collideType
         self.className = "Blessed of Kaia"
         self.playerName = "Roderick"
         self.inventory = Inventory(self, self.level)
@@ -193,9 +193,6 @@ class Player(Actor):
             if(isinstance(content, Item)):
                 self.level.output_buffer.add("You're standing on an "+content.name+".")
 
-    #def collide(self):
-    #    return self.collideType
-
     def get(self):
         grounded_item = self.level.grid.getItem(self.xpos, self.ypos)
         if(not isinstance(grounded_item, Item)):
@@ -229,16 +226,19 @@ class Player(Actor):
     def die(self, killer):
         self.level.output_buffer.clear()
         self.level.output_buffer.add("You died! Game over.")
+        self.level.output_buffer.add("Press 'q' to quit.") #CHANGE TO SPACE
         self.level.draw()
-        unicurses.getch()
-        unicurses.clear()
-        unicurses.refresh()
-        unicurses.endwin()
-        print("Be seeing you...")
-        exit()
+        while(True):
+            lineIn = unicurses.getch()
+            if(lineIn==unicurses.CCHAR('q')):
+                unicurses.clear()
+                unicurses.refresh()
+                unicurses.endwin()
+                print("Be seeing you...")
+                exit()
 
 class Enemy(Actor):
-    def __init__(self, xpos, ypos, level, collideType="combat_enemy", **kwargs):
+    def __init__(self, xpos, ypos, level, **kwargs):
         defaults = {
             'damage': 1,
             'description': "A generic enemy.",
@@ -251,7 +251,6 @@ class Enemy(Actor):
             'name': "generic enemy",
             'collideType': "combat_enemy"
         }
-        self.collideType = collideType
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
 
@@ -268,15 +267,12 @@ class Enemy(Actor):
         else:
             self.move("north")
 
-    #def collide(self):
-    #    return "combat_enemy"
-
 def Zombie(x, y, level):
     return Enemy(x, y, level, name="zombie", display='X', moveCost=8,
                  description="A lumbering zombie.")
 
 class Item(Entity):
-    def __init__(self, xpos, ypos, level, weight=1, collideType='false', **kwargs):
+    def __init__(self, xpos, ypos, level, weight=1, **kwargs):
         defaults = {
             'description': "An item",
             'display': '?',
@@ -287,12 +283,8 @@ class Item(Entity):
             'collideType':"false",
         }
         self.weight = weight
-        self.collideType = collideType
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
-
-    def collide(self):
-        return self.collideType
 
 class Equippable(Item):
     def __init__(self, xpos, ypos, level, slot='???', **kwargs):
@@ -350,7 +342,7 @@ class Weapon(Equippable):
         super().__init__(xpos, ypos, level, **defaults)    
 
 class Floor(Entity):
-    def __init__(self, xpos, ypos, level, collideType="false", type='solid', moveCost='0', **kwargs):
+    def __init__(self, xpos, ypos, level, type='solid', moveCost='0', **kwargs):
         defaults = {
             'description': "A floor.",
             'display': '.',
@@ -361,12 +353,11 @@ class Floor(Entity):
             'collideType':"false",
         }
         self.moveCost = moveCost
-        self.collideType = collideType
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
 
 class Wall(Entity):
-    def __init__(self, xpos, ypos, level, collideType="true", **kwargs):
+    def __init__(self, xpos, ypos, level, **kwargs):
         defaults = {
             'description': "A wall.",
             'display': '#',
@@ -376,7 +367,6 @@ class Wall(Entity):
             'name': 'wall',
             'collideType': "true",
         }
-        self.collideType = collideType
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
 

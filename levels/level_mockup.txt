@@ -1,6 +1,6 @@
 #########   #####################
-#.......#####....&..............#                   #
-.?...............#..............#                   #
+#.......#####....#..............#                   #
+.?..............................#                   #
 #.......#####....##############.#                   #
 ###############.###############.#
 ############  #.###############.#
@@ -37,7 +37,7 @@ U:floor:display = U, displayColor = three
 N:floor:display = N, displayColor = one
 L:floor:display = L, displayColor = two
 .:floor:
-i:wall:display = #, displayColor = cyan, collideType = "vision"
+i:wall:collideType = "vision"
 
 Triggers
 

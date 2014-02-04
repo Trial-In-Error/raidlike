@@ -1,7 +1,14 @@
 To do and other general notes:
 # TERM=xterm-256color
+
+try:
+
+
 COLOR WORKS! YAY!
 How do I automate this so it works on all machines?
+
+ python3 -i main.py ./original/los_test
+ valid!
 
 IMPORTANT:
 * equipment
@@ -20,6 +27,8 @@ NEW FEATURES:
 	* blank tiles->walls
 		* blank tiles are for fooling look input parser
 * death screen needs work (any input ends it, so players breeze right through)
+	* generalize this code
+	* change it to accept space bar
 * add output buffer management to level
 
 TWEAKING:

@@ -48,6 +48,9 @@ def masterInputParser(player, level):
         player.doNotWait()
     elif(lineIn==CCHAR('g')):
         player.get()
+    elif(lineIn==CCHAR('s')):
+        world.save()
+        player.doNotWait()
     else:
         level.output_buffer.add("Unknown command.")
         player.doNotWait()
