@@ -8,34 +8,34 @@ import os
 import os.path
 import sys
 import pickle
+import config
 
 class levelManager():
     """
-    The workhorse of the game engine. It updates() every
+    The workhorse of the game engine. It update()s every
     iteration of the main while loop. Every update act()s
     for every actor in that quantum of the timeline. It
     also contains the draw() function, which is called
     as the first part of the player's act() and which
     draw()s and clear()s the output_buffer.
 
-    Currently, __init__() takes the place of load() if 
-    no level is loaded.
-
     The player must always be initialized last, or else
-    the enemies will appear to double-move on the first
+    enemies will appear to double-move on the first
     turn. It looks really awkward.
     """
 
-
+    #timeline = Timeline(16)
 
     def __init__(self, playerSaveState, width, height, player=None):
         self.width = width
         self.height = height
         self.grid = Grid(width, height)
         self.player = Player
-        self.camera = Camera(width,height,self)
+        #self.camera = Camera(width,height,self)
+        self.camera = Camera(51, 19, self)
         self.output_buffer = OutputBuffer(self.camera.lensHeight)
         self.timeline = Timeline(16)
+        self.portalList = []
 
         #not used
         self.viewDistance = 3
@@ -124,16 +124,24 @@ class levelManager():
         self.player = player
 
     def update(self):
-        for actor in self.timeline:
-            actor.act()
-        self.timeline.progress()
+        if(config.world.currentLevel == self):
+            for actor in self.timeline:
+                actor.act()
+            self.timeline.progress()
+        else:
+            config.world.currentLevel.timeline.addToTop(config.player)
+            config.world.update()
 
     def draw(self):
         if self.player is None:
             raise RuntimeError("You didn't call levelManager.setPlayer()!!!!")
-        unicurses.erase()
-        self.camera.draw(self.player.xpos, self.player.ypos)
-        self.output_buffer.output()
+        if(config.world.currentLevel == self):
+            unicurses.erase()
+            self.camera.draw(self.player.xpos, self.player.ypos)
+            self.output_buffer.output()
+        #else:
+            #config.world.currentLevel.timeline.addToTop(config.player)
+            #config.world.currentLevel.update()
 
     def drawDropInputParser(self):
         self.drawInventoryInputParser()

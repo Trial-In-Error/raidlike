@@ -56,7 +56,7 @@ class Entity():
         return self.display
 
 class Portal(Entity):
-        def __init__(self, xpos, ypos, level, *, toWhere, **kwargs):
+        def __init__(self, xpos, ypos, level, *, name, toWhichPortal, toWhichLevel, direction, **kwargs):
             defaults = {
                 'description': "A portal to somewhere else.",
                 'display': "*",
@@ -64,13 +64,19 @@ class Portal(Entity):
                 'displayPriority': 2,
                 'memoryDisplayColor': "red",
                 'name': "portal",
-                'collideType': "none",
+                'collideType': "portal",
             }
             defaults.update(kwargs)
             super().__init__(xpos, ypos, level, **defaults)
-            self.toWhere = toWhere
+            self.toWhichLevel = toWhichLevel
+            self.name = name
+            self.toWhichPortal = toWhichPortal
+            self.direction = direction
+            level.portalList.append(self)
         def collide(self):
-            config.world.currentLevel = config.world.levelDict[self.toWhere]
+            config.world.swapLevels(self)
+            return self.collideType
+
 
 class Actor(Entity):
     def __init__(self, xpos, ypos, level, *, attackCost=2, damage=1, health=3, moveCost=3,
@@ -127,11 +133,17 @@ class Actor(Entity):
         self.xpos+moveDict[direction][0], 
         self.ypos+moveDict[direction][1]):
             temp.append(entity.collide())
+
+
+        if(temp.count("portal")>0):
+            return
+
+
         if(temp.count("actor")>0):
             raise IndexError #HOW DO I DO EXCEPTIONS???
         if(temp.count("true")==0
         and temp.count("combat_player")==0
-        and temp.count("combat_enemy")==0):
+        and temp.count("combat_enemy")==0 and temp.count("portal")==0):
             self.doMove(moveDict[direction][0], moveDict[direction][1])
         elif(temp.count("combat_player")==1):
             self.doAttack(moveDict[direction][0], moveDict[direction][1])
@@ -195,9 +207,11 @@ class Player(Actor):
         for entity in self.level.grid.get(self.xpos + moveDict[direction][0],
         self.ypos + moveDict[direction][1]):
             temp.append(entity.collide())
+        if(temp.count("portal")>0):
+            return
         if(temp.count("actor")>0):
             raise IndexError #HOW DO I DO EXCEPTIONS???
-        if(temp.count("true")==0 and temp.count("combat_enemy")==0):
+        if(temp.count("true")==0 and temp.count("combat_enemy")==0 and temp.count("portal")==0):
             self.doMove(moveDict[direction][0], moveDict[direction][1])
             self.postMoveDescribe()
         elif(temp.count("combat_enemy")==1):

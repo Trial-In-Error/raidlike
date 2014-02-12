@@ -1,15 +1,3 @@
-To do and other general notes:
-# TERM=xterm-256color
-
-try:
-
-
-COLOR WORKS! YAY!
-How do I automate this so it works on all machines?
-
- python3 -i main.py ./original/los_test
- valid!
-
 IMPORTANT:
 * equipment
 * migrate colorDict & extend to type

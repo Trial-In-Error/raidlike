@@ -15,12 +15,15 @@ before the players' quanta.
 """
 
 try:
+
+    # Turn on terminal 256-color mode
     try:
-        print(os.environ['TERM'])
+        bool(os.environ['TERM']) #?
     except KeyError:
         os.environ['TERM'] = foo
     os.environ['TERM'] = "xterm-256color"
 
+    # Curses set-up
     stdscr = initscr()
     start_color()
     noecho()
@@ -28,14 +31,18 @@ try:
     curs_set(0)
     keypad(stdscr, True)
     start_color()
+
+    # Game world set-up
     world = worldManager()
     config.world = world
-
     stdscr.refresh()
+
+    # Main loop
     while(True):
         world.update()
 
 except:
+    #os.environ['TERM'] = "xterm"
     clear()
     refresh()
     endwin()

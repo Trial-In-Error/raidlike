@@ -4,12 +4,12 @@
 #.....####..#
 #...#..###..#
 #....#..##..#
-#.....@..#..#
+#..*.....#..#
 ###...#.....#
 #....####..##
 #.#.....#..##
 #...#...#...#
-#.#..#.....*#
+#.#..#......#
 #############
 
 Glyphs
@@ -18,6 +18,6 @@ Glyphs
 .:floor:
 x:enemy:name = skeleton, description = a mess., damage = 1
 X:zombie:
-*:portal:toWhere = one
+*:portal:toWhichLevel = one, toWhichPortal = one_entry, name = two_entry, direction = any
 
 Triggers
