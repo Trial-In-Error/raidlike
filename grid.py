@@ -138,7 +138,9 @@ class Grid():
         if(temp.count("vision_block")>0 or temp.count("true")>0):
             return
         self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
-        if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall):
+        if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall
+            or (type(self.getCell(xpos, ypos).getBottomContent()) is Wall
+                and self.getCell(xpos, ypos).getBottomContent().collideType=="see_through")):
         #THIS LINE
                 new_xpos = xpos + moveDict[direction][0]
                 new_ypos = ypos + moveDict[direction][1]
@@ -152,7 +154,9 @@ class Grid():
     def spreadDiagonal(self, xpos, ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight):
         try:
             self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
-            if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall):
+            if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall
+                or (type(self.getCell(xpos, ypos).getBottomContent()) is Wall
+                    and self.getCell(xpos, ypos).getBottomContent().collideType=="see_through")):
             #AND THIS LINE
                 for newDirection in moveDict[direction][4:]:
                     new_xpos = xpos + moveDict[newDirection][0]
@@ -169,7 +173,9 @@ class Grid():
     def spreadPrimeOrthogonal(self,xpos, ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight):
         try:
             self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
-            if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall):
+            if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall
+                or (type(self.getCell(xpos, ypos).getBottomContent()) is Wall
+                    and self.getCell(xpos, ypos).getBottomContent().collideType=="see_through")):
                 for newDirection in moveDict[direction][4:]:
                     new_xpos = xpos + moveDict[newDirection][0]
                     new_ypos = ypos + moveDict[newDirection][1]
@@ -206,13 +212,13 @@ class Cell():
         try:
             return sorted(self.contents, reverse=True)[0]
         except IndexError:
-            raise RuntimeError("Theres an empty cell at: ("+str(self.gridxpos)+", "+str(self.gridypos)+").")
+            raise RuntimeError("Attempted to get top content, but there's an empty cell at: ("+str(self.gridxpos)+", "+str(self.gridypos)+").")
 
     def getBottomContent(self):
         try:
             return sorted(self.contents)[0]
         except IndexError:
-            raise RuntimeError("Theres an empty cell at: ("+str(self.gridxpos)+", "+str(self.gridypos)+").")
+            raise RuntimeError("Attempted to get bottom content, but there's an empty cell at: ("+str(self.gridxpos)+", "+str(self.gridypos)+").")
 
     def drawContentsRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
         self.hasBeenSeen = True

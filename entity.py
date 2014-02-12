@@ -143,7 +143,7 @@ class Actor(Entity):
             raise IndexError #HOW DO I DO EXCEPTIONS???
         if(temp.count("true")==0
         and temp.count("combat_player")==0
-        and temp.count("combat_enemy")==0 and temp.count("portal")==0):
+        and temp.count("combat_enemy")==0 and temp.count("portal")==0 and temp.count("see_through")==0):
             self.doMove(moveDict[direction][0], moveDict[direction][1])
         elif(temp.count("combat_player")==1):
             self.doAttack(moveDict[direction][0], moveDict[direction][1])
@@ -211,7 +211,7 @@ class Player(Actor):
             return
         if(temp.count("actor")>0):
             raise IndexError #HOW DO I DO EXCEPTIONS???
-        if(temp.count("true")==0 and temp.count("combat_enemy")==0 and temp.count("portal")==0):
+        if(temp.count("true")==0 and temp.count("combat_enemy")==0 and temp.count("portal")==0 and temp.count("see_through")==0):
             self.doMove(moveDict[direction][0], moveDict[direction][1])
             self.postMoveDescribe()
         elif(temp.count("combat_enemy")==1):

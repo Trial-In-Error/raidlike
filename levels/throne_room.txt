@@ -1,11 +1,11 @@
                      #                                                                            
-                    ###      #                                                                    
-       #             #      ###      #                                                            
-      ###            #       #      ###                                                           
-       #   #####     #       #       #                                                            
-       #  ##...##    #       #       #                                                            
-       #  #.###.#    #       #       #                                                            
-      ### #.###.#   ###     ###     ###                                                           
+                    ###,,,,,,#                                                                    
+       #             #,,,,,,###      #                                                            
+      ###            #,,,,,,,#      ###                                                           
+       #   #####     #,,,,,,,#       #                                                            
+       #  ##...##    #,,,,,,,#       #                                                            
+       #  #.###.#    #,,,,,,,#       #                                                            
+      ### #.###.#   ###,,,,,###     ###                                                           
     #######<###.#########-#######-#######-##-###                                                  
    ##.....#####.#..............................##                                                 
   ##.......#####................................##                                                
@@ -41,7 +41,7 @@
 Glyphs
 |:wall:display = |
 #:wall:
--:wall:display = -
+-:wall:display = -, collideType = see_through
 .:floor:
 *:portal:toWhichLevel = one, toWhichPortal = one_entry, name = two_entry, direction = any
 >:floor:display = >
@@ -49,5 +49,6 @@ Glyphs
 &:floor:display = &
 \:floor:display = \
 /:floor:display = /
+,:floor:display = ;
 
 Triggers
