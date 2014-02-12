@@ -1,5 +1,5 @@
 import sys
-from entity import Wall, Item
+from entity import Wall, Item, Portal
 
 class Grid():
     """
@@ -216,7 +216,11 @@ class Cell():
 
     def getBottomContent(self):
         try:
-            return sorted(self.contents)[0]
+            #if there exists a portal, return it?
+            for element in self.contents:
+                if(type(element) == Portal):
+                    return element
+                return sorted(self.contents)[0]
         except IndexError:
             raise RuntimeError("Attempted to get bottom content, but there's an empty cell at: ("+str(self.gridxpos)+", "+str(self.gridypos)+").")
 

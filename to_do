@@ -1,3 +1,28 @@
+new
+portals
+	direction-choosing
+	description
+	differentiate internal/external name!!!
+	does not show in memory
+		DONE
+walls
+	blocks-movement-but-not-vision typing
+		done!
+color dict
+	where does they all come from? where do they all belong? ._.
+level editor
+	commas are not legal as a display character
+troubleshooting
+	implement a give X, Y location command
+
+
+
+
+
+
+
+
+old
 IMPORTANT:
 * equipment
 * migrate colorDict & extend to type
