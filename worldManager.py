@@ -16,6 +16,7 @@ class worldManager():
 		self.levelTwo = levelManager.load("throne_room")
 		self.levelTwo.camera.lineOfSight = 5
 		self.currentLevel = self.levelOne
+		self.pantheon = None
 		self.levelDict = {
 			'one' : self.levelOne,
 			'two' : self.levelTwo,

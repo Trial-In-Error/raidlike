@@ -33,9 +33,9 @@ class Entity():
 
     def drawRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
         #TO CHANGE THE WAY COLOR DICT WORKS, REMOVE self.level.colorDict TO SELF.COLORDICT
-        unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
+        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[self.displayColor][0]))
         unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
-        unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
+        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.displayColor][0]))
 
     def drawRelativeBold(self, player_xpos, player_ypos, lensWidth, lensHeight):
         unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
@@ -170,7 +170,7 @@ class Actor(Entity):
         self.andWait(self.attackCost)
 
 class Player(Actor):
-    def __init__(self, xpos, ypos, level, *, playerName=None, title=None,
+    def __init__(self, xpos, ypos, level, *, playerName=None, title=None, worshipping=None,
                  **kwargs):
         defaults = {
             'damage': 1,
@@ -188,6 +188,7 @@ class Player(Actor):
         #default name/class
         self.title = "Blessed of Kaia"
         self.playerName = "Roderick"
+        self.worshipping = worshipping
         self.inventory = Inventory(self, self.level)
         self.boonList = []
 

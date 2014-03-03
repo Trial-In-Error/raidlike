@@ -7,6 +7,7 @@ class OutputBuffer(): #rename outputManager?
     def add(self, string):
         self.oBuffer.append(string)
     def output(self):
+        #DOESN'T SAFEGUARD COLOR?!
         for stringCount, string in enumerate(self.oBuffer):
             mvaddstr(self.cameraHeight + stringCount, 0, str(string))
         self.clear()

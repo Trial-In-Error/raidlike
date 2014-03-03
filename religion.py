@@ -2,7 +2,7 @@ class Pantheon():
     """
     pass.
     """
-    def __init__(self, width, height):
+    def __init__(self):
         self.Brand = Brand()
 
 class God():

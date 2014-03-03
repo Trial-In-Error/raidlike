@@ -1,15 +1,18 @@
 new
 portals
 	direction-choosing
+		DONE
 	description
 	differentiate internal/external name!!!
 	does not show in memory
 		DONE
 walls
 	blocks-movement-but-not-vision typing
-		done!
+		DONE
 color dict
 	where do they all come from? where do they all belong? ._.
+	config.py?
+		initialization in worldMan?
 level editor
 	commas are not legal as a display character
 troubleshooting
@@ -18,7 +21,9 @@ line-of-sight
 	performance issues with large LoS!!!
 		7 is laggy, 8 is terrible, 9 is godawful
 
-
+death needs to save gamestate / remove gamestate
+output buffer not color safeguarded
+main menu->credits screen
 
 TILED
 

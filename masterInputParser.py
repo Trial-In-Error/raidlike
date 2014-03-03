@@ -16,6 +16,7 @@ def masterInputParser(player, level):
     lineIn = getch()
     if(lineIn==CCHAR('q')):
         #os.environ['TERM'] = "xterm"
+        config.world.save()
         clear()
         refresh()
         endwin()
