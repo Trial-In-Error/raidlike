@@ -38,7 +38,7 @@ N:floor:display = N, displayColor = one
 L:floor:display = L, displayColor = two
 .:floor:
 i:wall:collideType = "vision"
-*:portal:toWhichLevel = two, toWhichPortal = two_entry, name = one_entry, direction = any
+*:portal:toWhichLevel = two, toWhichPortal = two_entry, name = one_entry, direction = w
 
 Triggers
 

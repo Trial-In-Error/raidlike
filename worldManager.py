@@ -14,10 +14,7 @@ class worldManager():
 		self.levelOne = levelManager.load("level_mockup")
 		#self.levelTwo = levelManager.load("los_test")
 		self.levelTwo = levelManager.load("throne_room")
-		#self.levelTwo.camera.lensWidth = 10
-		#self.levelTwo.camera.adjLensWidth = 5
-		#self.levelTwo.camera.lensHeight = 20
-		#self.levelTwo.camera.adjLensHeight = 10
+		self.levelTwo.camera.lineOfSight = 5
 		self.currentLevel = self.levelOne
 		self.levelDict = {
 			'one' : self.levelOne,
@@ -52,10 +49,10 @@ class worldManager():
             # place player in new level
             for portal in self.currentLevel.portalList:
                 if(portal.name == portalInc.toWhichPortal):
-                    self.currentLevel.grid.add(config.player, portal.xpos-1, portal.ypos)
+                    self.currentLevel.grid.add(config.player, portal.xpos + config.directions[portal.direction][0], portal.ypos + config.directions[portal.direction][1])
                     self.currentLevel.player = config.player
-                    self.currentLevel.player.xpos = portal.xpos-1
-                    self.currentLevel.player.ypos = portal.ypos
+                    self.currentLevel.player.xpos = portal.xpos + config.directions[portal.direction][0]
+                    self.currentLevel.player.ypos = portal.ypos + config.directions[portal.direction][1]
                     self.currentLevel.camera.player = config.player
                     #self.currentLevel.draw()
                     self.currentLevel.timeline.addToTop(config.player)

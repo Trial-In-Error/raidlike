@@ -9,15 +9,18 @@ walls
 	blocks-movement-but-not-vision typing
 		done!
 color dict
-	where does they all come from? where do they all belong? ._.
+	where do they all come from? where do they all belong? ._.
 level editor
 	commas are not legal as a display character
 troubleshooting
 	implement a give X, Y location command
+line-of-sight
+	performance issues with large LoS!!!
+		7 is laggy, 8 is terrible, 9 is godawful
 
 
 
-
+TILED
 
 
 

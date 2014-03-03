@@ -10,6 +10,7 @@ class Camera():
         #self.adjLensHeight = lensHeight
         self.grid = self.level.grid
         self.player = self.level.player
+        self.lineOfSight = 5
 
     def isInView(self, xpos, ypos):
         if(xpos > (self.player.xpos - self.adjLensWidth) and
@@ -22,7 +23,7 @@ class Camera():
 
     def draw(self, player_xpos, player_ypos):
         self.drawFromMemory(player_xpos, player_ypos)
-        self.level.grid.spreadDraw(player_xpos, player_ypos, 5, 5, self.adjLensWidth, self.adjLensHeight)
+        self.level.grid.spreadDraw(player_xpos, player_ypos, self.lineOfSight, self.lineOfSight, self.adjLensWidth, self.adjLensHeight)
         self.drawHUD()
 
     def drawFromMemory(self, player_xpos, player_ypos):
