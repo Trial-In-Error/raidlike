@@ -3,6 +3,7 @@ from masterInputParser import masterInputParser
 from sys import exit
 from inventory import Inventory
 import config
+from religion import Boon
 
 class Entity():
     def __init__(self, xpos, ypos, level, *,
@@ -188,6 +189,7 @@ class Player(Actor):
         self.className = "Blessed of Kaia"
         self.playerName = "Roderick"
         self.inventory = Inventory(self, self.level)
+        self.boonList = []
 
     def act(self):
         self.level.draw()
