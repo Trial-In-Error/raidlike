@@ -46,7 +46,7 @@ class Camera():
             raise RuntimeError("You didn't call levelManager.setPlayer()!!!!")
         unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict["white"][0]))
         unicurses.mvaddstr(1, self.lensWidth, self.level.player.playerName)
-        unicurses.mvaddstr(2, self.lensWidth, self.level.player.className)
+        unicurses.mvaddstr(2, self.lensWidth, self.level.player.title)
         unicurses.mvaddstr(3, self.lensWidth, "Health: "+str(self.level.player.health))
         unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict["white"][0]))
         self.drawHUDBoundaries()

@@ -3,7 +3,7 @@ class Pantheon():
     pass.
     """
     def __init__(self, width, height):
-        self.Brand = new Brand()
+        self.Brand = Brand()
 
 class God():
     def __init__(self):
@@ -13,7 +13,7 @@ class God():
         self.boonDict = {}
 
 class Brand(God):
-    def __init__(self, xpos, ypos, grid):
+    def __init__(self):
         pass
 
 class Boon():

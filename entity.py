@@ -170,7 +170,7 @@ class Actor(Entity):
         self.andWait(self.attackCost)
 
 class Player(Actor):
-    def __init__(self, xpos, ypos, level, *, playerName=None, className=None,
+    def __init__(self, xpos, ypos, level, *, playerName=None, title=None,
                  **kwargs):
         defaults = {
             'damage': 1,
@@ -186,7 +186,7 @@ class Player(Actor):
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
         #default name/class
-        self.className = "Blessed of Kaia"
+        self.title = "Blessed of Kaia"
         self.playerName = "Roderick"
         self.inventory = Inventory(self, self.level)
         self.boonList = []
