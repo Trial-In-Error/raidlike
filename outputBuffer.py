@@ -10,7 +10,7 @@ class OutputBuffer(): #rename outputManager?
     def add_formatted(self, inTuple):
         self.oBuffer.append(inTuple)
     def output(self):
-         for tupleCount, inTuple in enumerate(self.oBuffer):
+        for tupleCount, inTuple in enumerate(self.oBuffer):
             unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[inTuple[1]]))
             unicurses.mvaddstr(self.cameraHeight + tupleCount, 0, str(inTuple[0]))
             unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[inTuple[1]]))
