@@ -44,22 +44,22 @@ class Camera():
                     pass
 
     def drawArbitrary(self, xpos, ypos, display, displayColor):
-        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[displayColor][0]))
+        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[displayColor]))
         unicurses.mvaddch(-ypos+self.level.player.ypos +self.adjLensHeight, xpos-self.level.player.xpos+self.adjLensWidth, display)
-        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[displayColor][0]))
+        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[displayColor]))
 
     def drawHUD(self):
         if self.player is None:
             raise RuntimeError("You didn't call levelManager.setPlayer()!!!!")
-        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict["white"][0]))
+        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict["white"]))
         unicurses.mvaddstr(1, self.lensWidth, self.level.player.playerName)
         unicurses.mvaddstr(2, self.lensWidth, self.level.player.title)
         unicurses.mvaddstr(3, self.lensWidth, "Health: "+str(self.level.player.health))
-        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"][0]))
+        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"]))
         self.drawHUDBoundaries()
 
     def drawHUDBoundaries(self):
-        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict["white"][0]))
+        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict["white"]))
         for ypos in range(0, self.lensHeight):
             unicurses.mvaddch(ypos, self.lensWidth-1, "|")
             unicurses.mvaddch(ypos, 0, "|")
@@ -71,4 +71,4 @@ class Camera():
         for xpos in range(self.lensWidth, self.lensWidth+16):
             unicurses.mvaddch(0, xpos, "-")
             unicurses.mvaddch(self.lensHeight-1, xpos, "-")
-        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"][0]))
+        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"]))

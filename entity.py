@@ -33,19 +33,19 @@ class Entity():
 
     def drawRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
         #TO CHANGE THE WAY COLOR DICT WORKS, REMOVE self.level.colorDict TO SELF.COLORDICT
-        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[self.displayColor][0]))
+        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
         unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
-        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.displayColor][0]))
+        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
 
     def drawRelativeBold(self, player_xpos, player_ypos, lensWidth, lensHeight):
-        unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
+        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
         unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display, unicurses.A_REVERSE)
-        unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.displayColor][0]))
+        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
 
     def drawRelativeFromMemory(self,player_xpos, player_ypos, lensWidth, lensHeight):
-        unicurses.attron(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
+        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[self.memoryDisplayColor]))
         unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
-        unicurses.attroff(unicurses.COLOR_PAIR(self.level.colorDict[self.memoryDisplayColor][0]))
+        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.memoryDisplayColor]))
 
     def describe(self):
         return self.description
