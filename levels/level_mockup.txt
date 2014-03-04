@@ -40,7 +40,7 @@ L:floor:display = L, displayColor = two
 -:triggertile:triggerDescription = The floor is shaking., repeatable = True
 |:triggertile:triggerDescription = The room rumbles., repeatable = False, color = red
 i:wall:collideType = "vision"
-*:portal:toWhichLevel = two, toWhichPortal = two_entry, name = one_entry, direction = w
+*:portal:toWhichLevel = two, toWhichPortal = two_entry, internalName = one_entry, direction = w
 
 Triggers
 

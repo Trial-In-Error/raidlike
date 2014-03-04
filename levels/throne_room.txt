@@ -43,7 +43,7 @@ Glyphs
 #:wall:displayColor = g18, memoryDisplayColor = g14
 -:wall:display = -, collideType = see_through, displayColor = stained_glass, memoryDisplayColor = stained_glass_memory
 .:floor:displayColor = g20, memoryDisplayColor = g8
-*:portal:toWhichLevel = one, toWhichPortal = one_entry, name = two_entry, direction = e
+*:portal:toWhichLevel = one, toWhichPortal = one_entry, internalName = two_entry, direction = e
 >:floor:display = >
 <:floor:display = <
 &:wall:display = &

@@ -49,7 +49,7 @@ class worldManager():
             self.currentLevel.setPlayer(config.player)
             # place player in new level
             for portal in self.currentLevel.portalList:
-                if(portal.name == portalInc.toWhichPortal):
+                if(portal.internalName == portalInc.toWhichPortal):
                     self.currentLevel.grid.add(config.player, portal.xpos + config.directions[portal.direction][0], portal.ypos + config.directions[portal.direction][1])
                     self.currentLevel.player = config.player
                     self.currentLevel.player.xpos = portal.xpos + config.directions[portal.direction][0]

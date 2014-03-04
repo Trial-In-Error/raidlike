@@ -14,7 +14,8 @@ death needs to save gamestate / remove gamestate
 output buffer not color safeguarded
 main menu->credits screen
 main menu->choose god
-
+triggertiles->queue up multiple lines of text
+player->worshipping never set
 
 
 

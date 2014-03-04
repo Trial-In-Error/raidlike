@@ -79,7 +79,7 @@ class TriggerTile(Entity):
             return self.collideType
 
 class Portal(Entity):
-        def __init__(self, xpos, ypos, level, *, name, toWhichPortal, toWhichLevel, direction, **kwargs):
+        def __init__(self, xpos, ypos, level, *, internalName, toWhichPortal, toWhichLevel, direction, **kwargs):
             defaults = {
                 'description': "A portal to somewhere else.",
                 'display': "*",
@@ -91,8 +91,9 @@ class Portal(Entity):
             }
             defaults.update(kwargs)
             super().__init__(xpos, ypos, level, **defaults)
+            self.internalName = internalName
             self.toWhichLevel = toWhichLevel
-            self.name = name
+            #self.name = name
             self.toWhichPortal = toWhichPortal
             self.direction = direction
             level.portalList.append(self)
