@@ -86,21 +86,21 @@ try:
             if(selected == 0):
                 # Game world set-up
                 world = worldManager()
-                pantheon = Pantheon()
+                #pantheon = Pantheon()
                 config.world = world
-                config.pantheon = pantheon
-                world.pantheon = config.pantheon
+                #config.pantheon = pantheon
+                world.pantheon = Pantheon()
                 stdscr.refresh()
 
                 # Main loop
                 while(True):
                     world.update()
             elif(selected == 1):
-                # Game world set-up
+                # Game world load
                 world = worldManager()
                 world.load()
                 config.world = world
-                config.pantheon = world.pantheon
+                #config.pantheon = world.pantheon
                 stdscr.refresh()
 
                 # Main loop

@@ -10,7 +10,7 @@
 #####.#################&#
 #####.#################%#
 #####.#############...#?#
-#####...............*..@#
+#####.......|.-.....*..@#
 ##############.####...###
 ##############.##########
 ##############.#
@@ -37,6 +37,8 @@ U:floor:display = U, displayColor = three
 N:floor:display = N, displayColor = one
 L:floor:display = L, displayColor = two
 .:floor:
+-:triggertile:triggerDescription = The floor is shaking., repeatable = True
+|:triggertile:triggerDescription = The room rumbles., repeatable = False, color = red
 i:wall:collideType = "vision"
 *:portal:toWhichLevel = two, toWhichPortal = two_entry, name = one_entry, direction = w
 

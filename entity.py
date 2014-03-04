@@ -56,6 +56,28 @@ class Entity():
     def __str__(self):
         return self.display
 
+class TriggerTile(Entity):
+        def __init__(self, xpos, ypos, level, repeatable=True, triggerDescription=None, color="white", **kwargs):
+            defaults = {
+                'collideType': "false",
+            }
+            defaults.update(kwargs)
+            self.triggerDescription = triggerDescription
+            self.color = color
+            try:
+                self.repeatable = eval(repeatable)
+            except TypeError:
+                self.repeatable = repeatable
+            self.hasBeenCollided = False
+            super().__init__(xpos, ypos, level, **defaults)
+
+        def collide(self):
+            if(self.triggerDescription and self.repeatable
+                or self.triggerDescription and not self.hasBeenCollided):
+                config.world.currentLevel.output_buffer.add_formatted([self.triggerDescription, self.color])
+            self.hasBeenCollided = True
+            return self.collideType
+
 class Portal(Entity):
         def __init__(self, xpos, ypos, level, *, name, toWhichPortal, toWhichLevel, direction, **kwargs):
             defaults = {
