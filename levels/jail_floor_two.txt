@@ -1,0 +1,33 @@
+.....####
+.....#.>#
+.....#.##
+.#####+######
+.#...#.+.+.h#
+.#...#.#.####
+.#...#.#.+..#
+.#...#.#.####
+.#...#.#.+.h#
+.#...#.#.####
+.#...#.#.+..#
+.#...#.#.####
+.#...#.#.+.h#
+.#...#.#.####
+.#...#.+.+.h#
+.#...#+#########
+##.............#
+#..............#
+##.............#
+.#.............#
+.#.............#
+.#.............#
+.###############
+
+
+Glyphs
+#:wall:displayColor = g18, memoryDisplayColor = g14
+.:floor:displayColor = g20, memoryDisplayColor = g8
+>:portal:toWhichLevel = jailCellOne, toWhichPortal = jailCellOneStair, internalName = jailCellTwoStair, direction = w, display = >, displayColor = g20, memoryDisplayColor = g8
+h:enemy:
++:floor:display = +, displayColor = 94, memoryDisplayColor = 94
+
+Triggers

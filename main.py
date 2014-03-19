@@ -38,12 +38,7 @@ try:
     # Set up the global colorPalette
     for i in range(0, 256):
         config.colorPalette.update({i:[i, i, unicurses.COLOR_BLACK]})
-    config.colorPalette.update({256:[256, unicurses.COLOR_YELLOW, unicurses.COLOR_BLACK]})
-    config.colorPalette.update({257:[257, unicurses.COLOR_CYAN, unicurses.COLOR_BLACK]})
-    config.colorPalette.update({258:[258, unicurses.COLOR_RED, unicurses.COLOR_BLACK]})
-    config.colorPalette.update({259:[259, unicurses.COLOR_WHITE, unicurses.COLOR_BLACK]})
-    config.colorPalette.update({260:[260, unicurses.COLOR_BLUE, unicurses.COLOR_BLACK]})
-    config.colorPalette.update({261:[261, unicurses.COLOR_BLACK, unicurses.COLOR_BLACK]})
+        config.colorDict.update({str(i):i})
     for entry in config.colorPalette:
         unicurses.init_pair(config.colorPalette[entry][0], config.colorPalette[entry][1], config.colorPalette[entry][2])
 
@@ -86,9 +81,7 @@ try:
             if(selected == 0):
                 # Game world set-up
                 world = worldManager()
-                #pantheon = Pantheon()
                 config.world = world
-                #config.pantheon = pantheon
                 world.pantheon = Pantheon()
                 stdscr.refresh()
 
@@ -100,7 +93,6 @@ try:
                 world = worldManager()
                 world.load()
                 config.world = world
-                #config.pantheon = world.pantheon
                 stdscr.refresh()
 
                 # Main loop

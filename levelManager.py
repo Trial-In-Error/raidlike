@@ -24,24 +24,19 @@ class levelManager():
     turn. It looks really awkward.
     """
 
-    #timeline = Timeline(16)
-
     def __init__(self, playerSaveState, width, height, player=None):
         self.width = width
         self.height = height
         self.grid = Grid(width, height)
         self.player = Player
-        #self.camera = Camera(width,height,self)
         self.camera = Camera(51, 19, self)
         self.output_buffer = OutputBuffer(self.camera.lensHeight)
         self.timeline = Timeline(16)
         self.portalList = []
+        self.triggerTileList = []
 
         #not used
         self.viewDistance = 3
-
-        #these should be in entity, not levelmanager...
-        self.coloringDict = {"enemy":"yellow"}
 
     @staticmethod
     def load(name):
@@ -97,7 +92,8 @@ class levelManager():
                             level.camera.player = level.player
                             classes["floor"](x, y, level)
                         else:
-                            if class_dict[char] in (Wall, Floor):
+                            # automatically places floors under all non-floor, non-wall, non-triggertile tiles! 
+                            if class_dict[char] in (Wall, Floor, TriggerTile, Door):
                                 #print("adding {} at x={} y={}".format(class_dict[char], x, y), file=sys.stderr)
                                 class_dict[char](x, y, level, **arg_dict[char])
                             else:
@@ -127,9 +123,6 @@ class levelManager():
             unicurses.erase()
             self.camera.draw(self.player.xpos, self.player.ypos)
             self.output_buffer.output()
-        #else:
-            #config.world.currentLevel.timeline.addToTop(config.player)
-            #config.world.currentLevel.update()
 
     def drawDropInputParser(self):
         self.drawInventoryInputParser()
@@ -150,10 +143,10 @@ class levelManager():
     def populateFloor(self):
         for y in range(1, self.height+1):
             for x in range(1, self.width+1):
-                if all(not isinstance(i, Wall)
-                       for i in self.grid.get(x, y)):
+                if all((not isinstance(i, Wall) and (not isinstance(i, TriggerTile))) for i in self.grid.get(x, y)):
                     #for debugging, use below to print column/row indices
                     #entity(x, y, self, str(y))
+                    #if(not isinstance(i, TriggerTile)):
                     Floor(x, y, self, display='.')
 
     def populateWalls(self):
@@ -163,15 +156,3 @@ class levelManager():
         for y in range(2, self.height):
             Wall(1, y, self)
             Wall(self.width, y, self)
-
-    #def save(self):
-    #    #DEPRECATED BY WORLDMANAGER.SAVE()
-    #    with open('./levels/original/io_test', mode='wb') as io_test:
-    #        pickle.dump(self, io_test)
-
-#import pickle
-#with open('./levels/original/io_test', mode='rb') as io_test:
-#    a = pickle.load(io_test)
-#
-#import bootstrap
-#bootstrap.bootstrap(a)

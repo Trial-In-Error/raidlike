@@ -1,11 +1,12 @@
 import unicurses
 import config
 
-class OutputBuffer(): #rename outputManager?
+class OutputBuffer(): # rename outputManager?
     def __init__(self, cameraHeight):
         self.oBuffer = []
         self.cameraHeight = cameraHeight
     def add(self, string):
+        # change default text color?
         self.oBuffer.append([string, "white"])
     def add_formatted(self, inTuple):
         self.oBuffer.append(inTuple)

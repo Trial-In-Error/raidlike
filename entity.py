@@ -57,49 +57,77 @@ class Entity():
         return self.display
 
 class TriggerTile(Entity):
-        def __init__(self, xpos, ypos, level, repeatable=True, triggerDescription=None, color="white", **kwargs):
-            defaults = {
-                'collideType': "false",
-            }
-            defaults.update(kwargs)
-            self.triggerDescription = triggerDescription
-            self.color = color
-            try:
-                self.repeatable = eval(repeatable)
-            except TypeError:
-                self.repeatable = repeatable
-            self.hasBeenCollided = False
-            super().__init__(xpos, ypos, level, **defaults)
+    def __init__(self, xpos, ypos, level, repeatable=True, triggerDescription=None, internalName=None, textColor="white", **kwargs):
+        defaults = {
+        }
+        defaults.update(kwargs)
+        self.triggerDescription = triggerDescription
+        self.level = level
+        self.textColor = textColor
+        try:
+            self.repeatable = eval(repeatable)
+        except TypeError:
+            self.repeatable = repeatable
+        self.hasBeenCollided = False
+        self.internalName = internalName
+        if(self.internalName and not self.repeatable):
+            self.level.triggerTileList.append(self)
+        super().__init__(xpos, ypos, level, **defaults)
 
-        def collide(self):
-            if(self.triggerDescription and self.repeatable
-                or self.triggerDescription and not self.hasBeenCollided):
-                config.world.currentLevel.output_buffer.add_formatted([self.triggerDescription, self.color])
-            self.hasBeenCollided = True
-            return self.collideType
+    def collide(self):
+        if(self.triggerDescription and self.repeatable
+            or self.triggerDescription and not self.hasBeenCollided):
+            config.world.currentLevel.output_buffer.add_formatted([self.triggerDescription, self.textColor])
+            for entry in self.level.triggerTileList:
+                if(entry.internalName == self.internalName):
+                    entry.hasBeenCollided = True
+        self.hasBeenCollided = True
+        return self.collideType
+
+class Door(Entity):
+    def __init__(self, xpos, ypos, level, collideType="closed_door", openDescription=None, closeDescription=None, openDisplay="'", closedDisplay="+", textColor="white", **kwargs):
+        defaults = {
+            'display': "+",
+            'displayColor': "94",
+            'memoryDisplayColor': "94",
+            'collideType': "closed_door",
+            'name': "door",
+            'description': "A closed door.",
+        }
+        defaults.update(kwargs)
+        self.level = level
+        self.textColor = textColor
+        self.openDisplay = openDisplay
+        self.closedDisplay = closedDisplay
+        self.openDescription = openDescription
+        self.closeDescription = closeDescription
+        super().__init__(xpos, ypos, level, **defaults)
+
+    def collide(self):
+        return self.collideType
 
 class Portal(Entity):
-        def __init__(self, xpos, ypos, level, *, internalName, toWhichPortal, toWhichLevel, direction, **kwargs):
-            defaults = {
-                'description': "A portal to somewhere else.",
-                'display': "*",
-                'displayColor': "red",
-                'displayPriority': 2,
-                'memoryDisplayColor': "red",
-                'name': "portal",
-                'collideType': "portal",
-            }
-            defaults.update(kwargs)
-            super().__init__(xpos, ypos, level, **defaults)
-            self.internalName = internalName
-            self.toWhichLevel = toWhichLevel
-            #self.name = name
-            self.toWhichPortal = toWhichPortal
-            self.direction = direction
-            level.portalList.append(self)
-        def collide(self):
-            config.world.swapLevels(self)
-            return self.collideType
+    def __init__(self, xpos, ypos, level, *, internalName, toWhichPortal, toWhichLevel, direction, **kwargs):
+        defaults = {
+            'description': "A portal to somewhere else.",
+            'display': "*",
+            'displayColor': "red",
+            'displayPriority': 2,
+            'memoryDisplayColor': "red",
+            'name': "portal",
+            'collideType': "portal",
+        }
+        defaults.update(kwargs)
+        super().__init__(xpos, ypos, level, **defaults)
+        self.internalName = internalName
+        self.toWhichLevel = toWhichLevel
+        #self.name = name
+        self.toWhichPortal = toWhichPortal
+        self.direction = direction
+        level.portalList.append(self)
+    def collide(self):
+        config.world.swapLevels(self)
+        return self.collideType
 
 
 class Actor(Entity):
@@ -235,6 +263,8 @@ class Player(Actor):
             temp.append(entity.collide())
         if(temp.count("portal")>0):
             return
+        if(temp.count("closed_door")>0):
+            self.openDoor(moveDict[direction][0], moveDict[direction][1])
         if(temp.count("actor")>0):
             raise IndexError #HOW DO I DO EXCEPTIONS???
         if(temp.count("true")==0 and temp.count("combat_enemy")==0 and temp.count("portal")==0 and temp.count("see_through")==0):
@@ -279,7 +309,15 @@ class Player(Actor):
             self.level.output_buffer.add("That item isn't in your inventory!")
             #self.level.draw()
             self.andWait(0)
-        self.andWait(0)            
+        self.andWait(0)
+
+    def openDoor(self, xDiff, yDiff):
+        for entity in self.level.grid.get(self.xpos+xDiff, self.ypos+yDiff):
+            if(isinstance(entity, Door) and entity.collideType == "closed_door"):
+                entity.collideType = "open_door"
+                entity.display = entity.openDisplay
+                entity.description = "An open door."
+                self.andWait(1)
 
     def die(self, killer):
         self.level.output_buffer.clear()

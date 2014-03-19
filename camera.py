@@ -8,7 +8,6 @@ class Camera():
         self.adjLensWidth = int((lensWidth/2))
         self.lensHeight = lensHeight
         self.adjLensHeight = int((lensHeight/2))
-        #self.adjLensHeight = lensHeight
         try:
             self.grid = self.level.grid
         except AttributeError:

@@ -2,9 +2,6 @@ import sys
 from unicurses import *
 import string
 import config
-#from levelManager import levelManager
-#from main import world
-
 
 """
 The input parser. Called as the second half of the player's act() function; the

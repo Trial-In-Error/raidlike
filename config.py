@@ -56,5 +56,9 @@ colorDict = {
     "grass":46,
     "stained_glass_memory":88
     }
+
+# All possible 256 colors
 # Formatted as [color_pair, foreground, background]
+# Where color_pair is also the 256 color number for xterm
+# See: http://blog.davewilkinsonii.com/images/tmux-configuration-for-great-good/256-color-palette.png
 colorPalette = {}

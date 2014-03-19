@@ -4,9 +4,9 @@
 #.......#####....##############.#                   #
 ###############.###############.#
 ############  #.###############.#
-#..........####.###############.#####################
-#...............iSECRET.TUNNELi.....................#
-#..........############i#############################
+#....M.....####.###############.#####################
+#...M.M.........iSECRET.TUNNELi.....................#
+#....M.....############i#############################
 #####.#################&#
 #####.#################%#
 #####.#############...#?#
@@ -38,8 +38,9 @@ N:floor:display = N, displayColor = one
 L:floor:display = L, displayColor = two
 .:floor:
 -:triggertile:triggerDescription = The floor is shaking., repeatable = True
-|:triggertile:triggerDescription = The room rumbles., repeatable = False, color = red
+|:triggertile:triggerDescription = The room rumbles., repeatable = False, textColor = red
 i:wall:collideType = "vision"
+M:triggertile:triggerDescription = This should only happen once., repeatable = False, textColor = cyan, internalName = once
 *:portal:toWhichLevel = two, toWhichPortal = two_entry, internalName = one_entry, direction = w
 
 Triggers

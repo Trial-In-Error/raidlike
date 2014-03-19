@@ -1,0 +1,39 @@
+.....####
+.....#<.#
+.....##.#
+.######+#####
+.#.12#..#...#
+.#@12+..+...#
+.#.12#..#...#
+.#####..#####
+.#...#..#...#
+.#...+..+...#
+.#...#..#...#
+.#####..#####
+.#...#..#...#
+.#...+..+...#
+.#...#..#...#
+.#####..########
+##3..+..#.4.#..#
+#S3..#..#.4.#..#
+##3..#..#44.#55#
+.#...#..##+##+##
+.#...#.........+
+.#...#.........+
+.###############
+
+Glyphs
+@:player:
+#:wall:displayColor = g18, memoryDisplayColor = g14
+.:floor:displayColor = g20, memoryDisplayColor = g8
+<:portal:toWhichLevel = jailCellTwo, toWhichPortal = jailCellTwoStair, internalName = jailCellOneStair, direction = e, display = <, displayColor = g20, memoryDisplayColor = g8
+h:enemy:
++:door:displayColor = 94, memoryDisplayColor = 94
+S:floor:display = S, displayColor = 124, memoryDisplayColor = 124
+1:triggertile:triggerDescription = Move using the arrow keys or hjklyubn., repeatable = True, textColor = 201, displayColor = g20, memoryDisplayColor = 239
+2:triggertile:triggerDescription = Open doors by moving into them or pressing o., repeatable = True, textColor = 201, displayColor = g20, memoryDisplayColor = g8
+3:triggertile:triggerDescription = Pray to Brand in front of any fire by pressing p., repeatable = True, textColor = 201, displayColor = g20, memoryDisplayColor = g8
+4:triggertile:triggerDescription = Pick up items with g. Equip them with e., repeatable = True, textColor = 201, displayColor = g20, memoryDisplayColor = g8
+5:triggertile:memoryDisplayColor = g8, triggerDescription = Attack an enemy by moving into them., repeatable = True, textColor = 201, displayColor = g20
+
+Triggers
