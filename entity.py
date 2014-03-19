@@ -265,6 +265,7 @@ class Player(Actor):
             return
         if(temp.count("closed_door")>0):
             self.openDoor(moveDict[direction][0], moveDict[direction][1])
+            return
         if(temp.count("actor")>0):
             raise IndexError #HOW DO I DO EXCEPTIONS???
         if(temp.count("true")==0 and temp.count("combat_enemy")==0 and temp.count("portal")==0 and temp.count("see_through")==0):
