@@ -21,6 +21,8 @@ triggertiles->queue up multiple lines of text
 player->worshipping never set
 
 
+NOTE: FLOORPLANS MUST INCLUDE A "." GLYPH. IT WILL BE USED BY DEFAULT UNDERNEATH THINGS
+TRIGGER TILES PROC WHEN YOU ATTACK INTO THEIR LOCATION
 
 old
 IMPORTANT:

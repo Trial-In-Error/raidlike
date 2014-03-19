@@ -15,7 +15,7 @@
 .#...#..#...#
 .#####..########
 ##3..+..#.4.#..#
-#S3..#..#.4.#..#
+#S3..#..#.4.#.x#
 ##3..#..#44.#55#
 .#...#..##+##+##
 .#...#.........+
@@ -27,7 +27,7 @@ Glyphs
 #:wall:displayColor = g18, memoryDisplayColor = g14
 .:floor:displayColor = g20, memoryDisplayColor = g8
 <:portal:toWhichLevel = jailCellTwo, toWhichPortal = jailCellTwoStair, internalName = jailCellOneStair, direction = e, display = <, displayColor = g20, memoryDisplayColor = g8
-h:enemy:
+x:enemy:name = sleeping guard, description = A guard asleep at his post., display = @, displayColor = 181
 +:door:displayColor = 94, memoryDisplayColor = 94
 S:floor:display = S, displayColor = 124, memoryDisplayColor = 124
 1:triggertile:triggerDescription = Move using the arrow keys or hjklyubn., repeatable = True, textColor = 201, displayColor = g20, memoryDisplayColor = 239

@@ -1,5 +1,5 @@
 import sys
-from entity import Wall, Item, Portal
+from entity import Wall, Item, Portal, Door
 
 class Grid():
     """
@@ -135,12 +135,15 @@ class Grid():
         temp = []
         for entity in self.level.grid.get(xpos, ypos):
             temp.append(entity.collide())
-        if(temp.count("vision_block")>0 or temp.count("true")>0):
+        if(temp.count("vision_block")>0 or temp.count("true")>0 or temp.count("closed_door")>0):
             return
         self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
-        if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall
-            or (type(self.getCell(xpos, ypos).getBottomContent()) is Wall
-                and self.getCell(xpos, ypos).getBottomContent().collideType=="see_through")):
+        temp = self.getCell(xpos, ypos).getBottomContent()
+        if((type(temp) is not Wall and type(temp) is not Door) or (type(temp) is Wall and temp.collideType=="see_through")
+            or (type(temp) is Door and temp.collideType=="open_door")):
+            #and (type(self.getCell(xpos, ypos).getBottomContent()) is not Door or self.getCell(xpos, ypos).getBottomContent().collideType == closed_door)
+            #or (type(self.getCell(xpos, ypos).getBottomContent()) is Wall
+            #    and self.getCell(xpos, ypos).getBottomContent().collideType=="see_through")):
         #THIS LINE
                 new_xpos = xpos + moveDict[direction][0]
                 new_ypos = ypos + moveDict[direction][1]
@@ -154,9 +157,12 @@ class Grid():
     def spreadDiagonal(self, xpos, ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight):
         try:
             self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
-            if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall
-                or (type(self.getCell(xpos, ypos).getBottomContent()) is Wall
-                    and self.getCell(xpos, ypos).getBottomContent().collideType=="see_through")):
+            temp = self.getCell(xpos, ypos).getBottomContent()
+            if((type(temp) is not Wall and type(temp) is not Door) or (type(temp) is Wall and temp.collideType=="see_through")
+                or (type(temp) is Door and temp.collideType=="open_door")):
+            #if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall
+            #    or (type(self.getCell(xpos, ypos).getBottomContent()) is Wall
+            #        and self.getCell(xpos, ypos).getBottomContent().collideType=="see_through")):
             #AND THIS LINE
                 for newDirection in moveDict[direction][4:]:
                     new_xpos = xpos + moveDict[newDirection][0]
@@ -173,9 +179,12 @@ class Grid():
     def spreadPrimeOrthogonal(self,xpos, ypos, player_xpos, player_ypos, direction, width, height, moveDict, lensWidth, lensHeight):
         try:
             self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
-            if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall
-                or (type(self.getCell(xpos, ypos).getBottomContent()) is Wall
-                    and self.getCell(xpos, ypos).getBottomContent().collideType=="see_through")):
+            temp = self.getCell(xpos, ypos).getBottomContent()
+            if((type(temp) is not Wall and type(temp) is not Door) or (type(temp) is Wall and temp.collideType=="see_through")
+                or (type(temp) is Door and temp.collideType=="open_door")):
+            #if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall
+            #    or (type(self.getCell(xpos, ypos).getBottomContent()) is Wall
+            #        and self.getCell(xpos, ypos).getBottomContent().collideType=="see_through")):
                 for newDirection in moveDict[direction][4:]:
                     new_xpos = xpos + moveDict[newDirection][0]
                     new_ypos = ypos + moveDict[newDirection][1]
