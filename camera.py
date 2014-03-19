@@ -33,11 +33,12 @@ class Camera():
         self.drawHUD()
 
     def drawFromMemory(self, player_xpos, player_ypos):
-        for xpos in range(max(1, player_xpos - self.adjLensWidth), max(1,player_xpos + self.adjLensWidth)):
-            for ypos in range(min(self.lensHeight, player_ypos - self.adjLensHeight), max(self.lensHeight+1, player_ypos + self.adjLensHeight)):
+        for xpos in range(max(0, player_xpos - self.adjLensWidth), min(self.lensWidth+1, player_xpos + self.adjLensWidth)):
+            for ypos in range(max(0, player_ypos - self.adjLensHeight), min(self.level.height+1, player_ypos + self.adjLensHeight)):
                 try:
-                    if(self.level.grid.getCell(xpos, ypos).hasBeenSeen and abs(player_xpos - xpos) < self.adjLensWidth and abs(player_ypos - ypos) < self.adjLensHeight):
-                    #if(self.level.grid.getCell(xpos, ypos).hasBeenSeen):
+                    if(self.level.grid.getCell(xpos, ypos).hasBeenSeen
+                        and (abs(player_xpos - xpos) < self.adjLensWidth)
+                        and (abs(abs(ypos)-abs(player_ypos)) < self.adjLensHeight)):
                         self.level.grid.drawCellRelativeFromMemory(xpos, ypos, player_xpos, player_ypos, self.adjLensWidth, self.adjLensHeight)
                 except IndexError:
                     pass

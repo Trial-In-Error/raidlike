@@ -16,7 +16,7 @@ class worldManager():
 		self.throneRoom = levelManager.load("throne_room")
 		self.jailCellOne = levelManager.load("jail_floor_one")
 		self.jailCellTwo = levelManager.load("jail_floor_two")
-		self.levelTwo.camera.lineOfSight = 5
+		#self.levelTwo.camera.lineOfSight = 5
 		self.currentLevel = self.jailCellOne
 		self.pantheon = None
 		self.levelDict = {
