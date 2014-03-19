@@ -90,7 +90,7 @@ class levelManager():
                         if class_dict[char] is Player:
                             level.setPlayer(Player(x, y, level))
                             level.camera.player = level.player
-                            classes["floor"](x, y, level)
+                            class_dict["."](x, y, level, **arg_dict["."])
                         else:
                             # automatically places floors under all non-floor, non-wall, non-triggertile tiles! 
                             if class_dict[char] in (Wall, Floor, TriggerTile, Door):
@@ -98,7 +98,7 @@ class levelManager():
                                 class_dict[char](x, y, level, **arg_dict[char])
                             else:
                                 class_dict[char](x, y, level, **arg_dict[char])
-                                classes["floor"](x, y, level)
+                                class_dict["."](x, y, level, **arg_dict["."])
                     #except:
                         #raise(KeyError ("There isn't a matching line for glyph: ", char))
         # Triggers ...?
