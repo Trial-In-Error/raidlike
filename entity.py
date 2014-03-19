@@ -237,7 +237,7 @@ class Player(Actor):
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
         #default name/class
-        self.title = "Blessed of Kaia"
+        self.title = "Blessed of Brand"
         self.playerName = "Roderick"
         self.worshipping = worshipping
         self.inventory = Inventory(self, self.level)
