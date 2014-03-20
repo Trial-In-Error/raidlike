@@ -186,6 +186,7 @@ class Actor(Entity):
                 item.ypos = self.ypos
                 item.level = self.level
                 self.level.grid.add(item, self.xpos, self.ypos)
+        # percent drop chance items go here
         self.level.grid.remove(self, self.xpos, self.ypos)
         self.level.timeline.remove(self)
 

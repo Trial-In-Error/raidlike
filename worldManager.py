@@ -16,6 +16,7 @@ class worldManager():
 		self.throneRoom = levelManager.load("throne_room")
 		self.slaversOne = levelManager.load("slavers_floor_one")
 		self.slaversTwo = levelManager.load("slavers_floor_two")
+		self.slaversBasement = levelManager.load("slavers_basement")
 		#self.levelTwo.camera.lineOfSight = 5
 		self.currentLevel = self.slaversOne
 		self.pantheon = None
@@ -24,6 +25,7 @@ class worldManager():
 			'throneRoom' : self.throneRoom,
 			'slaversOne' : self.slaversOne,
 			'slaversTwo' : self.slaversTwo,
+			'slaversBasement' : self.slaversBasement
 		}
 	def update(self):
 		self.currentLevel.update()

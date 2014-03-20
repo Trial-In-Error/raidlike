@@ -1,0 +1,16 @@
+
+#################
+###\.##\#/###../##
+#...#.........#.<#
+#/#####/#\##.#####
+############.#
+##############
+
+Glyphs
+#::wall::description == A wall of dried mud bricks.,, name == a dried mud wall,, displayColor == 130,, memoryDisplayColor == 130
+.::floor::name == a sandy floor,, description == The floor is made of densely packed sand.,, displayColor == 226,, memoryDisplayColor == 226
+<::portal::toWhichLevel == slaversOne,, toWhichPortal == slaversOneDownStair,, internalName == slaversBasementUpStair,, direction == w,, display == <,, displayColor == 142,, memoryDisplayColor == 142
+/::wall::display == /,, displayColor == 130,, memoryDisplayColor == 130
+\::wall::display == \,, displayColor == 130,, memoryDisplayColor == 130
+
+Triggers
