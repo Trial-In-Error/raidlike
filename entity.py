@@ -23,7 +23,10 @@ class Entity():
         self.memoryDisplayColor = memoryDisplayColor
         self.collideType = collideType
         self.name = name
-        self.level.grid.add(self, xpos, ypos)
+        try:
+            self.level.grid.add(self, xpos, ypos)
+        except AttributeError:
+            pass 
 
     def __lt__(self, other):
         if self.displayPriority < other.displayPriority:
@@ -131,7 +134,7 @@ class Portal(Entity):
 
 
 class Actor(Entity):
-    def __init__(self, xpos, ypos, level, *, attackCost=2, damage=1, health=3, moveCost=3,
+    def __init__(self, xpos, ypos, level, *, guaranteedDropList=[], attackCost=2, damage=1, health=3, moveCost=3,
                  **kwargs):
         defaults = {
             'description': "An actor. This shouldn't be instantiated!",
@@ -148,6 +151,7 @@ class Actor(Entity):
         self.damage = damage
         self.health = health
         self.moveCost = moveCost
+        self.guaranteedDropList = guaranteedDropList
         self.level.timeline.add(self)
 
     def act(self):
@@ -172,6 +176,15 @@ class Actor(Entity):
     def die(self, killer):
         self.level.output_buffer.add("AURGH! " + self.name.capitalize() + 
         " was killed by " + killer.name + ".\r")
+        for item in self.guaranteedDropList.split("),"):
+            try:
+                item = eval(item)
+            except SyntaxError:
+                item = eval(item+")")
+            item.xpos = self.xpos
+            item.ypos = self.ypos
+            item.level = self.level
+            self.level.grid.add(item, self.xpos, self.ypos)
         self.level.grid.remove(self, self.xpos, self.ypos)
         self.level.timeline.remove(self)
 
@@ -383,10 +396,29 @@ class Item(Entity):
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
 
+class Key(Item):
+    def __init__(self, xpos, ypos, level, internalName, **kwargs):
+        defaults = {
+            'description': "A key.",
+            'display': '?',
+            'displayPriority': 2,
+            'displayColor': "cyan",
+            'memoryDisplayColor': "blue",
+            'name': 'key',
+            'weight': 0,
+        }
+        defaults.update(kwargs)
+        super().__init__(xpos, ypos, level, **defaults) 
+
+    @classmethod
+    def fromString(cls, string):
+        #tempList = string.split(',')
+        return cls(xpos=None, ypos=None, level=None, internalName=string)
+
 class Equippable(Item):
     def __init__(self, xpos, ypos, level, slot='???', **kwargs):
         defaults = {
-            'description': "A weapon",
+            'description': "A weapon.",
             'display': '/',
             'displayPriority': 1,
             'displayColor': "cyan",

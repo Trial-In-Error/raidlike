@@ -1,0 +1,39 @@
+.....####
+.....#<.#
+.....##.#
+.######+#####
+.#.12#..#...#
+.#@12+x.+...#
+.#.12#..#...#
+.#####..#####
+.#...#..#...#
+.#...+..+...#
+.#...#..#...#
+.#####..#####
+.#...#..#...#
+.#...+..+...#
+.#...#..#...#
+.#####..########
+##3..+..#.4.#..#
+#S3..#..#.4.#..#
+##3..#..#44.#55#
+.#...#..##+##+##
+.#...#.........+
+.#...#.........+
+.###############
+
+Glyphs
+@:player:
+#:wall:description = A wall of dried mud bricks.,, name = a dried mud wall,, displayColor = 130,, memoryDisplayColor = 130
+.:floor:name = a sandy floor,, description = The floor is made of densely packed sand.,, displayColor = 226,, memoryDisplayColor = 226
+<:portal:toWhichLevel = slaversTwo,, toWhichPortal = slaversTwoStair,, internalName = slaversOneStair,, direction = e,, display = <,, displayColor = 142,, memoryDisplayColor = 142
+x:enemy:name = sleeping guard,, description = A guard asleep at his post.,, display = @,, displayColor = 181,, guaranteedDropList = Key.fromString("None, None, None, test"), Key.fromString("None, None, test2")
++:door:displayColor = 94,, memoryDisplayColor = 94
+S:floor:display = S,, displayColor = 124,, memoryDisplayColor = 124
+1:triggertile:triggerDescription = Move using the arrow keys or hjklyubn.,, repeatable = True,, textColor = 201,, displayColor = 226,, memoryDisplayColor = 226
+2:triggertile:triggerDescription = Open doors by moving into them or pressing o.,, repeatable = True,, textColor = 201,, displayColor = 226,, memoryDisplayColor = 226
+3:triggertile:triggerDescription = Pray to Brand in front of any fire by pressing p.,, repeatable = True,, textColor = 201,, displayColor = 226,, memoryDisplayColor = 226
+4:triggertile:triggerDescription = Pick up items with g. Equip them with e.,, repeatable = True,, textColor = 201,, displayColor = 226,, memoryDisplayColor = 226
+5:triggertile:triggerDescription = Attack an enemy by moving into them.,, repeatable = True,, textColor = 201,, displayColor = 226,, memoryDisplayColor = 226
+
+Triggers

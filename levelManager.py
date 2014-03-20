@@ -55,7 +55,7 @@ class levelManager():
         arg_dict = {}
         for line in (g for g in glyphs if g.strip()):
             glyph, name, args = map(str.strip, line.split(':'))
-            args = args.split(',')
+            args = args.split(',,')
             argLeft = []
             argRight = []
             for arg in args:
@@ -69,6 +69,9 @@ class levelManager():
             #    args[argLeft[index]] = argRight[index]
             for index in range(len(argLeft)):
                 args[argLeft[index].strip()] = argRight[index].strip()
+            #for argument in argRight:
+            #    if "[" in argument:
+            #        argument = eval(argument)
             try:
                 class_dict[glyph] = classes[name]
             except KeyError:
@@ -130,9 +133,9 @@ class levelManager():
     def drawInventoryInputParser(self):
         unicurses.erase()
         for index, item in enumerate(self.player.inventory.inventoryList):
-            unicurses.attron(unicurses.COLOR_PAIR(self.colorDict["white"][0]))
+            unicurses.attron(unicurses.COLOR_PAIR(config.colorDict["white"]))
             unicurses.mvaddstr(index, 0, self.player.inventory.letterList[index+1]+") "+self.player.inventory.inventoryList[index].description)
-            unicurses.attroff(unicurses.COLOR_PAIR(self.colorDict["white"][0]))
+            unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"]))
 
     def drawLookInputParser(self, xLook, yLook):
         if(self.grid.getCell(xLook, yLook).hasBeenSeen):

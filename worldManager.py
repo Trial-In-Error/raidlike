@@ -14,16 +14,16 @@ class worldManager():
 		#self.levelOne = levelManager.load("level_mockup")
 		#self.levelTwo = levelManager.load("los_test")
 		self.throneRoom = levelManager.load("throne_room")
-		self.jailCellOne = levelManager.load("jail_floor_one")
-		self.jailCellTwo = levelManager.load("jail_floor_two")
+		self.slaversOne = levelManager.load("slavers_floor_one")
+		self.slaversTwo = levelManager.load("slavers_floor_two")
 		#self.levelTwo.camera.lineOfSight = 5
-		self.currentLevel = self.jailCellOne
+		self.currentLevel = self.slaversOne
 		self.pantheon = None
 		self.levelDict = {
 			#'one' : self.levelOne,
 			'throneRoom' : self.throneRoom,
-			'jailCellOne' : self.jailCellOne,
-			'jailCellTwo' : self.jailCellTwo,
+			'slaversOne' : self.slaversOne,
+			'slaversTwo' : self.slaversTwo,
 		}
 	def update(self):
 		self.currentLevel.update()
