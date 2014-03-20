@@ -24,10 +24,10 @@
 
 
 Glyphs
-#:wall:description = A wall of dried mud bricks.,, name = a dried mud wall,, displayColor = 130,, memoryDisplayColor = 130
-.:floor:name = a sandy floor,, description = The floor is made of densely packed sand.,, displayColor = 226,, memoryDisplayColor = 226
-+:door:displayColor = 94,, memoryDisplayColor = 94
->:portal:toWhichLevel = slaversOne,, toWhichPortal = slaversOneStair,, internalName = slaversTwoStair,, direction = w,, display = >,, displayColor = 142,, memoryDisplayColor = 142
-h:enemy:name = hound,, description = A bloodthirsty dog.,, display = h,, displayColor = 228
+#::wall::description == A wall of dried mud bricks.,, name == a dried mud wall,, displayColor == 130,, memoryDisplayColor == 130
+.::floor::name == a sandy floor,, description == The floor is made of densely packed sand.,, displayColor == 226,, memoryDisplayColor == 226
++::door::displayColor == 94,, memoryDisplayColor == 94
+>::portal::toWhichLevel == slaversOne,, toWhichPortal == slaversOneStair,, internalName == slaversTwoStair,, direction == w,, display == >,, displayColor == 142,, memoryDisplayColor == 142
+h::enemy::name == hound,, description == A bloodthirsty dog.,, display == h,, displayColor == 228
 
 Triggers

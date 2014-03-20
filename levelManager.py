@@ -54,14 +54,14 @@ class levelManager():
         class_dict = {}
         arg_dict = {}
         for line in (g for g in glyphs if g.strip()):
-            glyph, name, args = map(str.strip, line.split(':'))
+            glyph, name, args = map(str.strip, line.split('::'))
             args = args.split(',,')
             argLeft = []
             argRight = []
             for arg in args:
                 if arg:
-                    argLeft.append(arg.split('=')[0])
-                    argRight.append(arg.split('=')[1])
+                    argLeft.append(arg.split('==')[0])
+                    argRight.append(arg.split('==')[1])
                     #    except:
                     #        raise IndexError("\n"+str(arg)+"\n"+str(argLeft)+"\n"+str(argRight))
             args = {}

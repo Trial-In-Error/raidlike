@@ -13,6 +13,8 @@ implement o to open, c to close
 portal/door open/enter descriptions
 message object implementation?
 enemy AI will let it walk through doors
+collide type needs to become a list
+"You're standing on an key"
 
 death needs to save gamestate / remove gamestate
 output buffer not color safeguarded

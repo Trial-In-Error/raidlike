@@ -250,7 +250,7 @@ class Player(Actor):
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
         #default name/class
-        self.title = "Blessed of Brand"
+        self.title = "Chosen of Brand"
         self.playerName = "Roderick"
         self.worshipping = worshipping
         self.inventory = Inventory(self, self.level)
@@ -412,8 +412,15 @@ class Key(Item):
 
     @classmethod
     def fromString(cls, string):
-        #tempList = string.split(',')
-        return cls(xpos=None, ypos=None, level=None, internalName=string)
+        tempList = string.split(',')
+        kwargs = {}
+        for entry in tempList:
+            temp = entry.split('=')
+            try:
+                kwargs[temp[0].strip()] = temp[1].strip()
+            except IndexError:
+                pass
+        return cls(xpos=None, ypos=None, level=None, internalName=tempList[0], **kwargs)
 
 class Equippable(Item):
     def __init__(self, xpos, ypos, level, slot='???', **kwargs):

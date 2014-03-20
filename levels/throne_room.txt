@@ -39,16 +39,16 @@
 
 
 Glyphs
-|:wall:display = |,, displayColor = stained_glass,, memoryDisplayColor = stained_glass_memory,, collideType = see_through
-#:wall:displayColor = g18,, memoryDisplayColor = g14
--:wall:display = -,, collideType = see_through,, displayColor = stained_glass,, memoryDisplayColor = stained_glass_memory
-.:floor:displayColor = g20,, memoryDisplayColor = g8
-*:portal:toWhichLevel = one,, toWhichPortal = one_entry,, internalName = two_entry,, direction = e
->:floor:display = >
-<:floor:display = <
-&:wall:display = &
-\:floor:display = \
-/:floor:display = /
-,:floor:display = ;,, displayColor = grass,, memoryDisplayColor = grass_memory
+|::wall::display == |,, displayColor == stained_glass,, memoryDisplayColor == stained_glass_memory,, collideType == see_through
+#::wall::displayColor == g18,, memoryDisplayColor == g14
+-::wall::display == -,, collideType == see_through,, displayColor == stained_glass,, memoryDisplayColor == stained_glass_memory
+.::floor::displayColor == g20,, memoryDisplayColor == g8
+*::portal::toWhichLevel == one,, toWhichPortal == one_entry,, internalName == two_entry,, direction == e
+>::floor::display == >
+<::floor::display == <
+&::wall::display == &
+\::floor::display == \
+/::floor::display == /
+,::floor::display == ;,, displayColor == grass,, memoryDisplayColor == grass_memory
 
 Triggers
