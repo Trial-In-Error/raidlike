@@ -176,15 +176,16 @@ class Actor(Entity):
     def die(self, killer):
         self.level.output_buffer.add("AURGH! " + self.name.capitalize() + 
         " was killed by " + killer.name + ".\r")
-        for item in self.guaranteedDropList.split("),"):
-            try:
-                item = eval(item)
-            except SyntaxError:
-                item = eval(item+")")
-            item.xpos = self.xpos
-            item.ypos = self.ypos
-            item.level = self.level
-            self.level.grid.add(item, self.xpos, self.ypos)
+        if self.guaranteedDropList:
+            for item in self.guaranteedDropList.split("),"):
+                try:
+                    item = eval(item)
+                except SyntaxError:
+                    item = eval(item+")")
+                item.xpos = self.xpos
+                item.ypos = self.ypos
+                item.level = self.level
+                self.level.grid.add(item, self.xpos, self.ypos)
         self.level.grid.remove(self, self.xpos, self.ypos)
         self.level.timeline.remove(self)
 
