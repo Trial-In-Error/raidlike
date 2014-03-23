@@ -61,9 +61,10 @@ class levelManager():
             for arg in args:
                 if arg:
                     argLeft.append(arg.split('==')[0])
-                    argRight.append(arg.split('==')[1])
-                    #    except:
-                    #        raise IndexError("\n"+str(arg)+"\n"+str(argLeft)+"\n"+str(argRight))
+                    try:
+                        argRight.append(arg.split('==')[1])
+                    except IndexError:
+                        raise IndexError("\n"+str(arg)+"\n"+str(argLeft)+"\n"+str(argRight))
             args = {}
             #for arg, index in argLeft, range(0,argLeft):
             #    args[argLeft[index]] = argRight[index]
@@ -98,7 +99,11 @@ class levelManager():
                             # automatically places floors under all non-floor, non-wall, non-triggertile tiles! 
                             if class_dict[char] in (Wall, Floor, TriggerTile, Door):
                                 #print("adding {} at x={} y={}".format(class_dict[char], x, y), file=sys.stderr)
-                                class_dict[char](x, y, level, **arg_dict[char])
+                                try:
+                                    class_dict[char](x, y, level, **arg_dict[char])
+                                except TypeError:
+                                    raise TypeError("Error parsing glyph {!r}: no class named {}"
+                                                    "".format(char, arg_dict[char]))
                             else:
                                 class_dict[char](x, y, level, **arg_dict[char])
                                 class_dict["."](x, y, level, **arg_dict["."])

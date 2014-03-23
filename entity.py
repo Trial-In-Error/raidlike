@@ -59,6 +59,21 @@ class Entity():
     def __str__(self):
         return self.display
 
+class Obelisk(Entity):
+    def __init__(self, xpos, ypos, level, textColor="white", **kwargs):
+        defaults = {
+            'display': "",
+            'displayColor': "94",
+            'memoryDisplayColor': "94",
+            'collideType': "obelisk",
+            'name': "obelisk",
+            'description': "An ancient stone obelisk.",
+        }
+        defaults.update(kwargs)
+        self.level = level
+        self.textColor = textColor
+        super().__init__(xpos, ypos, level, **defaults)
+
 class TriggerTile(Entity):
     def __init__(self, xpos, ypos, level, repeatable=True, triggerDescription=None, internalName=None, textColor="white", **kwargs):
         defaults = {
@@ -88,12 +103,12 @@ class TriggerTile(Entity):
         return self.collideType
 
 class Door(Entity):
-    def __init__(self, xpos, ypos, level, collideType="closed_door", openDescription=None, closeDescription=None, openDisplay="'", closedDisplay="+", textColor="white", **kwargs):
+    def __init__(self, xpos, ypos, level, isOpen=False, keyInternalName=None, openDescription=None, closeDescription=None, openDisplay="'", closedDisplay="+", textColor="white", **kwargs):
         defaults = {
             'display': "+",
             'displayColor': "94",
             'memoryDisplayColor': "94",
-            'collideType': "closed_door",
+            #'collideType': "None",
             'name': "door",
             'description': "A closed door.",
         }
@@ -104,10 +119,28 @@ class Door(Entity):
         self.closedDisplay = closedDisplay
         self.openDescription = openDescription
         self.closeDescription = closeDescription
+        self.keyInternalName = keyInternalName
+        self.isOpen = isOpen
+        if(self.isOpen):
+            defaults['collideType'] = "closed_door"
+        else:
+            defaults['collideType'] = "closed_door"
+
         super().__init__(xpos, ypos, level, **defaults)
 
-    def collide(self):
-        return self.collideType
+    def open(self):
+        hasKey = False
+        #self.level.output_buffer.add("DOOR HIT")
+        for entity in self.level.player.inventory.inventoryList:
+            if(entity is Key and entity.internalName == self.keyInternalName):
+                hasKey = True
+        if((not self.isOpen and self.keyInternalName == None)
+            or (not self.isOpen and hasKey)):
+            self.collideType = "open_door"
+            self.display = "'"
+            self.description = self.openDescription
+            self.level.player.andWait(1)
+
 
 class Portal(Entity):
     def __init__(self, xpos, ypos, level, *, internalName, toWhichPortal, toWhichLevel, direction, **kwargs):
@@ -273,6 +306,7 @@ class Player(Actor):
                     'southeast': [1, -1]}
         #MOVE THIS CODE TO GRID/CELL
         temp = []
+
         for entity in self.level.grid.get(self.xpos + moveDict[direction][0],
         self.ypos + moveDict[direction][1]):
             temp.append(entity.collide())
@@ -283,7 +317,7 @@ class Player(Actor):
             return
         if(temp.count("actor")>0):
             raise IndexError #HOW DO I DO EXCEPTIONS???
-        if(temp.count("true")==0 and temp.count("combat_enemy")==0 and temp.count("portal")==0 and temp.count("see_through")==0):
+        if(temp.count("true")==0 and temp.count("combat_enemy")==0 and temp.count("portal")==0 and temp.count("see_through")==0 and temp.count("closed_door")==0):
             self.doMove(moveDict[direction][0], moveDict[direction][1])
             self.postMoveDescribe()
         elif(temp.count("combat_enemy")==1):
@@ -317,7 +351,7 @@ class Player(Actor):
 
     def drop(self, letter):
         if(isinstance(self.inventory.get(letter), Item)):
-            self.level.output_buffer.add("You dropped "+str(self.inventory.get(letter).name+"."))
+            config.world.currentLevel.output_buffer.add("You dropped "+str(self.inventory.get(letter).name+"."))
             self.inventory.drop(letter)
             #self.level.draw()
             self.andWait(1)
@@ -329,11 +363,9 @@ class Player(Actor):
 
     def openDoor(self, xDiff, yDiff):
         for entity in self.level.grid.get(self.xpos+xDiff, self.ypos+yDiff):
-            if(isinstance(entity, Door) and entity.collideType == "closed_door"):
-                entity.collideType = "open_door"
-                entity.display = entity.openDisplay
-                entity.description = "An open door."
-                self.andWait(1)
+            if(isinstance(entity, Door)):
+                entity.open()
+        self.andWait(0)
 
     def die(self, killer):
         self.level.output_buffer.clear()

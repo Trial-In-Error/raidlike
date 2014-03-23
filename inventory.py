@@ -1,4 +1,4 @@
-import string, entity
+import string, entity, config
 
 class Inventory():
     def __init__(self, player, level):
@@ -33,7 +33,7 @@ class Inventory():
         self.inventoryList.append(item)
 
     def drop(self, letter):
-        self.level.grid.dropItem(self.level.player.xpos, self.level.player.ypos, self.get(letter))
+        config.world.currentLevel.grid.dropItem(self.level.player.xpos, self.level.player.ypos, self.get(letter))
         temp = self.remove(letter)
 
     def remove(self, letter):

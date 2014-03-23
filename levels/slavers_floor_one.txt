@@ -2,21 +2,21 @@
 .....#<.#
 .....##.#
 .######+#####
-.#.12#..#...#
-.#@12+x.+...#
-.#.12#..#...#
+.#.12#6.#...#
+.#@12+3.+...#
+.#.12#6.#...#
 .#####..#####
-.#...#..#...#
-.#...+..+...#
-.#...#..#...#
+.#SSS#..#...#
+.#SSS+..+...#
+.#SSS#..#...#
 .#####..#####
-.#...#..#...#
-.#...+..+...#
-.#...#..#...#
+.#...#..#.4S#
+.#...+..+.4.#
+.#...#..#.44#
 .#####..########
-####.+..#.4.#..#
-#>.#.#..#.4.#..#
-##...#..#44.#55#
+####.+..#...#..#
+#>.#.#..#...#.x#
+##...#..#...#55#
 .#...#..##+##+##
 .#...#.........+
 .#...#.........+
@@ -29,12 +29,13 @@ Glyphs
 <::portal::toWhichLevel == slaversTwo,, toWhichPortal == slaversTwoStair,, internalName == slaversOneStair,, direction == e,, display == <,, displayColor == 142,, memoryDisplayColor == 142
 >::portal::toWhichLevel == slaversBasement,, toWhichPortal == slaversBasementUpStair,, internalName == slaversOneDownStair,, direction == e,, display == >,, displayColor == 142,, memoryDisplayColor == 142
 x::enemy::name == sleeping guard,, description == A guard asleep at his post.,, display == @,, displayColor == 181,, guaranteedDropList == Key.fromString("test, name=rusted key, description=A rusted iron key."), Key.fromString("test2")
-+::door::displayColor == 94,, memoryDisplayColor == 94
-S::floor::display == S,, displayColor == 124,, memoryDisplayColor == 124
-1::triggertile::triggerDescription == Move using the arrow keys or hjklyubn.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
++::door::displayColor == 94,, memoryDisplayColor == 94,, collideType == "closed_door"
+S::item::name == rusted short sword,, description == An old, dull sword.
+1::triggertile::triggerDescription == Move using the arrow keys, number pad, or letters hjklyubn.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
 2::triggertile::triggerDescription == Open doors by moving into them or pressing o.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
-3::triggertile::triggerDescription == Pray to Brand in front of any fire by pressing p.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
-4::triggertile::triggerDescription == Pick up items with g. Equip them with e.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
+3::triggertile::triggerDescription == Press x to look. While looking, press z to e,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226,, internalName == lookTutorial
+6::triggertile::triggerDescription == Pray to Brand in front of any fire by pressing p.,, repeatable == False,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226,, internalName == lookTutorial
+4::triggertile::triggerDescription == Pick up items with g. Access the inventory with i. Equip the sword from the inventory.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
 5::triggertile::triggerDescription == Attack an enemy by moving into them.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
 
 Triggers
