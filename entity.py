@@ -103,7 +103,7 @@ class TriggerTile(Entity):
         return self.collideType
 
 class Door(Entity):
-    def __init__(self, xpos, ypos, level, isOpen=False, keyInternalName=None, openDescription=None, closeDescription=None, openDisplay="'", closedDisplay="+", textColor="white", **kwargs):
+    def __init__(self, xpos, ypos, level, isOpen=False, keyInternalName=None, openDescription="The door opens.", closeDescription=None, openDisplay="'", closedDisplay="+", textColor="white", **kwargs):
         defaults = {
             'display': "+",
             'displayColor': "94",
@@ -130,16 +130,21 @@ class Door(Entity):
 
     def open(self):
         hasKey = False
-        #self.level.output_buffer.add("DOOR HIT")
         for entity in self.level.player.inventory.inventoryList:
-            if(entity is Key and entity.internalName == self.keyInternalName):
+            if(isinstance(entity, Key) and entity.internalName == self.keyInternalName):
                 hasKey = True
+        print(hasKey)
         if((not self.isOpen and self.keyInternalName == None)
             or (not self.isOpen and hasKey)):
+            config.world.currentLevel.output_buffer.add(self.openDescription)
             self.collideType = "open_door"
             self.display = "'"
             self.description = self.openDescription
             self.level.player.andWait(1)
+        else:
+            config.world.currentLevel.output_buffer.add("The "+ self.name + " is locked.")
+            # make it cost time to check?
+            # self.level.player.andWait(1)
 
 
 class Portal(Entity):
@@ -441,6 +446,7 @@ class Key(Item):
             'name': 'key',
             'weight': 0,
         }
+        self.internalName = internalName
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults) 
 
