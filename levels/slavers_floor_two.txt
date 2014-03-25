@@ -2,17 +2,17 @@
 .....#.>#
 .....#.##
 .#####+######
-.#...#.'.+..#
+.#...#.'.+.h#
 .#...L.#.####
 .#...#.#.'..#
 .#####.#.####
-.#...#.#.+..#
+.#...#.#.+.h#
 .#...L.#.####
-.#...#.#.+..#
+.#...#.#.+.h#
 .#####.#.####
 .#.!.#.#.+..#
 .#%H.'.#.####
-.#K..#.+.+..#
+.#K..#.+.+.h#
 .#####Z#########
 ##.............#
 #..............#
@@ -26,7 +26,7 @@
 Glyphs
 #::wall::description == A wall of dried mud bricks.,, name == a dried mud wall,, displayColor == 130,, memoryDisplayColor == 130
 !::wall::name == a bed,, description == A roughly made wooden bed., displayColor == 94, memoryDisplayColor == 94
-H::enemy::name == emaciated hound,, description == A starving dog. It does not look friendly.,, display == h,, displayColor == 228
+H::hound::name == emaciated hound,, description == A starving dog. It does not look friendly.,, display == h,, displayColor == 228
 %::floor::name == a dead slaver,, description == His neck and face are a bloody mess. It looks like he died recently. He's clothed in the thick cloth of a desert slaver.
 K::key::internalName == slaverKey
 .::floor::name == a sandy floor,, description == The floor is made of densely packed sand.,, displayColor == 226,, memoryDisplayColor == 226

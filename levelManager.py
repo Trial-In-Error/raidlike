@@ -49,6 +49,7 @@ class levelManager():
         glyphs, triggers = [d.strip().split('\n') for d in datas]
         # Load the glyphs
         import entity
+        import specialEntities
         classes = {name.lower(): getattr(entity, name) for name in dir(entity)
                                                        if name[0].isupper()}
         class_dict = {}

@@ -65,5 +65,3 @@ class worldManager():
                     self.currentLevel.timeline.addToTop(config.player)
             #    else:
             #        raise IndexError
-
-

@@ -37,7 +37,6 @@ class Entity():
             return False
 
     def drawRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
-        #TO CHANGE THE WAY COLOR DICT WORKS, REMOVE self.level.colorDict TO SELF.COLORDICT
         unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
         unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
@@ -110,7 +109,6 @@ class Door(Entity):
             'display': "+",
             'displayColor': "94",
             'memoryDisplayColor': "94",
-            #'collideType': "None",
             'name': "door",
             'description': "A closed door.",
         }
@@ -136,7 +134,6 @@ class Door(Entity):
             for entity in self.level.player.inventory.inventoryList:
                 if(isinstance(entity, Key) and entity.internalName == self.keyInternalName):
                     hasKey = True
-        #print(hasKey)
         if((not self.isOpen and self.keyInternalName == None)
             or (not self.isOpen and hasKey)):
             if isinstance(opener, Player):
@@ -148,10 +145,8 @@ class Door(Entity):
         else:
             opener.andWait(0)
             if isinstance(opener, Player):
-            #    opener.andWait(0)
                 config.world.currentLevel.output_buffer.add("The "+ self.name + " is locked.")
             # make it cost time to check?
-            # self.level.player.andWait(1)
 
 class Portal(Entity):
     def __init__(self, xpos, ypos, level, *, internalName, toWhichPortal, toWhichLevel, direction, **kwargs):
@@ -564,3 +559,51 @@ class Wall(Entity):
 
     def collide(self):
         return self.collideType
+
+class Hound(Enemy):
+    def __init__(self, xpos, ypos, level, **kwargs):
+        defaults = {
+            'damage': 1,
+            'description': "A generic enemy.",
+            'display': "x",
+            'displayColor': "red",
+            'displayPriority': 2,
+            'health': 3,
+            'memoryDisplayColor': "blue",
+            'moveCost': 3,
+            'name': "generic enemy",
+            'collideType': "combat_enemy"
+        }
+        defaults.update(kwargs)
+        self.hasBeenSeen = False
+        super().__init__(xpos, ypos, level, **defaults)
+
+    def act(self):
+        if(self.hasBeenSeen):
+            xDiff = self.xpos - self.level.player.xpos
+            yDiff = self.ypos - self.level.player.ypos
+            if(abs(xDiff) >= abs(yDiff)):
+                if(xDiff >= 0):
+                    self.move("west")
+                else:
+                    self.move("east")
+            elif(yDiff >= 0):
+                self.move("south")
+            else:
+                self.move("north")
+
+    def drawRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
+        if(not self.hasBeenSeen):
+            self.level.timeline.add(self, 0)
+            self.hasBeenSeen = True
+        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
+        unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
+        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
+
+    def drawRelativeBold(self, player_xpos, player_ypos, lensWidth, lensHeight):
+        if(not self.hasBeenSeen):
+            self.level.timeline.add(self, 0)
+            self.hasBeenSeen = True
+        unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
+        unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display, unicurses.A_REVERSE)
+        unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
