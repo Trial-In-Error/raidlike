@@ -19,7 +19,7 @@ Glyphs
 
 ;::triggertile::triggerDescription == You move slowly through the loose sand and debris.,, repeatable == True,, name == debris,, description == A patch of deep sand, rough rocks, and a shattered timber.,, display == ;,, moveCost == 2,, displayColor == 130,, memoryDisplayColor == 130
 
-<::portal::toWhichLevel == slaversOne,, toWhichPortal == slaversOneDownStair,, internalName == slaversBasementUpStair,, direction == w,, display == <,, displayColor == 142,, memoryDisplayColor == 142,, name == rickety staircase,, description == A poorly constructed wooden staircase leads up.
+<::portal::toWhichLevel == slaversOne,, toWhichPortal == slaversOneDownStair,, internalName == slaversBasementUpStair,, direction == w,, display == <,, displayColor == 142,, memoryDisplayColor == 142,, name == rickety staircase,, description == A poorly constructed wooden staircase leads up.,, portalDescription == You head down the wooden stairs.
 
 /::wall::name == support beam, description == A wooden support beam holds the tunnel up.,, display == /,, displayColor == 130,, memoryDisplayColor == 130
 
