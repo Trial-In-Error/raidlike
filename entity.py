@@ -12,7 +12,8 @@ class Entity():
                  displayColor="yellow",
                  displayPriority=1,
                  memoryDisplayColor="blue",
-                 name="floor", collideType="false"):
+                 name="floor", collideType="false",
+                 moveCost=1):
         self.xpos = xpos
         self.ypos = ypos
         self.level = level
@@ -23,6 +24,7 @@ class Entity():
         self.memoryDisplayColor = memoryDisplayColor
         self.collideType = collideType
         self.name = name
+        self.moveCost = moveCost
         try:
             self.level.grid.add(self, xpos, ypos)
         except AttributeError:
@@ -122,30 +124,34 @@ class Door(Entity):
         self.keyInternalName = keyInternalName
         self.isOpen = isOpen
         if(self.isOpen):
-            defaults['collideType'] = "closed_door"
+            defaults['collideType'] = "open_door"
         else:
             defaults['collideType'] = "closed_door"
 
         super().__init__(xpos, ypos, level, **defaults)
 
-    def open(self):
+    def open(self, opener):
         hasKey = False
-        for entity in self.level.player.inventory.inventoryList:
-            if(isinstance(entity, Key) and entity.internalName == self.keyInternalName):
-                hasKey = True
-        print(hasKey)
+        if isinstance(opener, Player):
+            for entity in self.level.player.inventory.inventoryList:
+                if(isinstance(entity, Key) and entity.internalName == self.keyInternalName):
+                    hasKey = True
+        #print(hasKey)
         if((not self.isOpen and self.keyInternalName == None)
             or (not self.isOpen and hasKey)):
-            config.world.currentLevel.output_buffer.add(self.openDescription)
+            if isinstance(opener, Player):
+                config.world.currentLevel.output_buffer.add(self.openDescription)
             self.collideType = "open_door"
             self.display = "'"
             self.description = self.openDescription
-            self.level.player.andWait(1)
+            opener.andWait(1)
         else:
-            config.world.currentLevel.output_buffer.add("The "+ self.name + " is locked.")
+            opener.andWait(0)
+            if isinstance(opener, Player):
+            #    opener.andWait(0)
+                config.world.currentLevel.output_buffer.add("The "+ self.name + " is locked.")
             # make it cost time to check?
             # self.level.player.andWait(1)
-
 
 class Portal(Entity):
     def __init__(self, xpos, ypos, level, *, internalName, toWhichPortal, toWhichLevel, direction, **kwargs):
@@ -172,7 +178,7 @@ class Portal(Entity):
 
 
 class Actor(Entity):
-    def __init__(self, xpos, ypos, level, *, guaranteedDropList=[], attackCost=2, damage=1, health=3, moveCost=3,
+    def __init__(self, xpos, ypos, level, *, canOpenDoors=False, guaranteedDropList=[], attackCost=2, damage=1, health=3, moveCost=3,
                  **kwargs):
         defaults = {
             'description': "An actor. This shouldn't be instantiated!",
@@ -189,6 +195,7 @@ class Actor(Entity):
         self.damage = damage
         self.health = health
         self.moveCost = moveCost
+        self.canOpenDoors = canOpenDoors
         self.guaranteedDropList = guaranteedDropList
         self.level.timeline.add(self)
 
@@ -212,6 +219,8 @@ class Actor(Entity):
             str(attacker.damage) + " damage.\r")
 
     def die(self, killer):
+        self.level.timeline.remove(self)
+        self.level.grid.remove(self, self.xpos, self.ypos)
         self.level.output_buffer.add("AURGH! " + self.name.capitalize() + 
         " was killed by " + killer.name + ".\r")
         if self.guaranteedDropList:
@@ -225,8 +234,6 @@ class Actor(Entity):
                 item.level = self.level
                 self.level.grid.add(item, self.xpos, self.ypos)
         # percent drop chance items go here
-        self.level.grid.remove(self, self.xpos, self.ypos)
-        self.level.timeline.remove(self)
 
     def move(self, direction):
         moveDict = {'north': [0, 1],
@@ -242,18 +249,32 @@ class Actor(Entity):
 
         if(temp.count("portal")>0):
             return
-
-
+        if(temp.count("closed_door")>0 and self.canOpenDoors):
+            self.openDoor(moveDict[direction][0], moveDict[direction][1])
+            return
+        if(temp.count("closed_door")>0 and not self.canOpenDoors):
+            self.andWait(1)
+            return
         if(temp.count("actor")>0):
             raise IndexError #HOW DO I DO EXCEPTIONS???
         if(temp.count("true")==0
         and temp.count("combat_player")==0
-        and temp.count("combat_enemy")==0 and temp.count("portal")==0 and temp.count("see_through")==0):
+        and temp.count("combat_enemy")==0 and temp.count("portal")==0 and temp.count("see_through")==0 and temp.count("closed_door")==0):
             self.doMove(moveDict[direction][0], moveDict[direction][1])
-        elif(temp.count("combat_player")==1):
+            return
+        if(temp.count("combat_player")==1):
             self.doAttack(moveDict[direction][0], moveDict[direction][1])
-        else:
-            self.andWait(1)
+            return
+        self.andWait(1)
+        #else:
+            #why must this be 1??
+            #self.andWait(1)
+
+    def openDoor(self, xDiff, yDiff):
+        for entity in self.level.grid.get(self.xpos+xDiff, self.ypos+yDiff):
+            if(isinstance(entity, Door)):
+                entity.open(self)
+        #self.andWait(0)
 
     def andWait(self, time):
         self.level.timeline.add(self, time)
@@ -286,6 +307,7 @@ class Player(Actor):
             'moveCost': 3,
             'name': "player",
             'collideType': "combat_player",
+            'canOpenDoors': True,
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
@@ -364,12 +386,6 @@ class Player(Actor):
             self.level.output_buffer.add("That item isn't in your inventory!")
             #self.level.draw()
             self.andWait(0)
-        self.andWait(0)
-
-    def openDoor(self, xDiff, yDiff):
-        for entity in self.level.grid.get(self.xpos+xDiff, self.ypos+yDiff):
-            if(isinstance(entity, Door)):
-                entity.open()
         self.andWait(0)
 
     def die(self, killer):

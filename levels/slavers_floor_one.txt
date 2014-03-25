@@ -33,8 +33,8 @@ x::enemy::name == sleeping guard,, description == A guard asleep at his post.,, 
 S::item::name == rusted short sword,, description == An old, dull sword.
 1::triggertile::triggerDescription == Move using the arrow keys, number pad, or letters hjklyubn.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
 2::triggertile::triggerDescription == Open doors by moving into them or pressing o.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
-3::triggertile::triggerDescription == Press x to look. While looking, press z to e,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226,, internalName == lookTutorial
-6::triggertile::triggerDescription == Pray to Brand in front of any fire by pressing p.,, repeatable == False,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226,, internalName == lookTutorial
+3::triggertile::triggerDescription == Press x to look. While looking, press z to examine something in more detail or  q to quit looking.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226,, internalName == lookTutorial
+6::triggertile::triggerDescription == Press x to look. While looking, press z to examine something in more detail or q to quit looking.,, repeatable == False,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226,, internalName == lookTutorial
 4::triggertile::triggerDescription == Pick up items with g. Access the inventory with i. Equip the sword from the inventory.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
 5::triggertile::triggerDescription == Attack an enemy by moving into them.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
 
