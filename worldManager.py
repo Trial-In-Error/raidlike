@@ -1,6 +1,7 @@
 from levelManager import levelManager
 import pickle
 import config
+import religion
 
 class worldManager():
 	"""
@@ -11,22 +12,23 @@ class worldManager():
 	"""
 	
 	def __init__(self):
-		#self.levelOne = levelManager.load("level_mockup")
-		#self.levelTwo = levelManager.load("los_test")
 		self.throneRoom = levelManager.load("throne_room")
 		self.slaversOne = levelManager.load("slavers_floor_one")
 		self.slaversTwo = levelManager.load("slavers_floor_two")
 		self.slaversBasement = levelManager.load("slavers_basement")
 		#self.levelTwo.camera.lineOfSight = 5
 		self.currentLevel = self.slaversOne
-		self.pantheon = None
+		config.player = self.currentLevel.player
+		self.pantheon = religion.Pantheon()
 		self.levelDict = {
-			#'one' : self.levelOne,
 			'throneRoom' : self.throneRoom,
 			'slaversOne' : self.slaversOne,
 			'slaversTwo' : self.slaversTwo,
 			'slaversBasement' : self.slaversBasement
 		}
+
+		#CHANGE THIS LATER
+		config.player.worshipping = self.pantheon.Brand
 	def update(self):
 		self.currentLevel.update()
 	def menu(self):

@@ -1,27 +1,38 @@
 new
-portals
-	description
-level editor
-	commas are not legal as a display character
 troubleshooting
 	implement a give X, Y location command
 line-of-sight
 	performance issues with large LoS!!!
 		7 is laggy, 8 is terrible, 9 is godawful
-
 implement o to open, c to close
-portal/door open/enter descriptions
 message object implementation?
-enemy AI will let it walk through doors
-collide type needs to become a list
+collide type needs to become a dict
 "You're standing on an key"
-
-death needs to save gamestate / remove gamestate
-output buffer not color safeguarded
+memory and items
 main menu->credits screen
 main menu->choose god
-triggertiles->queue up multiple lines of text
 player->worshipping never set
+
+TUTORIAL LEVEL IMPLEMENTATION
+	tutorialize
+		wait
+		save
+		quit
+		stances
+		healing
+		obelisk
+		death
+	implement
+		obelisk
+		healing items
+		healing hotkey
+		death/respawn
+		see-through doors
+
+MESSAGE OBJECT IMPLEMENTATION
+	outputBuffer needs to accept message objects
+	triggertiles->queue up multiple lines of text
+	allows composing red-blue-red one line text
 
 
 NOTE: FLOORPLANS MUST INCLUDE A "." GLYPH. IT WILL BE USED BY DEFAULT UNDERNEATH THINGS

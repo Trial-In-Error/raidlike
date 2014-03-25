@@ -3,8 +3,8 @@
 #BECAUSE IT IS NOT SAVED OR LOADED
 
 import unicurses
-world = 0
-player = 0
+world = None
+player = None
 directions = {
 	"n":[0, 1],
 	"s":[0, -1],
