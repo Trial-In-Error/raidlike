@@ -1,18 +1,4 @@
 new
-troubleshooting
-	implement a give X, Y location command
-line-of-sight
-	performance issues with large LoS!!!
-		7 is laggy, 8 is terrible, 9 is godawful
-implement o to open, c to close
-message object implementation?
-collide type needs to become a dict
-"You're standing on an key"
-memory and items
-main menu->credits screen
-main menu->choose god
-player->worshipping never set
-
 TUTORIAL LEVEL IMPLEMENTATION
 	tutorialize
 		wait
@@ -29,6 +15,26 @@ TUTORIAL LEVEL IMPLEMENTATION
 		death/respawn
 		see-through doors
 
+RE-DO LOS / DRAW CODE
+	memory and items
+	performance issues with large LoS!!!
+		7 is laggy, 8 is terrible, 9 is godawful
+	atypical behavior
+
+EXTEND POST-MOVE DESCRIBE
+	"You're standing on an key"
+
+MAIN MENU IMPLEMENTATION
+	credits screen
+	choose god
+
+COLLIDETYPE IMPLEMENTATION
+	dict
+
+INPUT PARSING IMPLEMENTATION
+	healing item hotkey
+	implement o to open, c to close
+
 MESSAGE OBJECT IMPLEMENTATION
 	outputBuffer needs to accept message objects
 	triggertiles->queue up multiple lines of text
@@ -41,7 +47,6 @@ TRIGGER TILES PROC WHEN YOU ATTACK INTO THEIR LOCATION
 old
 IMPORTANT:
 * equipment
-* migrate colorDict & extend to type
 
 WALLS: WRAP AROUND SCARINESS
 FIX GRID TO NOT ACCEPT NEGATIVE

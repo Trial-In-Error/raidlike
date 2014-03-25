@@ -43,7 +43,8 @@ class worldManager():
 		    a = pickle.load(io_test)
 		    for entry in self.__dict__:
 		    	self.__dict__[entry] = a.__dict__[entry]
-
+	def player_pos(self):
+		return [self.currentLevel.player.xpos, self.currentLevel.player.ypos]
 	def swapLevels(self, portalInc):
             # remove player from old level
             config.player = self.currentLevel.player
