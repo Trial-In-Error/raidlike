@@ -26,8 +26,11 @@ Glyphs
 @::player::
 #::wall::description == A wall of dried mud bricks.,, name == a dried mud wall,, displayColor == 130,, memoryDisplayColor == 130
 .::floor::name == a sandy floor,, description == The floor is made of densely packed sand.,, displayColor == 226,, memoryDisplayColor == 226
-<::portal::toWhichLevel == slaversTwo,, toWhichPortal == slaversTwoStair,, internalName == slaversOneStair,, direction == e,, display == <,, displayColor == 142,, memoryDisplayColor == 142
->::portal::toWhichLevel == slaversBasement,, toWhichPortal == slaversBasementUpStair,, internalName == slaversOneDownStair,, direction == e,, display == >,, displayColor == 142,, memoryDisplayColor == 142
+
+<::portal::toWhichLevel == slaversTwo,, toWhichPortal == slaversTwoStair,, internalName == slaversOneStair,, direction == e,, display == <,, displayColor == 142,, memoryDisplayColor == 142,, name == rickety staircase,, description == A poorly constructed wooden staircase leads up.
+
+>::portal::toWhichLevel == slaversBasement,, toWhichPortal == slaversBasementUpStair,, internalName == slaversOneDownStair,, direction == e,, display == >,, displayColor == 142,, memoryDisplayColor == 142,, name == rickety staircase,, description == A poorly constructed wooden staircase leads down.
+
 x::sleeper::name == sleeping guard,, description == A guard asleep at his post.,, display == @,, displayColor == 181,, guaranteedDropList == Key.fromString("test, name=rusted key, description=A rusted iron key."), Key.fromString("test2")
 +::door::displayColor == 94,, memoryDisplayColor == 94,, collideType == "closed_door"
 S::item::name == rusted short sword,, description == An old, dull sword.

@@ -149,7 +149,7 @@ class Door(Entity):
             # make it cost time to check?
 
 class Portal(Entity):
-    def __init__(self, xpos, ypos, level, *, internalName, toWhichPortal, toWhichLevel, direction, **kwargs):
+    def __init__(self, xpos, ypos, level, *, internalName, toWhichPortal, toWhichLevel, direction, portalDescription = "You move through the portal.", **kwargs):
         defaults = {
             'description': "A portal to somewhere else.",
             'display': "*",
@@ -166,9 +166,11 @@ class Portal(Entity):
         #self.name = name
         self.toWhichPortal = toWhichPortal
         self.direction = direction
+        self.portalDescription = portalDescription
         level.portalList.append(self)
     def collide(self):
         config.world.swapLevels(self)
+        config.world.currentLevel.output_buffer.add(self.portalDescription)
         return self.collideType
 
 

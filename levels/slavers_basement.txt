@@ -8,13 +8,21 @@
 
 Glyphs
 #::wall::description == A tunnel wall of loosely packed sand and rough rock.,, name == a sandy tunnel wall,, displayColor == 130,, memoryDisplayColor == 130
+
 .::floor::name == a sandy floor,, description == The floor is made of densely packed sand.,, displayColor == 226,, memoryDisplayColor == 226
+
 1::triggertile::triggerDescription == Move diagonally with the numberpad or letters yubn.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
+
 2::triggertile::triggerDescription == Some terrain will slow you down or hurt you.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
+
 3::triggertile::triggerDescription == Brand: Ah! An Obelisk. Touch it for a share of divinity...,, repeatable == False,, textColor == 196,, displayColor == 226,, memoryDisplayColor == 226
+
 ;::triggertile::triggerDescription == You move slowly through the loose sand and debris.,, repeatable == True,, name == debris,, description == A patch of deep sand, rough rocks, and a shattered timber.,, display == ;,, moveCost == 2,, displayColor == 130,, memoryDisplayColor == 130
-<::portal::toWhichLevel == slaversOne,, toWhichPortal == slaversOneDownStair,, internalName == slaversBasementUpStair,, direction == w,, display == <,, displayColor == 142,, memoryDisplayColor == 142
+
+<::portal::toWhichLevel == slaversOne,, toWhichPortal == slaversOneDownStair,, internalName == slaversBasementUpStair,, direction == w,, display == <,, displayColor == 142,, memoryDisplayColor == 142,, name == rickety staircase,, description == A poorly constructed wooden staircase leads up.
+
 /::wall::name == support beam, description == A wooden support beam holds the tunnel up.,, display == /,, displayColor == 130,, memoryDisplayColor == 130
+
 \::wall::name == support beam, description == A wooden support beam holds the tunnel up.,, display == \,, displayColor == 130,, memoryDisplayColor == 130
 
 Triggers
