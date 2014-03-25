@@ -348,6 +348,7 @@ class Player(Actor):
             self.andWait(0)
 
     def postMoveDescribe(self):
+        # generalize this!
         cell = self.level.grid.getCell(self.xpos, self.ypos)
         for content in cell.getContents():
             if(isinstance(content, Item)):
@@ -607,3 +608,47 @@ class Hound(Enemy):
         unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
         unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display, unicurses.A_REVERSE)
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
+
+class Sleeper(Enemy):
+    def __init__(self, xpos, ypos, level, **kwargs):
+        defaults = {
+            'damage': 1,
+            'description': "A generic enemy.",
+            'display': "x",
+            'displayColor': "red",
+            'displayPriority': 2,
+            'health': 3,
+            'memoryDisplayColor': "blue",
+            'moveCost': 3,
+            'name': "generic enemy",
+            'collideType': "combat_enemy"
+        }
+        defaults.update(kwargs)
+        self.isAwake = False
+        super().__init__(xpos, ypos, level, **defaults)
+
+    def act(self):
+        if(self.isAwake):
+            xDiff = self.xpos - self.level.player.xpos
+            yDiff = self.ypos - self.level.player.ypos
+            if(abs(xDiff) >= abs(yDiff)):
+                if(xDiff >= 0):
+                    self.move("west")
+                else:
+                    self.move("east")
+            elif(yDiff >= 0):
+                self.move("south")
+            else:
+                self.move("north")
+
+    def takeDamage(self, attacker): #note: things only die if isDamaged
+        self.isAwake = true
+        self.name = "guard"
+        self.description = "A guard you've rudely awakened."
+        self.health = self.health - int(attacker.damage)
+        if(self.health <= 0):
+            self.die(attacker)
+        else:
+            self.level.output_buffer.add(attacker.name.capitalize() +
+                " hit " + self.name + " for " +
+            str(attacker.damage) + " damage.\r")
