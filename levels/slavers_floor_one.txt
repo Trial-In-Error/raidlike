@@ -24,7 +24,9 @@
 
 Glyphs
 @::player::
+
 #::wall::description == A wall of dried mud bricks.,, name == a dried mud wall,, displayColor == 130,, memoryDisplayColor == 130
+
 .::floor::name == a sandy floor,, description == The floor is made of densely packed sand.,, displayColor == 226,, memoryDisplayColor == 226
 
 <::portal::toWhichLevel == slaversTwo,, toWhichPortal == slaversTwoStair,, internalName == slaversOneStair,, direction == e,, display == <,, displayColor == 142,, memoryDisplayColor == 142,, name == rickety staircase,, description == A poorly constructed wooden staircase leads up.,, portalDescription == You head up the wooden stairs.
@@ -32,13 +34,21 @@ Glyphs
 >::portal::toWhichLevel == slaversBasement,, toWhichPortal == slaversBasementUpStair,, internalName == slaversOneDownStair,, direction == e,, display == >,, displayColor == 142,, memoryDisplayColor == 142,, name == rickety staircase,, description == A poorly constructed wooden staircase leads down.,, portalDescription == You head down the wooden stairs.
 
 x::sleeper::name == sleeping guard,, description == A guard asleep at his post.,, display == @,, displayColor == 181,, guaranteedDropList == Key.fromString("test, name=rusted key, description=A rusted iron key.")
+
 +::door::displayColor == 94,, memoryDisplayColor == 94,, collideType == "closed_door"
+
 S::item::name == rusted short sword,, description == An old, dull sword.
+
 1::triggertile::triggerDescription == Move using the arrow keys, number pad, or letters hjklyubn.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
+
 2::triggertile::triggerDescription == Open doors by moving into them or pressing o.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
+
 3::triggertile::triggerDescription == Press x to look. While looking, press z to examine something in more detail or  q to quit looking.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226,, internalName == lookTutorial
+
 6::triggertile::triggerDescription == Press x to look. While looking, press z to examine something in more detail or q to quit looking.,, repeatable == False,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226,, internalName == lookTutorial
+
 4::triggertile::triggerDescription == Pick up items with g. Access the inventory with i. Equip the sword from the inventory.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
+
 5::triggertile::triggerDescription == Attack an enemy by moving into them.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
 
 Triggers

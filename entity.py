@@ -150,7 +150,7 @@ class Door(Entity):
                     hasKey = True
         if((not self.isOpen and self.keyInternalName == None)
             or (not self.isOpen and hasKey)):
-            if isinstance(opener, Player):
+            if isinstance(opener, Player) and not self.openDescription == "None":
                 config.world.currentLevel.output_buffer.add(self.openDescription)
             self.collideType = "open_door"
             self.display = "'"
