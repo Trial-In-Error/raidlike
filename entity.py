@@ -354,7 +354,10 @@ class Player(Actor):
         cell = self.level.grid.getCell(self.xpos, self.ypos)
         for content in cell.getContents():
             if(isinstance(content, Item)):
-                self.level.output_buffer.add("You're standing on an "+content.name+".")
+                if(content.name[0] in 'aeiouy'):
+                    self.level.output_buffer.add("You're standing on an "+content.name+".")
+                else:
+                    self.level.output_buffer.add("You're standing on a "+content.name+".")
 
     def get(self):
         grounded_item = self.level.grid.getItem(self.xpos, self.ypos)
@@ -371,7 +374,10 @@ class Player(Actor):
             self.andWait(0)
             return
         self.inventory.add(grounded_item)
-        self.level.output_buffer.add("You picked up an "+grounded_item.name+".")
+        if(grounded_item.name[0] in 'aeiouy'):
+            self.level.output_buffer.add("You picked up an "+grounded_item.name+".")
+        else:
+            self.level.output_buffer.add("You picked up a "+grounded_item.name+".")
         self.andWait(1)
 
     def drop(self, letter):
