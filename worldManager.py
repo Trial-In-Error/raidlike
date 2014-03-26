@@ -68,3 +68,26 @@ class worldManager():
                     self.currentLevel.timeline.addToTop(config.player)
             #    else:
             #        raise IndexError
+
+	def swapViaDeath(self, obelisk):
+            # remove player from old level
+            config.player = self.currentLevel.player
+            if(self.currentLevel.player.level == obelisk.level):
+            	self.currentLevel.player.andWait(0)
+            else:
+            	obelisk.level.timeline.addToTop(config.player)
+            # DESCRIPTIVE TEXT GOES HERE
+            self.currentLevel.grid.remove(config.player, config.player.xpos, config.player.ypos)
+            self.currentLevel.timeline.remove(config.player)
+            self.currentLevel.player = config.player
+            # swap control to the new level
+            self.currentLevel = obelisk.level
+            config.player.level = self.currentLevel
+            self.currentLevel.setPlayer(config.player)
+            # place player in new level
+            self.currentLevel.grid.add(config.player, obelisk.xpos + config.directions[obelisk.exitDirection][0], obelisk.ypos + config.directions[obelisk.exitDirection][1])
+            self.currentLevel.player = config.player
+            config.player.xpos = obelisk.xpos + config.directions[obelisk.exitDirection][0]
+            config.player.ypos = obelisk.ypos + config.directions[obelisk.exitDirection][1]
+            self.currentLevel.camera.player = config.player
+            

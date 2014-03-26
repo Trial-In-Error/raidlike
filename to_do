@@ -5,6 +5,10 @@ DISPLAY PRIORITY HIERARCHY
 2: items
 3: enemies
 
+PLAYER DIE
+    # do terrible things to the play here
+    # give the player pity healing here
+
 TUTORIAL LEVEL IMPLEMENTATION
 	tutorialize
 		wait
@@ -44,6 +48,8 @@ MESSAGE OBJECT IMPLEMENTATION
 	outputBuffer needs to accept message objects
 	triggertiles->queue up multiple lines of text
 	allows composing red-blue-red one line text
+
+CHINATOWN; 80's; WATER; L.A.
 
 sleeper: #add wake-up description!!!
 

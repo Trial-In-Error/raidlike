@@ -61,7 +61,7 @@ class Entity():
         return self.display
 
 class Obelisk(Entity):
-    def __init__(self, xpos, ypos, level, triggerDescription=None, internalName=None, textColor="white", **kwargs):
+    def __init__(self, xpos, ypos, level, exitDirection = "e", triggerDescription=None, internalName=None, textColor="white", **kwargs):
         defaults = {
             'display': "",
             'displayColor': "94",
@@ -77,6 +77,7 @@ class Obelisk(Entity):
         self.triggerDescription = triggerDescription
         self.hasBeenCollided = False
         self.internalName = internalName
+        self.exitDirection = exitDirection
         super().__init__(xpos, ypos, level, **defaults)
 
     def collide(self):
@@ -84,6 +85,7 @@ class Obelisk(Entity):
         if(self.triggerDescription and not self.hasBeenCollided):
             config.world.currentLevel.output_buffer.add_formatted([self.triggerDescription, self.textColor])
         self.hasBeenCollided = True
+        config.player.lastObelisk = self
         #put code to increment healing items here
         return self.collideType
 
@@ -205,6 +207,7 @@ class Actor(Entity):
         self.attackCost = attackCost
         self.damage = damage
         self.health = health
+        self.maxHealth = health
         self.moveCost = moveCost
         self.canOpenDoors = canOpenDoors
         self.guaranteedDropList = guaranteedDropList
@@ -326,6 +329,7 @@ class Player(Actor):
         self.title = "Chosen of Brand"
         self.playerName = "Roderick"
         self.worshipping = worshipping
+        self.lastObelisk = None
         self.inventory = Inventory(self, self.level)
         self.boonList = []
 
@@ -408,18 +412,26 @@ class Player(Actor):
         self.andWait(0)
 
     def die(self, killer):
-        self.level.output_buffer.clear()
-        self.level.output_buffer.add("You died! Game over.")
-        self.level.output_buffer.add("Press 'q' to quit.") #CHANGE TO SPACE
-        self.level.draw()
-        while(True):
-            lineIn = unicurses.getch()
-            if(lineIn==unicurses.CCHAR('q')):
-                unicurses.clear()
-                unicurses.refresh()
-                unicurses.endwin()
-                print("Be seeing you...")
-                exit()
+        if(self.lastObelisk == None):
+            self.level.output_buffer.clear()
+            self.level.output_buffer.add("You died! Game over.")
+            self.level.output_buffer.add("Press 'q' to quit.") #CHANGE TO SPACE
+            self.level.draw()
+            while(True):
+                lineIn = unicurses.getch()
+                if(lineIn==unicurses.CCHAR('q')):
+                    unicurses.clear()
+                    unicurses.refresh()
+                    unicurses.endwin()
+                    print("Be seeing you...")
+                    exit()
+        else:
+            self.lastObelisk.level.output_buffer.add("You died!")
+            self.lastObelisk.level.output_buffer.add("You are reborn in a flash of fire at an obelisk.")
+            config.world.swapViaDeath(self.lastObelisk)
+            config.player.health = config.player.maxHealth
+            # do terrible things to the play here
+            # give the player pity healing here
 
 class Enemy(Actor):
     def __init__(self, xpos, ypos, level, **kwargs):
@@ -634,7 +646,7 @@ class Hound(Enemy):
 
 class Sleeper(Enemy):
     #add wake-up description!!!
-    def __init__(self, xpos, ypos, level, **kwargs):
+    def __init__(self, xpos, ypos, level, awakeDescription=None, wakingDescription=None, **kwargs):
         defaults = {
             'damage': 1,
             'description': "A generic enemy.",
@@ -645,10 +657,12 @@ class Sleeper(Enemy):
             'memoryDisplayColor': "blue",
             'moveCost': 3,
             'name': "generic enemy",
-            'collideType': "combat_enemy"
+            'collideType': "combat_enemy",
         }
         defaults.update(kwargs)
         self.isAwake = False
+        self.wakingDescription = wakingDescription
+        self.awakeDescription = awakeDescription
         super().__init__(xpos, ypos, level, **defaults)
 
     def act(self):
@@ -667,11 +681,19 @@ class Sleeper(Enemy):
 
     def takeDamage(self, attacker): #note: things only die if isDamaged
         if(not self.isAwake):
-            self.level.output_buffer.add("The "+self.name+" wakes up, screaming in pain!")
+            if(not self.wakingDescription):
+                self.level.output_buffer.add("The "+self.name+" wakes up, screaming in pain!")
+            else:
+                self.level.output_buffer.add(self.wakingDescription)
             self.level.timeline.add(self, 0)
             self.isAwake = True
+        #this is problematic; it returns a list when I need a string!
+        #self.name = self.name.split(' ')[1:]
         self.name = "guard"
-        self.description = "A guard you've rudely awakened."
+        if(not self.awakeDescription):
+            self.description = "A guard you've rudely awakened."
+        else:
+            self.description = self.awakeDescription
         self.health = self.health - int(attacker.damage)
         if(self.health <= 0):
             self.die(attacker)

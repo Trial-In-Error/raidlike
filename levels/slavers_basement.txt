@@ -8,7 +8,7 @@
  ################################################
 
 Glyphs
-&::obelisk::triggerDescription == The first time you touch an obelisk, you'll receive Shards. Shards can be used to heal. Additionally, you'll respawn at your most recently touched obelisk when you die.
+&::obelisk::triggerDescription == The first time you touch an obelisk, you'll receive Shards. Shards can be used to heal. Additionally, you'll respawn at your most recently touched obelisk when you die.,, exitDirection == e
 
 #::wall::description == A tunnel wall of loosely packed sand and rough rock.,, name == a sandy tunnel wall,, displayColor == 130,, memoryDisplayColor == 130
 

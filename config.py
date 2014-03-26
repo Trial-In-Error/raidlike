@@ -7,13 +7,21 @@ world = None
 player = None
 directions = {
 	"n":[0, 1],
+    "north":[0, 1],
 	"s":[0, -1],
+    "south":[0, -1],
 	"e":[1, 0],
+    "east":[1, 0],
 	"w":[-1, 0],
+    "west":[-1, 0],
 	"ne":[1, 1],
+    "northeast":[1, 1],
 	"nw":[-1, 1],
+    "northwest":[-1, 1],
 	"se":[1, -1],
-	"sw":[-1, -1]
+    "southeast":[1, -1],
+	"sw":[-1, -1],
+    "southwest":[-1, -1]
 }
 
 colorDict = {
