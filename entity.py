@@ -78,6 +78,7 @@ class Obelisk(Entity):
 class TriggerTile(Entity):
     def __init__(self, xpos, ypos, level, repeatable=True, triggerDescription=None, internalName=None, textColor="white", **kwargs):
         defaults = {
+            'displayPriority':1,
         }
         defaults.update(kwargs)
         self.triggerDescription = triggerDescription
@@ -111,6 +112,7 @@ class Door(Entity):
             'memoryDisplayColor': "94",
             'name': "door",
             'description': "A closed door.",
+            'displayPriority':1,
         }
         defaults.update(kwargs)
         self.level = level
@@ -413,7 +415,7 @@ class Enemy(Actor):
             'description': "A generic enemy.",
             'display': "x",
             'displayColor': "red",
-            'displayPriority': 2,
+            'displayPriority': 3,
             'health': 3,
             'memoryDisplayColor': "blue",
             'moveCost': 3,
@@ -445,7 +447,7 @@ class Item(Entity):
         defaults = {
             'description': "An item",
             'display': '?',
-            'displayPriority': 1,
+            'displayPriority': 2,
             'displayColor': "cyan",
             'memoryDisplayColor': "blue",
             'name': "item",

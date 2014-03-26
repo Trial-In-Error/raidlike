@@ -1,4 +1,15 @@
 new
+
+DISPLAY PRIORITY HIERARCHY
+1: floor, door
+2: items
+3: enemies
+
+OUTSTANDING BUGS:
+	AI of guard
+	guard item drops
+####item display priority < trigger tiles and doors!!
+
 TUTORIAL LEVEL IMPLEMENTATION
 	tutorialize
 		wait
