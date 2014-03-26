@@ -33,12 +33,12 @@ class Camera():
         self.drawHUD()
 
     def drawFromMemory(self, player_xpos, player_ypos):
-        for xpos in range(max(0, player_xpos - self.adjLensWidth), min(self.lensWidth+1, player_xpos + self.adjLensWidth)):
-            for ypos in range(max(0, player_ypos - self.adjLensHeight), min(self.level.height+1, player_ypos + self.adjLensHeight)):
+        for xpos in range(max(1, player_xpos - self.adjLensWidth), min(self.level.width+1, player_xpos + self.adjLensWidth)):
+            for ypos in range(max(1, player_ypos - self.adjLensHeight), min(self.level.height+1, player_ypos + self.adjLensHeight)):
                 try:
                     if(self.level.grid.getCell(xpos, ypos).hasBeenSeen
-                        and (abs(player_xpos - xpos) < self.adjLensWidth)
-                        and (abs(abs(ypos)-abs(player_ypos)) < self.adjLensHeight)):
+                        and (max(player_xpos - xpos, 0) < self.adjLensWidth)
+                        and (max(ypos - player_ypos, 0) < self.adjLensHeight)):
                         self.level.grid.drawCellRelativeFromMemory(xpos, ypos, player_xpos, player_ypos, self.adjLensWidth, self.adjLensHeight)
                 except IndexError:
                     pass
@@ -55,6 +55,7 @@ class Camera():
         unicurses.mvaddstr(1, self.lensWidth, self.level.player.playerName)
         unicurses.mvaddstr(2, self.lensWidth, self.level.player.title)
         unicurses.mvaddstr(3, self.lensWidth, "Health: "+str(self.level.player.health))
+        unicurses.mvaddstr(4, self.lensWidth, "Shards of Divinity: "+str(5))
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"]))
         self.drawHUDBoundaries()
 
@@ -67,8 +68,8 @@ class Camera():
             unicurses.mvaddch(0, xpos, "-")
             unicurses.mvaddch(self.lensHeight-1, xpos, "-")
         for ypos in range(0, self.lensHeight):
-            unicurses.mvaddch(ypos, self.lensWidth+15, "|")
-        for xpos in range(self.lensWidth, self.lensWidth+16):
+            unicurses.mvaddch(ypos, self.lensWidth+20, "|")
+        for xpos in range(self.lensWidth, self.lensWidth+21):
             unicurses.mvaddch(0, xpos, "-")
             unicurses.mvaddch(self.lensHeight-1, xpos, "-")
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"]))

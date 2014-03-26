@@ -33,6 +33,8 @@ class Grid():
                 yield result
 
     def get(self, xpos, ypos):
+        if(xpos <= 0 or ypos <= 0):
+            raise IndexError
         return self.getCell(xpos,ypos).getContents()
 
     def getCell(self, xpos, ypos):
