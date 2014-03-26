@@ -61,7 +61,7 @@ class Entity():
         return self.display
 
 class Obelisk(Entity):
-    def __init__(self, xpos, ypos, level, textColor="white", **kwargs):
+    def __init__(self, xpos, ypos, level, triggerDescription=None, internalName=None, textColor="white", **kwargs):
         defaults = {
             'display': "",
             'displayColor': "94",
@@ -73,7 +73,17 @@ class Obelisk(Entity):
         defaults.update(kwargs)
         self.level = level
         self.textColor = textColor
+        self.triggerDescription = triggerDescription
+        self.hasBeenCollided = False
+        self.internalName = internalName
         super().__init__(xpos, ypos, level, **defaults)
+
+    def collide(self):
+        if(self.triggerDescription and not self.hasBeenCollided):
+            config.world.currentLevel.output_buffer.add_formatted([self.triggerDescription, self.textColor])
+        self.hasBeenCollided = True
+        #put code to increment healing items here
+        return self.collideType
 
 class TriggerTile(Entity):
     def __init__(self, xpos, ypos, level, repeatable=True, triggerDescription=None, internalName=None, textColor="white", **kwargs):
@@ -620,6 +630,7 @@ class Hound(Enemy):
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
 
 class Sleeper(Enemy):
+    #add wake-up description!!!
     def __init__(self, xpos, ypos, level, **kwargs):
         defaults = {
             'damage': 1,

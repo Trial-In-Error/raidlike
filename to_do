@@ -45,6 +45,7 @@ MESSAGE OBJECT IMPLEMENTATION
 	triggertiles->queue up multiple lines of text
 	allows composing red-blue-red one line text
 
+sleeper: #add wake-up description!!!
 
 NOTE: FLOORPLANS MUST INCLUDE A "." GLYPH. IT WILL BE USED BY DEFAULT UNDERNEATH THINGS
 TRIGGER TILES PROC WHEN YOU ATTACK INTO THEIR LOCATION
