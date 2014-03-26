@@ -69,6 +69,7 @@ class Obelisk(Entity):
             'collideType': "obelisk",
             'name': "obelisk",
             'description': "An ancient stone obelisk.",
+            'display':"&",
         }
         defaults.update(kwargs)
         self.level = level
@@ -79,6 +80,7 @@ class Obelisk(Entity):
         super().__init__(xpos, ypos, level, **defaults)
 
     def collide(self):
+        config.world.currentLevel.output_buffer.add_formatted(["You touch the obelisk.", self.textColor])
         if(self.triggerDescription and not self.hasBeenCollided):
             config.world.currentLevel.output_buffer.add_formatted([self.triggerDescription, self.textColor])
         self.hasBeenCollided = True
@@ -268,7 +270,7 @@ class Actor(Entity):
             raise IndexError #HOW DO I DO EXCEPTIONS???
         if(temp.count("true")==0
         and temp.count("combat_player")==0
-        and temp.count("combat_enemy")==0 and temp.count("portal")==0 and temp.count("see_through")==0 and temp.count("closed_door")==0):
+        and temp.count("combat_enemy")==0 and temp.count("portal")==0 and temp.count("see_through")==0 and temp.count("closed_door")==0 and temp.count("obelisk")==0):
             self.doMove(moveDict[direction][0], moveDict[direction][1])
             return
         if(temp.count("combat_player")==1):
@@ -353,7 +355,8 @@ class Player(Actor):
             return
         if(temp.count("actor")>0):
             raise IndexError #HOW DO I DO EXCEPTIONS???
-        if(temp.count("true")==0 and temp.count("combat_enemy")==0 and temp.count("portal")==0 and temp.count("see_through")==0 and temp.count("closed_door")==0):
+        if(temp.count("true")==0 and temp.count("combat_enemy")==0 and temp.count("portal")==0
+            and temp.count("see_through")==0 and temp.count("closed_door")==0 and temp.count("obelisk")==0):
             self.doMove(moveDict[direction][0], moveDict[direction][1])
             self.postMoveDescribe()
         elif(temp.count("combat_enemy")==1):
