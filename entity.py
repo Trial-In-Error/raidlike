@@ -652,7 +652,10 @@ class Sleeper(Enemy):
                 self.move("north")
 
     def takeDamage(self, attacker): #note: things only die if isDamaged
-        self.isAwake = True
+        if(not self.isAwake):
+            self.level.output_buffer.add("The "+self.name+" wakes up, screaming in pain!")
+            self.level.timeline.add(self, 0)
+            self.isAwake = True
         self.name = "guard"
         self.description = "A guard you've rudely awakened."
         self.health = self.health - int(attacker.damage)

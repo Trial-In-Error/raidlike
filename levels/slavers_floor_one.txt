@@ -12,10 +12,10 @@
 .#####..#####
 .#...#..#.4S#
 .#...+..+.4.#
-.#...#..#.44#
-.#####..########
-####.+..#...#..#
-#>.#.#..#...#.x#
+.#...#..#.44####
+.#####..#####..#
+####.+..#...#.x#
+#>.#.#..#...#..#
 ##...#..#...#55#
 .#...#..##+##+##
 .#...#.........+
@@ -31,7 +31,7 @@ Glyphs
 
 >::portal::toWhichLevel == slaversBasement,, toWhichPortal == slaversBasementUpStair,, internalName == slaversOneDownStair,, direction == e,, display == >,, displayColor == 142,, memoryDisplayColor == 142,, name == rickety staircase,, description == A poorly constructed wooden staircase leads down.,, portalDescription == You head down the wooden stairs.
 
-x::sleeper::name == sleeping guard,, description == A guard asleep at his post.,, display == @,, displayColor == 181,, guaranteedDropList == Key.fromString("test, name=rusted key, description=A rusted iron key."), Key.fromString("test2")
+x::sleeper::name == sleeping guard,, description == A guard asleep at his post.,, display == @,, displayColor == 181,, guaranteedDropList == Key.fromString("test, name=rusted key, description=A rusted iron key.")
 +::door::displayColor == 94,, memoryDisplayColor == 94,, collideType == "closed_door"
 S::item::name == rusted short sword,, description == An old, dull sword.
 1::triggertile::triggerDescription == Move using the arrow keys, number pad, or letters hjklyubn.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
