@@ -61,7 +61,7 @@ class Entity():
         return self.display
 
 class Obelisk(Entity):
-    def __init__(self, xpos, ypos, level, exitDirection = "e", triggerDescription=None, internalName=None, textColor="white", **kwargs):
+    def __init__(self, xpos, ypos, level, exitDirection = "e", triggerDescription=None, internalName=None, shardIncrement=5, textColor="white", **kwargs):
         defaults = {
             'display': "",
             'displayColor': "94",
@@ -78,12 +78,17 @@ class Obelisk(Entity):
         self.hasBeenCollided = False
         self.internalName = internalName
         self.exitDirection = exitDirection
+        self.shardIncrement = shardIncrement
         super().__init__(xpos, ypos, level, **defaults)
 
     def collide(self):
         config.world.currentLevel.output_buffer.add_formatted(["You touch the obelisk.", self.textColor])
         if(self.triggerDescription and not self.hasBeenCollided):
             config.world.currentLevel.output_buffer.add_formatted([self.triggerDescription, self.textColor])
+            config.player.shardCount = config.player.shardCount + self.shardIncrement
+        elif(config.player.shardCount <= 0):
+            config.player.shardCount = 2
+            config.world.currentLevel.output_buffer.add("You feel the obelisk lending you strength.")
         self.hasBeenCollided = True
         config.player.lastObelisk = self
         #put code to increment healing items here
@@ -317,7 +322,7 @@ class Player(Actor):
             'display': '@',
             'displayColor': "player",
             'displayPriority': 3,
-            'health': 10,
+            'health': 100,
             'moveCost': 3,
             'name': "player",
             'collideType': "combat_player",
@@ -330,6 +335,7 @@ class Player(Actor):
         self.playerName = "Roderick"
         self.worshipping = worshipping
         self.lastObelisk = None
+        self.shardCount = 0
         self.inventory = Inventory(self, self.level)
         self.boonList = []
 
@@ -428,6 +434,9 @@ class Player(Actor):
         else:
             self.lastObelisk.level.output_buffer.add("You died!")
             self.lastObelisk.level.output_buffer.add("You are reborn in a flash of fire at an obelisk.")
+            if(self.shardCount <= 0):
+                self.shardCount = 2
+                self.lastObelisk.level.output_buffer.add("You feel the obelisk lend you strength.")
             config.world.swapViaDeath(self.lastObelisk)
             config.player.health = config.player.maxHealth
             # do terrible things to the play here

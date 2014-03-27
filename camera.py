@@ -8,6 +8,7 @@ class Camera():
         self.adjLensWidth = int((lensWidth/2))
         self.lensHeight = lensHeight
         self.adjLensHeight = int((lensHeight/2))
+        self.hudWidth = 25
         try:
             self.grid = self.level.grid
         except AttributeError:
@@ -55,7 +56,7 @@ class Camera():
         unicurses.mvaddstr(1, self.lensWidth, self.level.player.playerName)
         unicurses.mvaddstr(2, self.lensWidth, self.level.player.title)
         unicurses.mvaddstr(3, self.lensWidth, "Health: "+str(self.level.player.health))
-        unicurses.mvaddstr(4, self.lensWidth, "Shards of Divinity: "+str(5))
+        unicurses.mvaddstr(4, self.lensWidth, "Shards of Divinity: "+str(self.player.shardCount))
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"]))
         self.drawHUDBoundaries()
 
@@ -68,8 +69,8 @@ class Camera():
             unicurses.mvaddch(0, xpos, "-")
             unicurses.mvaddch(self.lensHeight-1, xpos, "-")
         for ypos in range(0, self.lensHeight):
-            unicurses.mvaddch(ypos, self.lensWidth+20, "|")
-        for xpos in range(self.lensWidth, self.lensWidth+21):
+            unicurses.mvaddch(ypos, self.lensWidth+self.hudWidth, "|")
+        for xpos in range(self.lensWidth, self.lensWidth+self.hudWidth+1):
             unicurses.mvaddch(0, xpos, "-")
             unicurses.mvaddch(self.lensHeight-1, xpos, "-")
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"]))

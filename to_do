@@ -6,7 +6,7 @@ DISPLAY PRIORITY HIERARCHY
 3: enemies
 
 PLAYER DIE
-    # do terrible things to the play here
+    # do terrible things to the player here
     # give the player pity healing here
 
 TUTORIAL LEVEL IMPLEMENTATION
@@ -16,16 +16,13 @@ TUTORIAL LEVEL IMPLEMENTATION
 		quit
 		stances
 		healing
-		obelisk
-		death
 	implement
-		obelisk
-		healing items
+########obelisk
+########healing items
 		healing hotkey
 		death/respawn
 		see-through doors
 		stances
-		wait
 
 RE-DO LOS / DRAW CODE
 	memory and items
