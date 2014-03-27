@@ -1,13 +1,12 @@
 new
 
 DISPLAY PRIORITY HIERARCHY
-1: floor, door
+1: floor, door, trigger tile
 2: items
 3: enemies
 
 PLAYER DIE
     # do terrible things to the player here
-    # give the player pity healing here
 
 TUTORIAL LEVEL IMPLEMENTATION
 	tutorialize
@@ -18,14 +17,15 @@ TUTORIAL LEVEL IMPLEMENTATION
 		healing
 	implement
 ########obelisk
-########healing items
+########healing 'items'
+			display in inventory
 		healing hotkey
 		death/respawn
 		see-through doors
 		stances
 
 RE-DO LOS / DRAW CODE
-	memory and items
+		grid->drawContentsRelative->getBottomContents...
 	performance issues with large LoS!!!
 		7 is laggy, 8 is terrible, 9 is godawful
 	atypical behavior

@@ -1,5 +1,5 @@
 import sys
-from entity import Wall, Item, Portal, Door
+from entity import Wall, Item, Portal, Door, Key, Obelisk
 
 class Grid():
     """
@@ -229,9 +229,10 @@ class Cell():
         try:
             #if there exists a portal, return it?
             for element in self.contents:
-                if(type(element) == Portal):
+                if(type(element) == Portal or type(element) == Item or type(element) == Obelisk
+                    or type(element) == Key):
                     return element
-                return sorted(self.contents)[0]
+            return sorted(self.contents)[0]
         except IndexError:
             raise RuntimeError("Attempted to get bottom content, but there's an empty cell at: ("+str(self.gridxpos)+", "+str(self.gridypos)+").")
 
