@@ -8,8 +8,7 @@ from religion import Boon
 class Entity():
     def __init__(self, xpos, ypos, level, *,
                  description="A floor.",
-                 display='.',
-                 displayColor="yellow",
+                 display='.', displayColor="yellow",
                  displayPriority=1,
                  memoryDisplayColor="blue",
                  name="floor", collideType="false",
@@ -61,7 +60,12 @@ class Entity():
         return self.display
 
 class Obelisk(Entity):
-    def __init__(self, xpos, ypos, level, exitDirection = "e", triggerDescription=None, internalName=None, shardIncrement=5, textColor="white", **kwargs):
+    def __init__(self, xpos, ypos, level,
+                exitDirection = "e",
+                triggerDescription=None,
+                internalName=None,
+                shardIncrement=5,
+                textColor="white", **kwargs):
         defaults = {
             'display': "",
             'displayColor': "94",
@@ -95,7 +99,11 @@ class Obelisk(Entity):
         return self.collideType
 
 class TriggerTile(Entity):
-    def __init__(self, xpos, ypos, level, repeatable=True, triggerDescription=None, internalName=None, textColor="white", **kwargs):
+    def __init__(self, xpos, ypos, level,
+                repeatable=True,
+                triggerDescription=None,
+                internalName=None,
+                textColor="white", **kwargs):
         defaults = {
             'displayPriority':1,
         }
@@ -124,7 +132,11 @@ class TriggerTile(Entity):
         return self.collideType
 
 class Door(Entity):
-    def __init__(self, xpos, ypos, level, isOpen=False, keyInternalName=None, openDescription="The door opens.", closeDescription=None, openDisplay="'", closedDisplay="+", textColor="white", **kwargs):
+    def __init__(self, xpos, ypos, level, isOpen=False,
+                keyInternalName=None,
+                openDescription="The door opens.",
+                closeDescription=None, openDisplay="'",
+                closedDisplay="+", textColor="white", **kwargs):
         defaults = {
             'display': "+",
             'displayColor': "94",
@@ -196,8 +208,10 @@ class Portal(Entity):
 
 
 class Actor(Entity):
-    def __init__(self, xpos, ypos, level, *, canOpenDoors=False, guaranteedDropList=[], attackCost=2, damage=1, health=3, moveCost=3,
-                 **kwargs):
+    def __init__(self, xpos, ypos, level, *,
+                canOpenDoors=False, guaranteedDropList=[],
+                attackCost=2, damage=1, health=3, moveCost=3,
+                **kwargs):
         defaults = {
             'description': "An actor. This shouldn't be instantiated!",
             'display': "x",
@@ -314,8 +328,9 @@ class Actor(Entity):
         self.andWait(self.attackCost)
 
 class Player(Actor):
-    def __init__(self, xpos, ypos, level, *, playerName=None, title=None, worshipping=None,
-                 **kwargs):
+    def __init__(self, xpos, ypos, level, *,
+                playerName=None, title=None,
+                worshipping=None, **kwargs):
         defaults = {
             'damage': 1,
             'description': "It's you.",
@@ -492,7 +507,8 @@ class Item(Entity):
         super().__init__(xpos, ypos, level, **defaults)
 
 class Key(Item):
-    def __init__(self, xpos, ypos, level, internalName, **kwargs):
+    def __init__(self, xpos, ypos, level,
+                internalName, **kwargs):
         defaults = {
             'description': "A key.",
             'display': '?',
@@ -516,7 +532,8 @@ class Key(Item):
                 kwargs[temp[0].strip()] = temp[1].strip()
             except IndexError:
                 pass
-        return cls(xpos=None, ypos=None, level=None, internalName=tempList[0], **kwargs)
+        return cls(xpos=None, ypos=None, level=None,
+                    internalName=tempList[0], **kwargs)
 
 class Equippable(Item):
     def __init__(self, xpos, ypos, level, slot='???', **kwargs):
@@ -574,7 +591,8 @@ class Weapon(Equippable):
         super().__init__(xpos, ypos, level, **defaults)    
 
 class Floor(Entity):
-    def __init__(self, xpos, ypos, level, type='solid', moveCost='0', **kwargs):
+    def __init__(self, xpos, ypos, level, type='solid',
+                moveCost='0', **kwargs):
         defaults = {
             'description': "A floor.",
             'display': '.',
@@ -637,7 +655,8 @@ class Hound(Enemy):
             else:
                 self.move("north")
 
-    def drawRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
+    def drawRelative(self, player_xpos, player_ypos,
+                    lensWidth, lensHeight):
         if(not self.hasBeenSeen):
             self.level.timeline.add(self, 0)
             self.hasBeenSeen = True
@@ -645,7 +664,8 @@ class Hound(Enemy):
         unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
 
-    def drawRelativeBold(self, player_xpos, player_ypos, lensWidth, lensHeight):
+    def drawRelativeBold(self, player_xpos, player_ypos,
+                        lensWidth, lensHeight):
         if(not self.hasBeenSeen):
             self.level.timeline.add(self, 0)
             self.hasBeenSeen = True
@@ -655,7 +675,9 @@ class Hound(Enemy):
 
 class Sleeper(Enemy):
     #add wake-up description!!!
-    def __init__(self, xpos, ypos, level, awakeDescription=None, wakingDescription=None, **kwargs):
+    def __init__(self, xpos, ypos, level,
+                awakeDescription=None,
+                wakingDescription=None, **kwargs):
         defaults = {
             'damage': 1,
             'description': "A generic enemy.",
