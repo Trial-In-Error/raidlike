@@ -35,7 +35,7 @@ Glyphs
 
 >::portal::toWhichLevel == slaversBasement,, toWhichPortal == slaversBasementUpStair,, internalName == slaversOneDownStair,, direction == e,, display == >,, displayColor == 142,, memoryDisplayColor == 142,, name == rickety staircase,, description == A poorly constructed wooden staircase leads down.,, portalDescription == You head down the wooden stairs.
 
-x::sleeper::name == sleeping guard,, description == A guard asleep at his post.,, display == @,, displayColor == 181,, guaranteedDropList == Key.fromString("test, name=rusted key, description=A rusted iron key.")
+x::sleeper::name == sleeping guard,, description == A guard asleep at his post.,, display == @,, displayColor == 181,, guaranteedDropList == Key.fromString("test, name=rusted key, description=A rusted iron key."),, health == 90
 
 +::door::displayColor == 94,, memoryDisplayColor == 94,, collideType == "closed_door"
 

@@ -55,6 +55,9 @@ class Timeline():
         self.currentLocation = displacement
         self.absoluteTime = self.absoluteTime + displacement
         iterator = 0
+    def delay(self, object, displacement = 0):
+        self.remove(object)
+        self.add(object, displacement)
     def remove(self, object):
         for quantum in self.line:
             for entry in quantum:

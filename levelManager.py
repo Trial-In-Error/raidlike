@@ -32,7 +32,7 @@ class levelManager():
         #self.camera = Camera(51, 19, self)
         self.camera = Camera(51, 19, self)
         self.output_buffer = OutputBuffer(self.camera.lensHeight)
-        self.timeline = Timeline(16)
+        self.timeline = Timeline(100)
         self.portalList = []
         self.triggerTileList = []
 

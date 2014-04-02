@@ -182,7 +182,9 @@ class Door(Entity):
             # make it cost time to check?
 
 class Portal(Entity):
-    def __init__(self, xpos, ypos, level, *, internalName, toWhichPortal, toWhichLevel, direction, portalDescription = None, **kwargs):
+    def __init__(self, xpos, ypos, level, *,
+        internalName, toWhichPortal, toWhichLevel,
+        direction, portalDescription = None, **kwargs):
         defaults = {
             'description': "A portal to somewhere else.",
             'display': "*",
@@ -210,7 +212,9 @@ class Portal(Entity):
 class Actor(Entity):
     def __init__(self, xpos, ypos, level, *,
                 canOpenDoors=False, guaranteedDropList=[],
-                attackCost=2, damage=1, health=3, moveCost=3,
+                attackCost=10, damage=10, health=3, moveCost=10,
+                poise=100, poiseRegen=10, poiseDamage=20,
+                poiseMax=100, poiseRecovery=50, staggerCost=15,
                 **kwargs):
         defaults = {
             'description': "An actor. This shouldn't be instantiated!",
@@ -225,10 +229,16 @@ class Actor(Entity):
         super().__init__(xpos, ypos, level, **defaults)
         self.attackCost = attackCost
         self.damage = damage
-        self.health = health
+        self.health = int(health)
         self.maxHealth = health
         self.moveCost = moveCost
         self.canOpenDoors = canOpenDoors
+        self.poise = poiseMax
+        self.poiseRegen = poiseRegen
+        self.poiseMax = poiseMax
+        self.poiseDamage = poiseDamage
+        self.poiseRecovery = poiseRecovery
+        self.staggerCost = staggerCost
         self.guaranteedDropList = guaranteedDropList
         self.level.timeline.add(self)
 
@@ -243,6 +253,16 @@ class Actor(Entity):
         return(True)
 
     def takeDamage(self, attacker): #note: things only die if isDamaged
+
+        #poise damage
+        self.poise = self.poise - attacker.poiseDamage
+        if(self.poise <= 0):
+            self.poise = self.poiseRecovery
+            self.andDelay(self.staggerCost)
+            self.level.output_buffer.add_formatted([attacker.name.capitalize() +
+                " staggered " + self.name + "!\r", "red"])
+
+        #health damage
         self.health = self.health - int(attacker.damage)
         if(self.health <= 0):
             self.die(attacker)
@@ -315,6 +335,9 @@ class Actor(Entity):
     def doNotWait(self):
         self.level.timeline.addToTop(self)
 
+    def andDelay(self, time):
+        self.level.timeline.delay(self, time)
+
     def doMove(self, xDiff, yDiff):
         self.level.grid.add(self, self.xpos + xDiff, self.ypos + yDiff)
         self.level.grid.remove(self, self.xpos, self.ypos)
@@ -331,6 +354,9 @@ class Player(Actor):
     def __init__(self, xpos, ypos, level, *,
                 playerName=None, title=None,
                 worshipping=None, **kwargs):
+    #EQUIPPING SHIT MUST CHANGE SELF.ATTACKCOST,
+    #SELF.POISE, .POISEREGEN, .POISEDAMAGE, .STAGGERCOST
+    #ATTACKCOST, MOVECOST, POISERECOVERY, ETC.
         defaults = {
             'damage': 1,
             'description': "It's you.",
@@ -338,10 +364,11 @@ class Player(Actor):
             'displayColor': "player",
             'displayPriority': 3,
             'health': 100,
-            'moveCost': 3,
+            'moveCost': 10,
             'name': "player",
             'collideType': "combat_player",
             'canOpenDoors': True,
+            'poiseRegen': 10,
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
@@ -355,6 +382,7 @@ class Player(Actor):
         self.boonList = []
 
     def act(self):
+        self.poise = min(self.poise+self.poiseRegen, self.poiseMax)
         self.level.draw()
         masterInputParser(self, self.level)
 
@@ -460,21 +488,23 @@ class Player(Actor):
 class Enemy(Actor):
     def __init__(self, xpos, ypos, level, **kwargs):
         defaults = {
-            'damage': 1,
+            'damage': 10,
             'description': "A generic enemy.",
             'display': "x",
             'displayColor': "red",
             'displayPriority': 3,
-            'health': 3,
+            'health': 100,
             'memoryDisplayColor': "blue",
-            'moveCost': 3,
+            'moveCost': 10,
             'name': "generic enemy",
-            'collideType': "combat_enemy"
+            'collideType': "combat_enemy",
+            'poiseDamage': 40,
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
 
     def act(self):
+        self.poise = min(self.poise+self.poiseRegen, self.poiseMax)
         xDiff = self.xpos - self.level.player.xpos
         yDiff = self.ypos - self.level.player.ypos
         if(abs(xDiff) >= abs(yDiff)):
@@ -488,7 +518,7 @@ class Enemy(Actor):
             self.move("north")
 
 def Zombie(x, y, level):
-    return Enemy(x, y, level, name="zombie", display='X', moveCost=8,
+    return Enemy(x, y, level, name="zombie", display='X', moveCost=15,
                  description="A lumbering zombie.")
 
 class Item(Entity):
@@ -626,22 +656,24 @@ class Wall(Entity):
 class Hound(Enemy):
     def __init__(self, xpos, ypos, level, **kwargs):
         defaults = {
-            'damage': 1,
+            'damage': 10,
             'description': "A generic enemy.",
             'display': "x",
             'displayColor': "red",
             'displayPriority': 2,
             'health': 3,
             'memoryDisplayColor': "blue",
-            'moveCost': 3,
+            'moveCost': 6,
             'name': "generic enemy",
-            'collideType': "combat_enemy"
+            'collideType': "combat_enemy",
+            'attackCost': 8,
         }
         defaults.update(kwargs)
         self.hasBeenSeen = False
         super().__init__(xpos, ypos, level, **defaults)
 
     def act(self):
+        self.poise = min(self.poise+self.poiseRegen, self.poiseMax)
         if(self.hasBeenSeen):
             xDiff = self.xpos - self.level.player.xpos
             yDiff = self.ypos - self.level.player.ypos
@@ -679,16 +711,17 @@ class Sleeper(Enemy):
                 awakeDescription=None,
                 wakingDescription=None, **kwargs):
         defaults = {
-            'damage': 1,
+            'damage': 10,
             'description': "A generic enemy.",
             'display': "x",
             'displayColor': "red",
             'displayPriority': 2,
             'health': 3,
             'memoryDisplayColor': "blue",
-            'moveCost': 3,
+            'moveCost': 10,
             'name': "generic enemy",
             'collideType': "combat_enemy",
+            'attackCost': 10,
         }
         defaults.update(kwargs)
         self.isAwake = False
@@ -697,6 +730,7 @@ class Sleeper(Enemy):
         super().__init__(xpos, ypos, level, **defaults)
 
     def act(self):
+        self.poise = min(self.poise+self.poiseRegen, self.poiseMax)
         if(self.isAwake):
             xDiff = self.xpos - self.level.player.xpos
             yDiff = self.ypos - self.level.player.ypos
@@ -711,6 +745,14 @@ class Sleeper(Enemy):
                 self.move("north")
 
     def takeDamage(self, attacker): #note: things only die if isDamaged
+        #poise damage
+        self.poise = self.poise - attacker.poiseDamage
+        if(self.poise <= 0):
+            self.poise = self.poiseRecovery
+            self.andDelay(self.staggerCost)
+            self.level.output_buffer.add_formatted([attacker.name.capitalize() +
+                " staggered " + self.name + "!\r", "red"])
+
         if(not self.isAwake):
             if(not self.wakingDescription):
                 self.level.output_buffer.add("The "+self.name+" wakes up, screaming in pain!")

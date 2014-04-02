@@ -1,0 +1,73 @@
+Editor Documentation
+Classes
+	Entity
+		New:
+			description, display, displayColor, displayPriority,
+			memoryDisplayColor, name, collideType, moveCost
+	Obelisk(Entity)
+		New:
+			exitDirection, triggerDescription, internalName, shardIncrement,
+			textColor
+		Relevant Old:
+			description, display, displayColor, memoryDisplayColor,
+			name, collideType
+	TriggerTile(Entity)
+		New:
+			repeatable, triggerDescription, internalName, textColor
+		Relevant Old:
+			description, display, displayColor, memoryDisplayColor,
+			name, moveCost
+	Door(Entity)
+		Notes:
+			Why do we have a normal 'display' field?
+		New:
+			isOpen, keyInternalName, openDescription, openDisplay, closeDescription, closedDisplay, textColor
+		Relevant Old:
+			display, displayColor, memoryDisplayColor, name,
+			description, displayPriority
+	Portal(Entity)
+		New:
+			internalName, toWhichPortal, toWhichLevel,
+			direction, portalDescription
+		Relevant Old:
+			description, display, displayColor,
+			displayPriority, memoryDisplayColor, name
+	Actor(Entity)
+		Notes:
+			We used 'moveCost' field for two very different
+			things.
+			Never directly instantiated.
+	Enemy(Actor)
+		New:
+			canOpenDoors, guaranteedDropList, attackCost,
+			damage, health, moveCost
+		Relevant Old:
+			descriptition, display, displayColor,
+			displayPriority, memoryDisplayColor, name
+
+Combat Notes
+	Scheduler Notes:
+		Quantums? 100 of them
+		default moveCost, attackCost = 10, staggerCost = 15
+	Player:
+		HP: 100
+		Poise: 100
+		Poise regen: 20
+		Poise damage: 20
+		Attack cost: 
+		Stagger cost: 
+	Default enemy:
+		HP: 100
+		Poise: 
+		Poise regen: 
+		Poise damage: 
+		AttackCost: 
+		Stagger cost: 
+
+poise
+poiseRegen
+poiseMax
+poiseDamage
+staggerCost
+attackCost
+moveCost
