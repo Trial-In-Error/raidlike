@@ -20,42 +20,41 @@ def masterInputParser(player, level):
         print("Be seeing you...")
         sys.exit()
     elif(lineIn==CCHAR('h') or lineIn==KEY_LEFT):
-        player.move("west")
+        return player.move("west")
     elif(lineIn==CCHAR('j') or lineIn==KEY_DOWN):
-        player.move("south")
+        return player.move("south")
     elif(lineIn==CCHAR('k') or lineIn==KEY_UP):
-        player.move("north")
+        return player.move("north")
     elif(lineIn==CCHAR('l') or lineIn==KEY_RIGHT):
-        player.move("east")
+        return player.move("east")
     elif(lineIn==CCHAR('y') or lineIn==KEY_HOME):
-        player.move("northwest")
+        return player.move("northwest")
     elif(lineIn==CCHAR('b') or lineIn==KEY_END):
-        player.move("southwest")
+        return player.move("southwest")
     elif(lineIn==CCHAR('u') or lineIn==KEY_PPAGE):
-        player.move("northeast")
+        return player.move("northeast")
     elif(lineIn==CCHAR('n') or lineIn==KEY_NPAGE):
-        player.move("southeast")
+        return player.move("southeast")
     elif(lineIn==CCHAR('r') or lineIn==CCHAR('.')):
-        player.andWait(1)
-    #elif(lineIn=='R'):
-        #
+        return player.andWait(10)
     elif(lineIn==CCHAR('x')):
         lookInputParser(player, level)
-        player.doNotWait()
+        return player.doNotWait()
     elif(lineIn==CCHAR('i')):
         inventoryInputParser(player, level)
-        player.doNotWait()
+        return player.doNotWait()
     elif(lineIn==CCHAR('d')): #inventory drop code!
         dropInputParser(player, level)
-        player.doNotWait()
+        return player.doNotWait()
     elif(lineIn==CCHAR('g')):
         player.get()
+        return 0
     elif(lineIn==CCHAR('s')):
         config.world.save()
-        player.doNotWait()
+        return player.doNotWait()
     else:
         level.output_buffer.add("Unknown command.")
-        player.doNotWait()
+        return player.doNotWait()
 
 def inventoryInputParser(player, level):
     lineIn=""

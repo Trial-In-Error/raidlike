@@ -333,9 +333,11 @@ class Actor(Entity):
 
     def andWait(self, time):
         self.level.timeline.add(self, time)
+        return time
 
     def doNotWait(self):
         self.level.timeline.addToTop(self)
+        return 0
 
     def andDelay(self, time):
         self.level.timeline.delay(self, time)
@@ -345,12 +347,13 @@ class Actor(Entity):
         self.level.grid.remove(self, self.xpos, self.ypos)
         self.xpos = self.xpos + xDiff
         self.ypos = self.ypos + yDiff
-        self.andWait(self.moveCost)
+        return self.andWait(self.moveCost + self.level.grid.
+            getCell(self.xpos, self.ypos).getBottomContent().moveCost)
 
     def doAttack(self, xDiff, yDiff):
         sorted(self.level.grid.get(self.xpos + xDiff, self.ypos + yDiff),
                reverse=True)[0].isAttacked(self)
-        self.andWait(self.attackCost)
+        return self.andWait(self.attackCost)
 
 class Player(Actor):
     def __init__(self, xpos, ypos, level, *,
@@ -386,9 +389,7 @@ class Player(Actor):
 
     def act(self):
         self.level.draw()
-        temp = self.level.timeline.currentLocation
-        masterInputParser(self, self.level)
-        temp = self.level.timeline.currentLocation - temp
+        temp = masterInputParser(self, self.level)
         self.poise = min(self.poise+self.poiseRegen*temp, self.maxPoise)
 
     def move(self, direction):
@@ -407,20 +408,21 @@ class Player(Actor):
         self.ypos + moveDict[direction][1]):
             temp.append(entity.collide())
         if(temp.count("portal")>0):
-            return
+            return 0
         if(temp.count("closed_door")>0):
             self.openDoor(moveDict[direction][0], moveDict[direction][1])
-            return
+            return 0
         if(temp.count("actor")>0):
             raise IndexError #HOW DO I DO EXCEPTIONS???
         if(temp.count("true")==0 and temp.count("combat_enemy")==0 and temp.count("portal")==0
             and temp.count("see_through")==0 and temp.count("closed_door")==0 and temp.count("obelisk")==0):
-            self.doMove(moveDict[direction][0], moveDict[direction][1])
+            tempNum = self.doMove(moveDict[direction][0], moveDict[direction][1])
             self.postMoveDescribe()
+            return tempNum
         elif(temp.count("combat_enemy")==1):
-            self.doAttack(moveDict[direction][0], moveDict[direction][1])
+            return self.doAttack(moveDict[direction][0], moveDict[direction][1])
         else:
-            self.andWait(0)
+            return self.andWait(0)
 
     def postMoveDescribe(self):
         # generalize this!
