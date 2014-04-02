@@ -73,12 +73,13 @@ class worldManager():
             # remove player from old level
             config.player = self.currentLevel.player
             if(self.currentLevel.player.level == obelisk.level):
-            	self.currentLevel.player.andWait(0)
+                self.currentLevel.timeline.remove(self.currentLevel.player)
+                self.currentLevel.player.andWait(0)
             else:
-            	obelisk.level.timeline.addToTop(config.player)
+                obelisk.level.timeline.addToTop(config.player)
+                self.currentLevel.timeline.remove(config.player)
             # DESCRIPTIVE TEXT GOES HERE
             self.currentLevel.grid.remove(config.player, config.player.xpos, config.player.ypos)
-            self.currentLevel.timeline.remove(config.player)
             self.currentLevel.player = config.player
             # swap control to the new level
             self.currentLevel = obelisk.level

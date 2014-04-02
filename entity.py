@@ -87,6 +87,8 @@ class Obelisk(Entity):
 
     def collide(self):
         config.world.currentLevel.output_buffer.add_formatted(["You touch the obelisk.", self.textColor])
+        config.world.currentLevel.player.health = config.world.currentLevel.player.maxHealth
+        config.world.currentLevel.player.poise = config.world.currentLevel.player.maxPoise
         if(self.triggerDescription and not self.hasBeenCollided):
             config.world.currentLevel.output_buffer.add_formatted([self.triggerDescription, self.textColor])
             config.player.shardCount = config.player.shardCount + self.shardIncrement
@@ -213,8 +215,8 @@ class Actor(Entity):
     def __init__(self, xpos, ypos, level, *,
                 canOpenDoors=False, guaranteedDropList=[],
                 attackCost=10, damage=10, health=3, moveCost=10,
-                poise=100, poiseRegen=10, poiseDamage=20,
-                poiseMax=100, poiseRecovery=50, staggerCost=15,
+                poise=100, poiseRegen=1, poiseDamage=20,
+                maxPoise=100, poiseRecovery=50, staggerCost=15,
                 **kwargs):
         defaults = {
             'description': "An actor. This shouldn't be instantiated!",
@@ -230,12 +232,12 @@ class Actor(Entity):
         self.attackCost = attackCost
         self.damage = damage
         self.health = int(health)
-        self.maxHealth = health
+        self.maxHealth = int(health)
         self.moveCost = moveCost
         self.canOpenDoors = canOpenDoors
-        self.poise = poiseMax
+        self.poise = maxPoise
         self.poiseRegen = poiseRegen
-        self.poiseMax = poiseMax
+        self.maxPoise = maxPoise
         self.poiseDamage = poiseDamage
         self.poiseRecovery = poiseRecovery
         self.staggerCost = staggerCost
@@ -354,9 +356,9 @@ class Player(Actor):
     def __init__(self, xpos, ypos, level, *,
                 playerName=None, title=None,
                 worshipping=None, **kwargs):
-    #EQUIPPING SHIT MUST CHANGE SELF.ATTACKCOST,
-    #SELF.POISE, .POISEREGEN, .POISEDAMAGE, .STAGGERCOST
-    #ATTACKCOST, MOVECOST, POISERECOVERY, ETC.
+        #EQUIPPING SHIT MUST CHANGE SELF.ATTACKCOST,
+        #SELF.POISE, .POISEREGEN, .POISEDAMAGE, .STAGGERCOST
+        #ATTACKCOST, MOVECOST, POISERECOVERY, ETC.
         defaults = {
             'damage': 1,
             'description': "It's you.",
@@ -368,7 +370,8 @@ class Player(Actor):
             'name': "player",
             'collideType': "combat_player",
             'canOpenDoors': True,
-            'poiseRegen': 10,
+            'poiseRegen': 1,
+            'damage': 15,
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
@@ -382,9 +385,11 @@ class Player(Actor):
         self.boonList = []
 
     def act(self):
-        self.poise = min(self.poise+self.poiseRegen, self.poiseMax)
         self.level.draw()
+        temp = self.level.timeline.currentLocation
         masterInputParser(self, self.level)
+        temp = self.level.timeline.currentLocation - temp
+        self.poise = min(self.poise+self.poiseRegen*temp, self.maxPoise)
 
     def move(self, direction):
         moveDict = {'north': [0, 1],
@@ -504,7 +509,7 @@ class Enemy(Actor):
         super().__init__(xpos, ypos, level, **defaults)
 
     def act(self):
-        self.poise = min(self.poise+self.poiseRegen, self.poiseMax)
+        self.poise = min(self.poise+self.poiseRegen, self.maxPoise)
         xDiff = self.xpos - self.level.player.xpos
         yDiff = self.ypos - self.level.player.ypos
         if(abs(xDiff) >= abs(yDiff)):
@@ -673,7 +678,7 @@ class Hound(Enemy):
         super().__init__(xpos, ypos, level, **defaults)
 
     def act(self):
-        self.poise = min(self.poise+self.poiseRegen, self.poiseMax)
+        self.poise = min(self.poise+self.poiseRegen, self.maxPoise)
         if(self.hasBeenSeen):
             xDiff = self.xpos - self.level.player.xpos
             yDiff = self.ypos - self.level.player.ypos
@@ -730,7 +735,7 @@ class Sleeper(Enemy):
         super().__init__(xpos, ypos, level, **defaults)
 
     def act(self):
-        self.poise = min(self.poise+self.poiseRegen, self.poiseMax)
+        self.poise = min(self.poise+self.poiseRegen, self.maxPoise)
         if(self.isAwake):
             xDiff = self.xpos - self.level.player.xpos
             yDiff = self.ypos - self.level.player.ypos
