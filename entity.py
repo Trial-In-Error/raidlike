@@ -351,8 +351,8 @@ class Actor(Entity):
         self.level.grid.remove(self, self.xpos, self.ypos)
         self.xpos = self.xpos + xDiff
         self.ypos = self.ypos + yDiff
-        return self.andWait(self.moveCost + self.level.grid.
-            getCell(self.xpos, self.ypos).getBottomContent().moveCost)
+        return self.andWait(self.moveCost + int(self.level.grid.
+            getCell(self.xpos, self.ypos).getBottomContent().moveCost))
 
     def doAttack(self, xDiff, yDiff):
         sorted(self.level.grid.get(self.xpos + xDiff, self.ypos + yDiff),
