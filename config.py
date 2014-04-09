@@ -69,6 +69,8 @@ colorDict = {
     "wood_door":94,
     "memory":240,
     "wood_stair":142,
+    "slaver":181,
+    "hound": 228,
     }
 
 # All possible 256 colors

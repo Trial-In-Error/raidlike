@@ -7,7 +7,7 @@
 '''''''''''''''##.#'''''''''''''''
 '''''''''''######+#####'''''''''''
 '''''''''''#.12#6.#...#'''''''''''
-'''''''''''#@12+3.+.&.#'''''''''''
+'''''''''''#@12+3.+...#'''''''''''
 '''''''''''#.12#6.#...#'''''''''''
 '''''''''''#####..#####'''''''''''
 '''''''''''#...#..#...#'''''''''''
@@ -33,7 +33,7 @@
 
 
 Glyphs
-&::obelisk::triggerDescription == The first time you touch an obelisk, you'll receive Shards. Shards can be used to heal. Additionally, you'll respawn at your most recently touched obelisk when you die.,, exitDirection == e
+&::obelisk::triggerDescription == The first time you touch an obelisk, you'll receive Shards. Shards can be used to heal. Additionally, you'll respawn at your most recently touched obelisk when you die.,, exitDirection == e,, memoryDisplayColor == memory
 
 @::player::
 

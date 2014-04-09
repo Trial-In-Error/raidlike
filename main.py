@@ -77,7 +77,7 @@ try:
             selected = (selected + 1) % 3
         elif(lineIn == unicurses.KEY_UP or lineIn == 'k'):
             selected = (selected - 1) % 3
-        elif(lineIn == unicurses.KEY_ENTER or lineIn == ' ' or lineIn == unicurses.KEY_LEFT):
+        elif(lineIn == unicurses.KEY_ENTER or lineIn == ' ' or lineIn == unicurses.KEY_LEFT or lineIn == unicurses.KEY_RIGHT):
             if(selected == 0):
                 # Game world set-up
                 world = worldManager()

@@ -114,6 +114,7 @@ class TriggerTile(Entity):
         self.triggerDescription = triggerDescription
         self.level = level
         self.textColor = textColor
+        self.percentChance = percentChance
         try:
             self.repeatable = eval(repeatable)
         except TypeError:
@@ -128,8 +129,8 @@ class TriggerTile(Entity):
         temp = random.uniform(1, 100)
         if(self.triggerDescription and self.repeatable
             or self.triggerDescription and not self.hasBeenCollided
-            and percentChance != 100
-            and percentChance > temp):
+            and self.percentChance != 100
+            and self.percentChance > temp):
             config.world.currentLevel.output_buffer.add_formatted([self.triggerDescription, self.textColor])
             for entry in self.level.triggerTileList:
                 if(entry.internalName == self.internalName):
@@ -140,7 +141,7 @@ class TriggerTile(Entity):
 class Door(Entity):
     def __init__(self, xpos, ypos, level, isOpen=False,
                 keyInternalName=None,
-                openDescription="The door opens.",
+                openDescription="You open the door.",
                 closeDescription=None, openDisplay="'",
                 closedDisplay="+", textColor="white", **kwargs):
         defaults = {
