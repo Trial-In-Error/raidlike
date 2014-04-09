@@ -13,7 +13,8 @@ Classes
 			name, collideType
 	TriggerTile(Entity)
 		New:
-			repeatable, triggerDescription, internalName, textColor
+			repeatable, triggerDescription, internalName, textColor,
+			percentChance
 		Relevant Old:
 			description, display, displayColor, memoryDisplayColor,
 			name, moveCost

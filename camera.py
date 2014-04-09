@@ -55,9 +55,9 @@ class Camera():
         unicurses.attron(unicurses.COLOR_PAIR(config.colorDict["white"]))
         unicurses.mvaddstr(1, self.lensWidth, self.level.player.playerName)
         unicurses.mvaddstr(2, self.lensWidth, self.level.player.title)
-        unicurses.mvaddstr(3, self.lensWidth, "Health: "+str(self.level.player.health))
-        unicurses.mvaddstr(4, self.lensWidth, "Poise: "+str(self.player.poise))
-        unicurses.mvaddstr(5, self.lensWidth, "Shards of Divinity: "+str(self.player.shardCount))
+        unicurses.mvaddstr(4, self.lensWidth, "Health: "+str(self.level.player.health)+"/"+str(self.level.player.maxHealth))
+        unicurses.mvaddstr(5, self.lensWidth, "Poise:  "+str(self.player.poise)+"/"+str(self.level.player.maxPoise))
+        unicurses.mvaddstr(6, self.lensWidth, "Shards of Divinity: "+str(self.player.shardCount))
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"]))
         self.drawHUDBoundaries()
 
