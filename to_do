@@ -16,11 +16,6 @@ TUTORIAL LEVEL IMPLEMENTATION
 		stances
 		healing
 	implement
-########obelisk
-########healing 'items'
-			display in inventory
-		healing hotkey
-		death/respawn
 		see-through doors
 		stances
 

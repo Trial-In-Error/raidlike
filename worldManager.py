@@ -91,4 +91,3 @@ class worldManager():
             config.player.xpos = obelisk.xpos + config.directions[obelisk.exitDirection][0]
             config.player.ypos = obelisk.ypos + config.directions[obelisk.exitDirection][1]
             self.currentLevel.camera.player = config.player
-            

@@ -2,30 +2,28 @@
 #################
 ###\.##\#/###../###
 #&3.#......;;2#1.<#
-#/#####/#\##;######
- ###########.####################################
- #..............................................#
- ################################################
+#/#####/#\##.######
+ #############
 
 Glyphs
 &::obelisk::triggerDescription == The first time you touch an obelisk, you'll receive Shards. Shards can be used to heal. Additionally, you'll respawn at your most recently touched obelisk when you die.,, exitDirection == e
 
-#::wall::description == A tunnel wall of loosely packed sand and rough rock.,, name == a sandy tunnel wall,, displayColor == 130,, memoryDisplayColor == 130
+#::wall::description == A tunnel wall of loosely packed sand and rough rock.,, name == a sandy tunnel wall,, displayColor == mud_wall,, memoryDisplayColor == memory
 
-.::floor::name == a sandy floor,, description == The floor is made of densely packed sand.,, displayColor == 226,, memoryDisplayColor == 226
+.::floor::name == a sandy floor,, description == The floor is made of densely packed sand.,, displayColor == sand,, memoryDisplayColor == memory
 
-1::triggertile::triggerDescription == Move diagonally with the numberpad or letters yubn.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
+1::triggertile::triggerDescription == Move diagonally with the numberpad or letters yubn.,, repeatable == True,, textColor == 201,, displayColor == sand,, memoryDisplayColor == memory
 
-2::triggertile::triggerDescription == Some terrain will slow you down or hurt you.,, repeatable == True,, textColor == 201,, displayColor == 226,, memoryDisplayColor == 226
+2::triggertile::triggerDescription == Some terrain will slow you down or hurt you.,, repeatable == True,, textColor == 201,, displayColor == sand,, memoryDisplayColor == memory
 
-3::triggertile::triggerDescription == Brand: Ah! An Obelisk. Touch it for a share of divinity...,, repeatable == False,, textColor == 196,, displayColor == 226,, memoryDisplayColor == 226
+3::triggertile::triggerDescription == Brand: Ah! An Obelisk. Touch it for a share of divinity...,, repeatable == False,, textColor == 196,, displayColor == sand,, memoryDisplayColor == memory
 
-;::triggertile::triggerDescription == You move slowly through the loose sand and debris.,, repeatable == True,, name == debris,, description == A patch of deep sand, rough rocks, and a shattered timber.,, display == ;,, moveCost == 2,, displayColor == 130,, memoryDisplayColor == 130
+;::triggertile::triggerDescription == You move slowly through the loose sand and debris.,, repeatable == True,, name == debris,, description == A patch of deep sand, rough rocks, and a shattered timber.,, display == ;,, moveCost == 2,, displayColor == mud_wall,, memoryDisplayColor == memory
 
-<::portal::toWhichLevel == slaversOne,, toWhichPortal == slaversOneDownStair,, internalName == slaversBasementUpStair,, direction == w,, display == <,, displayColor == 142,, memoryDisplayColor == 142,, name == rickety staircase,, description == A poorly constructed wooden staircase leads up.,, portalDescription == You head down the wooden stairs.
+<::portal::toWhichLevel == slaversOne,, toWhichPortal == slaversOneDownStair,, internalName == slaversBasementUpStair,, direction == w,, display == <,, displayColor == wood_stair,, memoryDisplayColor == memory,, name == rickety staircase,, description == A poorly constructed wooden staircase leads up.,, portalDescription == You head down the wooden stairs.
 
-/::wall::name == support beam, description == A wooden support beam holds the tunnel up.,, display == /,, displayColor == 130,, memoryDisplayColor == 130
+/::wall::name == support beam, description == A wooden support beam holds the tunnel up.,, display == /,, displayColor == mud_wall,, memoryDisplayColor == memory
 
-\::wall::name == support beam, description == A wooden support beam holds the tunnel up.,, display == \,, displayColor == 130,, memoryDisplayColor == 130
+\::wall::name == support beam, description == A wooden support beam holds the tunnel up.,, display == \,, displayColor == mud_wall,, memoryDisplayColor == memory
 
 Triggers

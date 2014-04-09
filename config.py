@@ -62,7 +62,13 @@ colorDict = {
     "stained_glass":196,
     "grass_memory":34,
     "grass":46,
-    "stained_glass_memory":88
+    "stained_glass_memory":88,
+    "sand_floor":220,
+    "sand":226,
+    "mud_wall":130,
+    "wood_door":94,
+    "memory":240,
+    "wood_stair":142,
     }
 
 # All possible 256 colors
