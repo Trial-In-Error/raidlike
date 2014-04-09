@@ -362,7 +362,8 @@ class Actor(Entity):
 class Player(Actor):
     def __init__(self, xpos, ypos, level, *,
                 playerName=None, title=None,
-                worshipping=None, **kwargs):
+                worshipping=None, healCost=10, healValue=30,
+                **kwargs):
         #EQUIPPING SHIT MUST CHANGE SELF.ATTACKCOST,
         #SELF.POISE, .POISEREGEN, .POISEDAMAGE, .STAGGERCOST
         #ATTACKCOST, MOVECOST, POISERECOVERY, ETC.
@@ -390,11 +391,29 @@ class Player(Actor):
         self.shardCount = 0
         self.inventory = Inventory(self, self.level)
         self.boonList = []
+        self.healCost = healCost
+        self.healValue = healValue
 
     def act(self):
         self.level.draw()
         temp = masterInputParser(self, self.level)
         self.poise = min(self.poise+self.poiseRegen*temp, self.maxPoise)
+
+    def heal(self):
+        if(self.shardCount > 0 and self.health != self.maxHealth):
+            self.health = min(self.maxHealth, self.health+self.healValue)
+            self.shardCount = self.shardCount - 1
+            self.andWait(self.healCost)
+            self.level.output_buffer.add("You heal.")
+            return self.healCost
+        elif(self.shardCount == 0):
+            self.andWait(0)
+            self.level.output_buffer.add("You don't have any shards!")
+            return 0
+        elif(self.health == self.maxHealth and self.shardCount > 0):
+            self.andWait(0)
+            self.level.output_buffer.add("You're already at max health.")
+            return 0
 
     def move(self, direction):
         moveDict = {'north': [0, 1],

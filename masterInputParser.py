@@ -37,6 +37,12 @@ def masterInputParser(player, level):
         return player.move("southeast")
     elif(lineIn==CCHAR('r') or lineIn==CCHAR('.')):
         return player.andWait(10)
+    elif(lineIn==CCHAR('d')):
+        return player.heal()
+    #elif(lineIn==CCHAR('o')):
+
+    #elif(lineIn==CCHAR('c')):
+
     elif(lineIn==CCHAR('x')):
         lookInputParser(player, level)
         return player.doNotWait()
