@@ -4,6 +4,7 @@ from sys import exit
 from inventory import Inventory
 import config
 from religion import Boon
+import random
 
 class Entity():
     def __init__(self, xpos, ypos, level, *,
@@ -104,7 +105,7 @@ class TriggerTile(Entity):
     def __init__(self, xpos, ypos, level,
                 repeatable=True,
                 triggerDescription=None,
-                internalName=None,
+                internalName=None, percentChance=100,
                 textColor="white", **kwargs):
         defaults = {
             'displayPriority':1,
@@ -124,8 +125,11 @@ class TriggerTile(Entity):
         super().__init__(xpos, ypos, level, **defaults)
 
     def collide(self):
+        temp = random.uniform(1, 100)
         if(self.triggerDescription and self.repeatable
-            or self.triggerDescription and not self.hasBeenCollided):
+            or self.triggerDescription and not self.hasBeenCollided
+            and percentChance != 100
+            and percentChance > temp):
             config.world.currentLevel.output_buffer.add_formatted([self.triggerDescription, self.textColor])
             for entry in self.level.triggerTileList:
                 if(entry.internalName == self.internalName):
