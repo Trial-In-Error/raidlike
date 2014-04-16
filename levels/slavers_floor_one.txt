@@ -11,14 +11,14 @@
 '''''''''''#112#6.#...#'''''''''''
 '''''''''''#####..#####'''''''''''
 '''''''''''#...#..#...#'''''''''''
-'''''''''''#...+..+...#'''''''''''
+'''''''''''#...U..U...#'''''''''''
 '''''''''''#...#..#...#'''''''''''
 '''''''''''#####..#####'''''''''''
 '''''''''''#...#..#.4S#'''''''''''
-'''''''''''#...+..+.4.#'''''''''''
+'''''''''''#...U..+.4.#'''''''''''
 '''''''''''#...#..#.44####''''''''
 '''''''''''#####..#####..#''''''''
-''''''''''####.+..#...#.x#''''''''
+''''''''''####.$..#...#.x#''''''''
 ''''''''''#>.#.#..#...#..#''''''''
 ''''''''''##...#..#...#55#''''''''
 '''''''''''#...#..##+##+##''''''''
@@ -35,6 +35,8 @@
 Glyphs
 
 @::player::
+
+$::door::isOpen == True,, openDescription == A door hangs ajar.,, displayColor == wood_door,, memoryDisplayColor == memory,, display == '
 
 #::wall::description == A wall of dried mud bricks.,, name == a dried mud wall,, displayColor == mud_wall,, memoryDisplayColor == memory
 
@@ -53,6 +55,8 @@ Z::door::displayColor == wood_door,, memoryDisplayColor == memory,, keyInternalN
 +::door::displayColor == wood_door,, memoryDisplayColor == memory,, collideType == "closed_door"
 
 L::door::displayColor == wood_door,, memoryDisplayColor == memory,, keyInternalName == slaverFrontDoor
+
+U::door::displayColor == wood_door,, memoryDisplayColor == memory,, keyInternalName == noSuchKey
 
 S::item::name == rusted short sword,, description == An old, dull sword.,, memoryDisplayColor == memory
 

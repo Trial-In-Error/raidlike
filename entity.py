@@ -163,8 +163,12 @@ class Door(Entity):
         self.isOpen = isOpen
         if(self.isOpen):
             defaults['collideType'] = "open_door"
+            if(self.openDescription):
+                defaults['description'] = self.openDescription
         else:
             defaults['collideType'] = "closed_door"
+            if(self.closeDescription):
+                defaults['description'] = self.closeDescription
 
         super().__init__(xpos, ypos, level, **defaults)
 
@@ -506,6 +510,8 @@ class Player(Actor):
                     print("Be seeing you...")
                     exit()
         else:
+            if(self.lastObelisk.level != self.level):
+                self.level.output_buffer.clear()
             self.lastObelisk.level.output_buffer.add("You died!")
             self.lastObelisk.level.output_buffer.add("You are reborn in a flash of fire at an obelisk.")
             if(self.shardCount <= 0):
