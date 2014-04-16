@@ -48,6 +48,7 @@ class worldManager():
 	def swapLevels(self, portalInc):
             # remove player from old level
             config.player = self.currentLevel.player
+            self.currentLevel.output_buffer.clear()
             # DESCRIPTIVE TEXT GOES HERE
             self.currentLevel.grid.remove(config.player, config.player.xpos, config.player.ypos)
             self.currentLevel.timeline.remove(config.player)

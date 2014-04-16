@@ -22,8 +22,8 @@ Glyphs
 
 <::portal::toWhichLevel == slaversOne,, toWhichPortal == slaversOneDownStair,, internalName == slaversBasementUpStair,, direction == w,, display == <,, displayColor == wood_stair,, memoryDisplayColor == memory,, name == rickety staircase,, description == A poorly constructed wooden staircase leads up.,, portalDescription == You head up the wooden stairs.
 
-/::wall::name == support beam, description == A wooden support beam holds the tunnel up.,, display == /,, displayColor == mud_wall,, memoryDisplayColor == memory
+/::wall::name == support beam,, description == A wooden support beam holds the tunnel up.,, display == /,, displayColor == mud_wall,, memoryDisplayColor == memory
 
-\::wall::name == support beam, description == A wooden support beam holds the tunnel up.,, display == \,, displayColor == mud_wall,, memoryDisplayColor == memory
+\::wall::name == support beam,, description == A wooden support beam holds the tunnel up.,, display == \,, displayColor == mud_wall,, memoryDisplayColor == memory
 
 Triggers

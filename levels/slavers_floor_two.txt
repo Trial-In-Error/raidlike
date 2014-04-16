@@ -6,7 +6,7 @@
 '''''''''''''''#.>#'''''''''''''''
 '''''''''''''''#.##'''''''''''''''
 '''''''''''#####+######'''''''''''
-'''''''''''#...#.'.+.h#'''''''''''
+'''''''''''#...#.+.+.h#'''''''''''
 '''''''''''#...L.#.####'''''''''''
 '''''''''''#...#.#.'..#'''''''''''
 '''''''''''#####.#.####'''''''''''
@@ -15,9 +15,9 @@
 '''''''''''#...#.#.+.h#'''''''''''
 '''''''''''#####.#.####'''''''''''
 '''''''''''#.!.#.#.+..#'''''''''''
-'''''''''''#%H.'.#.####'''''''''''
+'''''''''''#%H.+.#.####'''''''''''
 '''''''''''#K..#.+.+.h#'''''''''''
-'''''''''''#####Z#########''''''''
+'''''''''''#####L#########''''''''
 ''''''''''##.............#''''''''
 ''''''''''#..............#''''''''
 ''''''''''##.............#''''''''
@@ -34,17 +34,17 @@
 Glyphs
 #::wall::description == A wall of dried mud bricks.,, name == a dried mud wall,, displayColor == mud_wall,, memoryDisplayColor == mud_wall
 
-!::wall::name == a bed,, description == A roughly made wooden bed., displayColor == wood_door, memoryDisplayColor == memory
+!::wall::name == a bed,, description == A roughly made wooden bed.,, displayColor == wood_door,, memoryDisplayColor == memory
 
 H::hound::name == emaciated hound,, description == A starving dog. It does not look friendly.,, display == h,, displayColor == hound,, health == 35
 
 %::triggertile::name == a dead slaver,, description == His neck and face are a bloody mess. It looks like he died recently. He's clothed in the thick cloth of a desert slaver.,, display == %,, triggerDescription == You carefully step around the slaver's corpse.,,repeatable == True,, displayColor == slaver,, memoryDisplayColor == memory
 
-K::key::internalName == slaverKey
+K::key::internalName == slaverFrontDoor
 
 .::floor::name == a sandy floor,, description == The floor is made of densely packed sand.,, displayColor == sand,, memoryDisplayColor == memory
 
-+::door::displayColor == wood_door,, memoryDisplayColor == memory
++::door::displayColor == wood_door,, memoryDisplayColor == memory,, collideType == "closed_door"
 
 L::door::displayColor == wood_door,, memoryDisplayColor == memory,, keyInternalName == notValidKey
 
@@ -52,8 +52,6 @@ L::door::displayColor == wood_door,, memoryDisplayColor == memory,, keyInternalN
 
 h::enemy::name == hound,, description == A bloodthirsty dog.,, display == h,, displayColor == hound
 
-'::door::displayColor == wood_door,, memoryDisplayColor == memory
-
-Z::door::keyInternalName == slaverKey,, openDescription == You open the door with an old key.,, memoryDisplayColor == memory
+'::floor::name == sand,, description == A loosely rolling sand dune. Moving will be slow.,, displayColor == sand,, memoryDisplayColor == memory
 
 Triggers

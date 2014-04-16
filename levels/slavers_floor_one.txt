@@ -5,10 +5,10 @@
 '''''''''''''''####'''''''''''''''
 '''''''''''''''#<.#'''''''''''''''
 '''''''''''''''##.#'''''''''''''''
-'''''''''''######+#####'''''''''''
-'''''''''''#.12#6.#...#'''''''''''
+'''''''''''######Z#####'''''''''''
+'''''''''''#112#6.#...#'''''''''''
 '''''''''''#@12+3.+...#'''''''''''
-'''''''''''#.12#6.#...#'''''''''''
+'''''''''''#112#6.#...#'''''''''''
 '''''''''''#####..#####'''''''''''
 '''''''''''#...#..#...#'''''''''''
 '''''''''''#...+..+...#'''''''''''
@@ -22,8 +22,8 @@
 ''''''''''#>.#.#..#...#..#''''''''
 ''''''''''##...#..#...#55#''''''''
 '''''''''''#...#..##+##+##''''''''
-'''''''''''#...#.........+''''''''
-'''''''''''#...#.........+''''''''
+'''''''''''#...#.........L''''''''
+'''''''''''#...#.........L''''''''
 '''''''''''###############''''''''
 ''''''''''''''''''''''''''''''''''
 ''''''''''''''''''''''''''''''''''
@@ -33,7 +33,6 @@
 
 
 Glyphs
-&::obelisk::triggerDescription == The first time you touch an obelisk, you'll receive Shards. Shards can be used to heal. Additionally, you'll respawn at your most recently touched obelisk when you die.,, exitDirection == e,, memoryDisplayColor == memory
 
 @::player::
 
@@ -47,22 +46,26 @@ Glyphs
 
 >::portal::toWhichLevel == slaversBasement,, toWhichPortal == slaversBasementUpStair,, internalName == slaversOneDownStair,, direction == e,, display == >,, displayColor == wood_stair,, memoryDisplayColor == memory,, name == rickety staircase,, description == A poorly constructed wooden staircase leads down.,, portalDescription == You head down the wooden stairs.
 
-x::sleeper::name == sleeping guard,, description == A guard asleep at his post.,, display == @,, displayColor == 181,, guaranteedDropList == Key.fromString("test, name=rusted key, description=A rusted iron key."),, health == 90
+x::sleeper::name == sleeping guard,, description == A guard asleep at his post.,, display == @,, displayColor == 181,, guaranteedDropList == Key.fromString("slaverUpstairsDoor, name=rusted key, description=A rusted iron key."),, health == 90
+
+Z::door::displayColor == wood_door,, memoryDisplayColor == memory,, keyInternalName == slaverUpstairsDoor
 
 +::door::displayColor == wood_door,, memoryDisplayColor == memory,, collideType == "closed_door"
 
+L::door::displayColor == wood_door,, memoryDisplayColor == memory,, keyInternalName == slaverFrontDoor
+
 S::item::name == rusted short sword,, description == An old, dull sword.,, memoryDisplayColor == memory
 
-1::triggertile::triggerDescription == Move using the arrow keys, number pad, or letters hjklyubn.,, repeatable == True,, textColor == 201,, displayColor == sand_floor,, memoryDisplayColor == memory
+1::triggertile::triggerDescription == Move using the arrow keys, number pad, or letters hjklyubn.,, repeatable == True,, textColor == 201,, displayColor == sand_floor,, memoryDisplayColor == memory,, name == a sandy floor,, description == The floor is made of densely packed sand.
 
-2::triggertile::triggerDescription == Open doors by moving into them or pressing o.,, repeatable == True,, textColor == 201,, displayColor == sand_floor,, memoryDisplayColor == memory
+2::triggertile::triggerDescription == Open doors by moving into them or pressing o.,, repeatable == True,, textColor == 201,, displayColor == sand_floor,, memoryDisplayColor == memory,, name == a sandy floor,, description == The floor is made of densely packed sand.
 
-3::triggertile::triggerDescription == Press x to look. While looking, press z to examine something in more detail or  q to quit looking.,, repeatable == True,, textColor == 201,, displayColor == sand_floor,, memoryDisplayColor == memory,, internalName == lookTutorial
+3::triggertile::triggerDescription == Press x to look. While looking, press z to examine something in more detail or  q to quit looking.,, repeatable == True,, textColor == 201,, displayColor == sand_floor,, memoryDisplayColor == memory,, internalName == lookTutorial,, name == a sandy floor,, description == The floor is made of densely packed sand.
 
-6::triggertile::triggerDescription == Press x to look. While looking, press z to examine something in more detail or q to quit looking.,, repeatable == False,, textColor == 201,, displayColor == sand_floor,, memoryDisplayColor == memory,, internalName == lookTutorial
+6::triggertile::triggerDescription == Press x to look. While looking, press z to examine something in more detail or q to quit looking.,, repeatable == False,, textColor == 201,, displayColor == sand_floor,, memoryDisplayColor == memory,, internalName == lookTutorial,, name == a sandy floor,, description == The floor is made of densely packed sand.
 
-4::triggertile::triggerDescription == Pick up items with g. Access the inventory with i. Equip the sword from the inventory.,, repeatable == True,, textColor == 201,, displayColor == sand_floor,, memoryDisplayColor == memory
+4::triggertile::triggerDescription == Pick up items with g. Access the inventory with i. Equip the sword from the inventory.,, repeatable == True,, textColor == 201,, displayColor == sand_floor,, memoryDisplayColor == memory,, name == a sandy floor,, description == The floor is made of densely packed sand.
 
-5::triggertile::triggerDescription == Attack an enemy by moving into them.,, repeatable == True,, textColor == 201,, displayColor == sand_floor,, memoryDisplayColor == memory
+5::triggertile::triggerDescription == Attack an enemy by moving into them.,, repeatable == True,, textColor == 201,, displayColor == sand_floor,, memoryDisplayColor == memory,, name == a sandy floor,, description == The floor is made of densely packed sand.
 
 Triggers
