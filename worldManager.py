@@ -39,6 +39,7 @@ class worldManager():
 		with open('./levels/save', mode='wb') as io_test:
 		    a = pickle.dump(self, io_test)
 	def load(self):
+        # wrap this in a try / catch block!
 		with open('./levels/save', mode='rb') as io_test:
 		    a = pickle.load(io_test)
 		    for entry in self.__dict__:
