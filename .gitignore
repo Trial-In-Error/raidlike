@@ -1,6 +1,9 @@
 # Ignore pycache
 __pycache__/*
 
+# Ignore compiled python files
+*.pyc
+
 # Ignore UniCurses library
 UniCurses-1.2/*
 unicurses.py

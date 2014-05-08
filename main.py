@@ -1,3 +1,4 @@
+#!/usr/bin/python3.2
 from levelManager import levelManager
 from entity import Player, Enemy, Zombie, Item
 import sys
