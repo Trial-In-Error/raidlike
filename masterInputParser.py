@@ -11,7 +11,7 @@ first half consists of draw().
 def masterInputParser(player, level):
     lineIn = ""
     lineIn = getch()
-    if(lineIn==CCHAR('q')):
+    if(lineIn==CCHAR('q') or lineIn==27):
         #os.environ['TERM'] = "xterm"
         config.world.save()
         clear()
@@ -65,7 +65,7 @@ def masterInputParser(player, level):
 def inventoryInputParser(player, level):
     lineIn=""
     while(True):
-        if(lineIn==CCHAR('q')):
+        if(lineIn==CCHAR('q') or lineIn==27):
             break
         level.drawInventoryInputParser()
         lineIn = ""
@@ -93,7 +93,7 @@ def lookInputParser(player, level):
     lineIn=""
     while(True):
         if(lineIn!=CCHAR('z')):
-            level.output_buffer.add("Press z to inspect the current tile or q to stop looking.")
+            level.output_buffer.add("Press z to inspect the current tile or q or ESC to stop looking.")
             #if(level.grid.getCell(xLook, yLook).hasBeenSeen):
             if(level.grid.getCell(xLook, yLook).hasBeenSeen and level.camera.isInView(xLook, yLook)):
                 level.output_buffer.add(
@@ -140,5 +140,5 @@ def lookInputParser(player, level):
             if(level.grid.getCell(xLook, yLook).hasBeenSeen):
                 level.output_buffer.add(level.grid.getCell(xLook, yLook).getTopContent().describe())
         else:
-            if(lineIn==CCHAR('q')):
+            if(lineIn==CCHAR('q') or lineIn==27):
                 break     

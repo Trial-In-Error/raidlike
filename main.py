@@ -73,7 +73,7 @@ try:
             unicurses.attron(unicurses.COLOR_PAIR(config.colorDict["g12"]))
             unicurses.mvaddstr(3, 1, "Credits")
             unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["g12"]))
-        lineIn = getch()
+        lineIn = unicurses.wgetch(stdscr)
         if(lineIn == unicurses.KEY_DOWN or lineIn == 'j'):
             selected = (selected + 1) % 3
         elif(lineIn == unicurses.KEY_UP or lineIn == 'k'):
