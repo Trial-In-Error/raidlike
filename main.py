@@ -78,7 +78,8 @@ try:
             selected = (selected + 1) % 3
         elif(lineIn == unicurses.KEY_UP or lineIn == 'k'):
             selected = (selected - 1) % 3
-        elif(lineIn == unicurses.KEY_ENTER or lineIn == ' ' or lineIn == unicurses.KEY_LEFT or lineIn == unicurses.KEY_RIGHT):
+        # enter = 10, esc = 27; why? no clue
+        elif(lineIn == 10 or lineIn == unicurses.KEY_ENTER or lineIn == ' ' or lineIn == unicurses.KEY_LEFT or lineIn == unicurses.KEY_RIGHT):
             if(selected == 0):
                 # Game world set-up
                 world = worldManager()
