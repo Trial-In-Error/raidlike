@@ -8,6 +8,18 @@ The input parser. Called as the second half of the player's act() function; the
 first half consists of draw().
 """
 
+"""Sean: Make your edits to the block below.
+This function exists to parse player input, so changes to command schemes
+will go here. To find out what keyCode to use, you can start up python3
+from the directory that unicurses is in, then:
+    from unicurses import *
+    stdscr = initscr()
+    getch()
+    <type a character to see its keyCode>
+Note that this /will/ screw your terminal up, so after you finish,
+use CTRL+D to leave the python interpreter, and reset to restore your
+terminal to usability. Drop me a message if you have any questions! :)"""
+
 def masterInputParser(player, level):
     lineIn = ""
     lineIn = getch()
@@ -19,24 +31,14 @@ def masterInputParser(player, level):
         endwin()
         print("Be seeing you...")
         sys.exit()
-
-
-    '''Sean: Make your edits to the block below.
-       This function exists to parse player input, so changes to command schemes
-       will go here. To find out what keyCode to use, you can start up python3
-       from the directory that unicurses is in, then:
-            from unicurses import *
-            stdscr = initscr()
-            getch()
-            <type a character to see its keyCode>
-       Note that this /will/ screw your terminal up, so after you finish,
-       use CTRL+D to leave the python interpreter, and reset to restore your
-       terminal to usability. Drop me a message if you have any questions! :)'''
-    elif(lineIn==CCHAR('h') or lineIn==KEY_LEFT ''' or lineIn==keyCodeForNumPad4'''):
+        """                                          or lineIn==keyCodeForNumPad4""" 
+    elif(lineIn==CCHAR('h') or lineIn==KEY_LEFT):
         return player.move("west")
-    elif(lineIn==CCHAR('j') or lineIn==KEY_DOWN ''' or lineIn==keyCodeForNumPad2'''):
+        """                                          or lineIn==keyCodeForNumPad2"""
+    elif(lineIn==CCHAR('j') or lineIn==KEY_DOWN):
         return player.move("south")
-    elif(lineIn==CCHAR('k') or lineIn==KEY_UP ''' etc as above'''):
+        """                                          etc as above"""
+    elif(lineIn==CCHAR('k') or lineIn==KEY_UP):
         return player.move("north")
     elif(lineIn==CCHAR('l') or lineIn==KEY_RIGHT):
         return player.move("east")
