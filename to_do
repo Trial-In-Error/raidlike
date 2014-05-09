@@ -23,7 +23,7 @@ RE-DO LOS / DRAW CODE
 		grid->drawContentsRelative->getBottomContents...
 	performance issues with large LoS!!!
 		7 is laggy, 8 is terrible, 9 is godawful
-	atypical behavior
+	atypical behavior around corners
 
 MAIN MENU IMPLEMENTATION
 	credits screen
@@ -31,6 +31,17 @@ MAIN MENU IMPLEMENTATION
 
 COLLIDETYPE IMPLEMENTATION
 	dict
+	So how does collideType work?
+	A set of booleans
+	blocksLoS
+	blocksMovement
+	# blocksFlight future only
+	initiatesCombat
+	isPlayer
+	So... Floor = {all False}
+	Wall = {blocksMovement, blocksLoS, else False}
+	Enemy = {initiatesCombat, blocksMovement, else False}
+	Player = {initiatesCombat, isPlayer, blocksMovement, else False}
 
 INPUT PARSING IMPLEMENTATION
 	healing item hotkey
@@ -40,10 +51,9 @@ MESSAGE OBJECT IMPLEMENTATION
 	outputBuffer needs to accept message objects
 	triggertiles->queue up multiple lines of text
 	allows composing red-blue-red one line text
+	What needs to be in a message object?
 
 CHINATOWN; 80's; WATER; L.A.
-
-sleeper: #add wake-up description!!!
 
 NOTE: FLOORPLANS MUST INCLUDE A "." GLYPH. IT WILL BE USED BY DEFAULT UNDERNEATH THINGS
 TRIGGER TILES PROC WHEN YOU ATTACK INTO THEIR LOCATION

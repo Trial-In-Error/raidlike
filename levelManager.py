@@ -139,9 +139,10 @@ class levelManager():
 
     def drawInventoryInputParser(self):
         unicurses.erase()
+        self.camera.drawHUDBoundaries()
         for index, item in enumerate(self.player.inventory.inventoryList):
             unicurses.attron(unicurses.COLOR_PAIR(config.colorDict["white"]))
-            unicurses.mvaddstr(index, 0, self.player.inventory.letterList[index+1]+") "+self.player.inventory.inventoryList[index].description)
+            unicurses.mvaddstr(index+1, 1, self.player.inventory.letterList[index+1]+") "+self.player.inventory.inventoryList[index].description)
             unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"]))
 
     def drawLookInputParser(self, xLook, yLook):
