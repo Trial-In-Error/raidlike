@@ -19,11 +19,24 @@ def masterInputParser(player, level):
         endwin()
         print("Be seeing you...")
         sys.exit()
-    elif(lineIn==CCHAR('h') or lineIn==KEY_LEFT):
+
+
+    '''Sean: Make your edits to the block below.
+       This function exists to parse player input, so changes to command schemes
+       will go here. To find out what keyCode to use, you can start up python3
+       from the directory that unicurses is in, then:
+            from unicurses import *
+            stdscr = initscr()
+            getch()
+            <type a character to see its keyCode>
+       Note that this /will/ screw your terminal up, so after you finish,
+       use CTRL+D to leave the python interpreter, and reset to restore your
+       terminal to usability. Drop me a message if you have any questions! :)'''
+    elif(lineIn==CCHAR('h') or lineIn==KEY_LEFT ''' or lineIn==keyCodeForNumPad4'''):
         return player.move("west")
-    elif(lineIn==CCHAR('j') or lineIn==KEY_DOWN):
+    elif(lineIn==CCHAR('j') or lineIn==KEY_DOWN ''' or lineIn==keyCodeForNumPad2'''):
         return player.move("south")
-    elif(lineIn==CCHAR('k') or lineIn==KEY_UP):
+    elif(lineIn==CCHAR('k') or lineIn==KEY_UP ''' etc as above'''):
         return player.move("north")
     elif(lineIn==CCHAR('l') or lineIn==KEY_RIGHT):
         return player.move("east")
