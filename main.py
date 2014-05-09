@@ -27,6 +27,8 @@ try:
         os.environ['TERM'] = foo
     os.environ['TERM'] = "xterm-256color"
 
+    os.environ["ESCDELAY"] =  "25"
+
     # Curses set-up
     stdscr = initscr()
     start_color()
@@ -34,6 +36,7 @@ try:
     cbreak()
     curs_set(0)
     keypad(stdscr, True)
+    ESCDELAY = 100
     start_color()
 
     # Set up the global colorPalette
