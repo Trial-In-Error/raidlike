@@ -324,39 +324,27 @@ class Actor(Entity):
         # percent drop chance items go here
 
     def move(self, direction):
-        moveDict = {'north': [0, 1],
-                    'south': [0, -1],
-                    'west': [-1, 0],
-                    'east': [1, 0]}
-        temp = []
-        for entity in self.level.grid.get(
-        self.xpos+moveDict[direction][0], 
-        self.ypos+moveDict[direction][1]):
-            temp.append(entity.collide())
-
-
-        if(temp.count("portal")>0):
+        temp = config.collideType.copy()
+        for entity in self.level.grid.get(self.xpos + config.directions[direction][0],
+        self.ypos + config.directions[direction][1]):
+            for key in entity.collideType:
+                if(entity.collideType[key]):
+                    temp[key] = entity.collideType[key]
+        if(temp["isPortal"]):
             return
-        if(temp.count("closed_door")>0 and self.canOpenDoors):
-            self.openDoor(moveDict[direction][0], moveDict[direction][1])
+        if(temp["isDoor"] and not temp["isOpen"] and self.canOpenDoors):
+            self.openDoor(config.directions[direction][0], config.directions[direction][1])
             return
-        if(temp.count("closed_door")>0 and not self.canOpenDoors):
+        if(temp["isDoor"] and not self.canOpenDoors and not temp["isOpen"]):
             self.andWait(1)
             return
-        if(temp.count("actor")>0):
-            raise IndexError #HOW DO I DO EXCEPTIONS???
-        if(temp.count("true")==0
-        and temp.count("combat_player")==0
-        and temp.count("combat_enemy")==0 and temp.count("portal")==0 and temp.count("see_through")==0 and temp.count("closed_door")==0 and temp.count("obelisk")==0):
-            self.doMove(moveDict[direction][0], moveDict[direction][1])
+        if(not temp["blocksWalking"] and not temp["isEnemy"]):
+            self.doMove(config.directions[direction][0], config.directions[direction][1])
             return
-        if(temp.count("combat_player")==1):
-            self.doAttack(moveDict[direction][0], moveDict[direction][1])
+        if(temp["isPlayer"]):
+            self.doAttack(config.directions[direction][0], config.directions[direction][1])
             return
-        self.andWait(1)
-        #else:
-            #why must this be 1??
-            #self.andWait(1)
+        self.andWait(1) #why does this have to be andWait(1)?
 
     def openDoor(self, xDiff, yDiff):
         for entity in self.level.grid.get(self.xpos+xDiff, self.ypos+yDiff):
@@ -384,14 +372,17 @@ class Actor(Entity):
             getCell(self.xpos, self.ypos).getBottomContent().moveCost))
 
     def doAttack(self, xDiff, yDiff):
-        sorted(self.level.grid.get(self.xpos + xDiff, self.ypos + yDiff),
-               reverse=True)[0].isAttacked(self)
-        return self.andWait(self.attackCost)
+        #sorted(self.level.grid.get(self.xpos + xDiff, self.ypos + yDiff),
+        #       reverse=True)[0].isAttacked(self)
+        for entity in self.level.grid.get(self.xpos + xDiff, self.ypos + yDiff):
+            if(entity.collideType["isEnemy"] or entity.collideType["isPlayer"]):
+                entity.isAttacked(self)
+                return self.andWait(self.attackCost)
 
 class Player(Actor):
     def __init__(self, xpos, ypos, level, *,
                 playerName=None, title=None,
-                worshipping=None, healCost=10, healValue=30,
+                worshipping=None, healCost=10, healValue=30, collideType={},
                 **kwargs):
         #EQUIPPING SHIT MUST CHANGE SELF.ATTACKCOST,
         #SELF.POISE, .POISEREGEN, .POISEDAMAGE, .STAGGERCOST
@@ -445,35 +436,28 @@ class Player(Actor):
             return 0
 
     def move(self, direction):
-        moveDict = {'north': [0, 1],
-                    'south': [0, -1],
-                    'west': [-1, 0],
-                    'east': [1, 0],
-                    'northwest': [-1, 1],
-                    'northeast': [1, 1],
-                    'southwest': [-1 ,-1],
-                    'southeast': [1, -1]}
-        #MOVE THIS CODE TO GRID/CELL
-        temp = config.collideType
+        temp = config.collideType.copy()
         config.temp = temp
-        for entity in self.level.grid.get(self.xpos + moveDict[direction][0],
-        self.ypos + moveDict[direction][1]):
-            #temp.append(entity.collide()) #NONDESTRUCTIVE UPDATE
-            try:
-                temp = dict(list(temp.items())+list(entity.collide().items()))
-            except AttributeError:
-                pass
+        for entity in self.level.grid.get(self.xpos + config.directions[direction][0],
+        self.ypos + config.directions[direction][1]):
+            for key in entity.collideType:
+                if(entity.collideType[key]):
+                    temp[key] = entity.collideType[key]
         if(temp["isPortal"]):
+            for entity in self.level.grid.get(self.xpos + config.directions[direction][0],
+                self.ypos + config.directions[direction][1]):
+                if(entity.collideType["isPortal"]):
+                    entity.collide()
             return 0
         if(temp["isDoor"] and not temp["isOpen"]):
-            self.openDoor(moveDict[direction][0], moveDict[direction][1])
+            self.openDoor(config.directions[direction][0], config.directions[direction][1])
             return 0
-        if(not temp["blocksWalking"]):
-            tempNum = self.doMove(moveDict[direction][0], moveDict[direction][1])
+        if(not temp["blocksWalking"] and not temp["isEnemy"]):
+            tempNum = self.doMove(config.directions[direction][0], config.directions[direction][1])
             self.postMoveDescribe()
             return tempNum
         elif(temp["isEnemy"] and temp["initiatesCombat"]):
-            return self.doAttack(moveDict[direction][0], moveDict[direction][1])
+            return self.doAttack(config.directions[direction][0], config.directions[direction][1])
         else:
             return self.andWait(0)
 
@@ -711,9 +695,6 @@ class Wall(Entity):
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
-    #UNECESSARY?
-    #def collide(self):
-    #    return self.collideType
 
 class Hound(Enemy):
     def __init__(self, xpos, ypos, level, **kwargs):

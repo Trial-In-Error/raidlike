@@ -35,7 +35,7 @@ class levelManager():
         self.timeline = Timeline(100)
         self.portalList = []
         self.triggerTileList = []
-
+        self.name = None
         #not used
         self.viewDistance = 3
 
@@ -116,6 +116,7 @@ class levelManager():
                     #except:
                         #raise(KeyError ("There isn't a matching line for glyph: ", char))
         # Triggers ...?
+        level.name = name
         return level
 
     def setPlayer(self, player):
