@@ -444,11 +444,18 @@ class Player(Actor):
                 if(entity.collideType[key]):
                     temp[key] = entity.collideType[key]
         if(temp["isPortal"]):
+            #consider making the collide() code more frequent/often/general!
             for entity in self.level.grid.get(self.xpos + config.directions[direction][0],
                 self.ypos + config.directions[direction][1]):
                 if(entity.collideType["isPortal"]):
                     entity.collide()
             return 0
+        if(temp["isObelisk"]):
+            for entity in self.level.grid.get(self.xpos + config.directions[direction][0],
+                self.ypos + config.directions[direction][1]):
+                if(entity.collideType["isObelisk"]):
+                    entity.collide()
+            return self.andWait(0)
         if(temp["isDoor"] and not temp["isOpen"]):
             self.openDoor(config.directions[direction][0], config.directions[direction][1])
             return 0
@@ -496,11 +503,9 @@ class Player(Actor):
         if(isinstance(self.inventory.get(letter), Item)):
             config.world.currentLevel.output_buffer.add("You dropped "+str(self.inventory.get(letter).name+"."))
             self.inventory.drop(letter)
-            #self.level.draw()
             self.andWait(1)
         else:
             self.level.output_buffer.add("That item isn't in your inventory!")
-            #self.level.draw()
             self.andWait(0)
         self.andWait(0)
 
@@ -529,7 +534,6 @@ class Player(Actor):
             config.world.swapViaDeath(self.lastObelisk)
             config.player.health = config.player.maxHealth
             # do terrible things to the play here
-            # give the player pity healing here
 
 class Enemy(Actor):
     def __init__(self, xpos, ypos, level, **kwargs):
