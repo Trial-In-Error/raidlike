@@ -27,8 +27,6 @@ Glyphs
 
 @::player::
 
-X::enemy::
-
 $::door::collideType == dict({"isOpen":True}),, openDescription == A door hangs ajar.,, displayColor == wood_door,, memoryDisplayColor == memory,, display == '
 
 #::wall::description == A wall of dried mud bricks.,, name == a dried mud wall,, displayColor == mud_wall,, memoryDisplayColor == memory

@@ -23,15 +23,11 @@ class Entity():
         self.displayPriority = displayPriority
         self.memoryDisplayColor = memoryDisplayColor
         try:
-            #self.collideType = config.collideType.update(eval(str(collideType)))
             if(len(eval(str(collideType)).keys()) != 0):
                 self.collideType = dict(list(config.collideType.items())+list(eval(str(collideType)).items()))
         except (ValueError, NameError, AttributeError):
             raise ValueError("Error initializing entity {!r}'s collideType: local collideType {}"
                                "".format(type(self), collideType))
-        #except NameError:
-        #    raise NameError("Error initializing entity {!r}'s collideType: local collideType {}"
-        #                       "".format(type(self), collideType))
         self.name = name
         self.moveCost = moveCost
         try:
@@ -161,16 +157,10 @@ class Door(Entity):
             'name': "door",
             'description': "A closed door.",
             'displayPriority':1,
-            #'collideType':{"isDoor":True}
         }
         defaults.update(kwargs)
-        #self.collideType = defaults["collideType"].copy()
         self.collideType = dict(list(config.collideType.items())+list(eval(str(collideType)).items()))
         super().__init__(xpos, ypos, level, **defaults)
-        #try:
-        #    self.collideType = dict(list(eval(str(collideType)).items())+list(config.collideType.items()))
-        #except AttributeError:
-        #    raise AttributeError("collideType = "+str(collideType))
         self.level = level
         self.textColor = textColor
         self.openDisplay = openDisplay
@@ -180,7 +170,6 @@ class Door(Entity):
         self.keyInternalName = keyInternalName
         try:
             if(self.collideType["isOpen"]):
-                #defaults['collideType'] = "open_door"
                 if(self.openDescription):
                     self.description = self.openDescription
             else:
@@ -273,7 +262,6 @@ class Actor(Entity):
         self.poiseRecovery = poiseRecovery
         self.staggerCost = staggerCost
         self.guaranteedDropList = guaranteedDropList
-        #self.collideType = config.collideType.update(collideType)
         self.collideType = dict(list(config.collideType.items())+list(collideType.items()))
         self.level.timeline.add(self)
 
@@ -350,7 +338,6 @@ class Actor(Entity):
         for entity in self.level.grid.get(self.xpos+xDiff, self.ypos+yDiff):
             if(isinstance(entity, Door)):
                 entity.open(self)
-        #self.andWait(0)
 
     def andWait(self, time):
         self.level.timeline.add(self, time)
@@ -372,8 +359,6 @@ class Actor(Entity):
             getCell(self.xpos, self.ypos).getBottomContent().moveCost))
 
     def doAttack(self, xDiff, yDiff):
-        #sorted(self.level.grid.get(self.xpos + xDiff, self.ypos + yDiff),
-        #       reverse=True)[0].isAttacked(self)
         for entity in self.level.grid.get(self.xpos + xDiff, self.ypos + yDiff):
             if(entity.collideType["isEnemy"] or entity.collideType["isPlayer"]):
                 entity.isAttacked(self)
@@ -533,7 +518,7 @@ class Player(Actor):
                 self.lastObelisk.level.output_buffer.add("You feel the obelisk lend you strength.")
             config.world.swapViaDeath(self.lastObelisk)
             config.player.health = config.player.maxHealth
-            # do terrible things to the play here
+            # do terrible things to the player here
 
 class Enemy(Actor):
     def __init__(self, xpos, ypos, level, **kwargs):
@@ -753,6 +738,7 @@ class Hound(Enemy):
 
 class Sleeper(Enemy):
     #add wake-up description!!!
+    #add awake/asleep name split!
     def __init__(self, xpos, ypos, level,
                 awakeDescription=None,
                 wakingDescription=None, **kwargs):
