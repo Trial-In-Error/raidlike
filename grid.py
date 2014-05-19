@@ -160,12 +160,7 @@ class Grid():
         try:
             self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
             temp = self.getCell(xpos, ypos).getBottomContent()
-            if((type(temp) is not Wall and type(temp) is not Door) or (type(temp) is Wall and temp.collideType=="see_through")
-                or (type(temp) is Door and temp.collideType=="open_door")):
-            #if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall
-            #    or (type(self.getCell(xpos, ypos).getBottomContent()) is Wall
-            #        and self.getCell(xpos, ypos).getBottomContent().collideType=="see_through")):
-            #AND THIS LINE
+            if(not temp.collideType["blocksLoS"]):
                 for newDirection in moveDict[direction][4:]:
                     new_xpos = xpos + moveDict[newDirection][0]
                     new_ypos = ypos + moveDict[newDirection][1]
@@ -182,11 +177,7 @@ class Grid():
         try:
             self.drawCellRelative(xpos, ypos, player_xpos, player_ypos, lensWidth, lensHeight)
             temp = self.getCell(xpos, ypos).getBottomContent()
-            if((type(temp) is not Wall and type(temp) is not Door) or (type(temp) is Wall and temp.collideType=="see_through")
-                or (type(temp) is Door and temp.collideType=="open_door")):
-            #if(type(self.getCell(xpos, ypos).getBottomContent()) is not Wall
-            #    or (type(self.getCell(xpos, ypos).getBottomContent()) is Wall
-            #        and self.getCell(xpos, ypos).getBottomContent().collideType=="see_through")):
+            if(not temp.collideType["blocksLoS"]):
                 for newDirection in moveDict[direction][4:]:
                     new_xpos = xpos + moveDict[newDirection][0]
                     new_ypos = ypos + moveDict[newDirection][1]

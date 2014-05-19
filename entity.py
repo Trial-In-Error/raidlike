@@ -118,6 +118,7 @@ class TriggerTile(Entity):
                 textColor="white", **kwargs):
         defaults = {
             'displayPriority':1,
+            'collideType':{"blocksLoS":False}
         }
         defaults.update(kwargs)
         self.triggerDescription = triggerDescription
@@ -160,12 +161,16 @@ class Door(Entity):
             'name': "door",
             'description': "A closed door.",
             'displayPriority':1,
+            #'collideType':{"isDoor":True}
         }
         defaults.update(kwargs)
-        try:
-            self.collideType = dict(list(eval(str(collideType)).items())+list(config.collideType.items()))
-        except AttributeError:
-            raise AttributeError("collideType = "+str(collideType))
+        #self.collideType = defaults["collideType"].copy()
+        self.collideType = dict(list(config.collideType.items())+list(eval(str(collideType)).items()))
+        super().__init__(xpos, ypos, level, **defaults)
+        #try:
+        #    self.collideType = dict(list(eval(str(collideType)).items())+list(config.collideType.items()))
+        #except AttributeError:
+        #    raise AttributeError("collideType = "+str(collideType))
         self.level = level
         self.textColor = textColor
         self.openDisplay = openDisplay
@@ -177,14 +182,15 @@ class Door(Entity):
             if(self.collideType["isOpen"]):
                 #defaults['collideType'] = "open_door"
                 if(self.openDescription):
-                    defaults['description'] = self.openDescription
+                    self.description = self.openDescription
             else:
-                #defaults['collideType'] = "closed_door"
+                self.collideType["blocksLoS"] = True
+                self.collideType["blocksWalking"] = True 
+                self.collideType["blocksFlight"] = True 
                 if(self.closeDescription):
-                    defaults['description'] = self.closeDescription
+                    self.description  = self.closeDescription
         except TypeError:
             raise TypeError("Self.collideType = "+str(self.collideType))
-        super().__init__(xpos, ypos, level, **defaults)
 
     def open(self, opener):
         hasKey = False
@@ -192,12 +198,15 @@ class Door(Entity):
             for entity in self.level.player.inventory.inventoryList:
                 if(isinstance(entity, Key) and entity.internalName == self.keyInternalName):
                     hasKey = True
-        if((not self.isOpen and self.keyInternalName == None)
-            or (not self.isOpen and hasKey)):
+        if((not self.collideType["isOpen"] and self.keyInternalName == None)
+            or (not self.collideType["isOpen"] and hasKey)):
             if isinstance(opener, Player) and not self.openDescription == "None":
                 config.world.currentLevel.output_buffer.add(self.openDescription)
-            self.collideType.update({"isOpen":True})
-            self.display = "'"
+            self.collideType["isOpen"] = True
+            self.collideType["blocksLoS"] = False
+            self.collideType["blocksWalking"] = False
+            self.collideType["blocksFlight"] = False
+            self.display = self.openDisplay
             self.description = self.openDescription
             opener.andWait(1)
         else:
@@ -583,6 +592,7 @@ class Item(Entity):
             'displayColor': "cyan",
             'memoryDisplayColor': "blue",
             'name': "item",
+            'collideType':{"blocksLoS":False}
         }
         self.weight = weight
         defaults.update(kwargs)
@@ -682,6 +692,7 @@ class Floor(Entity):
             'displayColor': "yellow",
             'memoryDisplayColor': "blue",
             'name': "floor",
+            'collideType':{"blocksLoS":False},
         }
         self.moveCost = moveCost
         defaults.update(kwargs)
@@ -696,6 +707,7 @@ class Wall(Entity):
             'displayColor': "cyan",
             'memoryDisplayColor': "blue",
             'name': 'wall',
+            'collideType':{"blocksLoS":True, "blocksWalking":True, "blocksFlight":True}
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
