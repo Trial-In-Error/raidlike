@@ -23,10 +23,15 @@ class Entity():
         self.displayPriority = displayPriority
         self.memoryDisplayColor = memoryDisplayColor
         try:
-            self.collideType = config.collideType.update(eval(str(collideType)))
-        except ValueError:
+            #self.collideType = config.collideType.update(eval(str(collideType)))
+            if(len(eval(str(collideType)).keys()) != 0):
+                self.collideType = dict(list(config.collideType.items())+list(eval(str(collideType)).items()))
+        except (ValueError, NameError, AttributeError):
             raise ValueError("Error initializing entity {!r}'s collideType: local collideType {}"
                                "".format(type(self), collideType))
+        #except NameError:
+        #    raise NameError("Error initializing entity {!r}'s collideType: local collideType {}"
+        #                       "".format(type(self), collideType))
         self.name = name
         self.moveCost = moveCost
         try:
@@ -259,7 +264,8 @@ class Actor(Entity):
         self.poiseRecovery = poiseRecovery
         self.staggerCost = staggerCost
         self.guaranteedDropList = guaranteedDropList
-        self.collideType = config.collideType.update(collideType)
+        #self.collideType = config.collideType.update(collideType)
+        self.collideType = dict(list(config.collideType.items())+list(collideType.items()))
         self.level.timeline.add(self)
 
     def act(self):
@@ -439,24 +445,25 @@ class Player(Actor):
                     'southwest': [-1 ,-1],
                     'southeast': [1, -1]}
         #MOVE THIS CODE TO GRID/CELL
-        temp = []
-
+        temp = config.collideType
+        config.temp = temp
         for entity in self.level.grid.get(self.xpos + moveDict[direction][0],
         self.ypos + moveDict[direction][1]):
-            temp.append(entity.collide())
-        if(temp.count("portal")>0):
+            #temp.append(entity.collide()) #NONDESTRUCTIVE UPDATE
+            try:
+                temp = dict(list(temp.items())+list(entity.collide().items()))
+            except AttributeError:
+                pass
+        if(temp["isPortal"]):
             return 0
-        if(temp.count("closed_door")>0):
+        if(temp["isDoor"] and not temp["isOpen"]):
             self.openDoor(moveDict[direction][0], moveDict[direction][1])
             return 0
-        if(temp.count("actor")>0):
-            raise IndexError #HOW DO I DO EXCEPTIONS???
-        if(temp.count("true")==0 and temp.count("combat_enemy")==0 and temp.count("portal")==0
-            and temp.count("see_through")==0 and temp.count("closed_door")==0 and temp.count("obelisk")==0):
+        if(not temp["blocksWalking"]):
             tempNum = self.doMove(moveDict[direction][0], moveDict[direction][1])
             self.postMoveDescribe()
             return tempNum
-        elif(temp.count("combat_enemy")==1):
+        elif(temp["isEnemy"] and temp["initiatesCombat"]):
             return self.doAttack(moveDict[direction][0], moveDict[direction][1])
         else:
             return self.andWait(0)
