@@ -39,10 +39,10 @@
 
 
 Glyphs
-|::wall::display == |,, displayColor == stained_glass,, memoryDisplayColor == stained_glass_memory,, collideType == see_through
+|::wall::display == |,, displayColor == stained_glass,, memoryDisplayColor == stained_glass_memory,, collideType == dict({"blocksLoS":False})
 #::wall::displayColor == g18,, memoryDisplayColor == g14
--::wall::display == -,, collideType == see_through,, displayColor == stained_glass,, memoryDisplayColor == stained_glass_memory
-.::floor::displayColor == g20,, memoryDisplayColor == g8
+-::wall::display == -,, displayColor == stained_glass,, memoryDisplayColor == stained_glass_memory
+.::floor::displayColor == g20,, memoryDisplayColor == g8,, collideType == dict({"blocksLoS":False})
 *::portal::toWhichLevel == one,, toWhichPortal == one_entry,, internalName == two_entry,, direction == e
 >::floor::display == >
 <::floor::display == <

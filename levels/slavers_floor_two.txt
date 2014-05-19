@@ -37,7 +37,7 @@ K::key::internalName == slaverFrontDoor
 
 .::floor::name == a sandy floor,, description == The floor is made of densely packed sand.,, displayColor == sand,, memoryDisplayColor == memory
 
-+::door::displayColor == wood_door,, memoryDisplayColor == memory,, collideType == "closed_door"
++::door::displayColor == wood_door,, memoryDisplayColor == memory
 
 L::door::displayColor == wood_door,, memoryDisplayColor == memory,, keyInternalName == notValidKey
 

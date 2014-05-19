@@ -24,7 +24,7 @@ class levelManager():
     turn. It looks really awkward.
     """
 
-    def __init__(self, playerSaveState, width, height, player=None):
+    def __init__(self, width, height, player=None):
         self.width = width
         self.height = height
         self.grid = Grid(width, height)
@@ -87,7 +87,7 @@ class levelManager():
         height = len(map_)
         # Create the level instance
 
-        level = levelManager("blah", width, height)
+        level = levelManager(width, height)
         #print("level width={} height={}".format(width, height), file=sys.stderr)
         for y, line in enumerate(map_[::-1], 1):
             for x, char in enumerate(line, 1):
@@ -105,6 +105,10 @@ class levelManager():
                                     class_dict[char](x, y, level, **arg_dict[char])
                                 except TypeError:
                                     raise TypeError("Error parsing glyph {!r}: no class named {}"
+                                                    "".format(char, arg_dict[char]))
+                                except ValueError:
+                                    config.error_out = (class_dict, arg_dict)
+                                    raise ValueError("Error parsing glyph {!r}: illegal value: \n{!s}"
                                                     "".format(char, arg_dict[char]))
                             else:
                                 class_dict[char](x, y, level, **arg_dict[char])

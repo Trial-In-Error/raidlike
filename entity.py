@@ -12,7 +12,7 @@ class Entity():
                  display='.', displayColor="yellow",
                  displayPriority=1,
                  memoryDisplayColor="blue",
-                 name="floor", collideType="false",
+                 name="floor", collideType={},
                  moveCost=1):
         self.xpos = xpos
         self.ypos = ypos
@@ -22,7 +22,11 @@ class Entity():
         self.displayColor = displayColor
         self.displayPriority = displayPriority
         self.memoryDisplayColor = memoryDisplayColor
-        self.collideType = collideType
+        try:
+            self.collideType = config.collideType.update(eval(str(collideType)))
+        except ValueError:
+            raise ValueError("Error initializing entity {!r}'s collideType: local collideType {}"
+                               "".format(type(self), collideType))
         self.name = name
         self.moveCost = moveCost
         try:
@@ -71,7 +75,7 @@ class Obelisk(Entity):
             'display': "",
             'displayColor': "94",
             'memoryDisplayColor': "94",
-            'collideType': "obelisk",
+            'collideType': {"isObelisk":True, "blocksWalking":True, "blocksLoS":True},
             'name': "obelisk",
             'description': "An ancient stone obelisk.",
             'display':"&",
@@ -139,7 +143,7 @@ class TriggerTile(Entity):
         return self.collideType
 
 class Door(Entity):
-    def __init__(self, xpos, ypos, level, isOpen=False,
+    def __init__(self, xpos, ypos, level, collideType={"isDoor":True},
                 keyInternalName=None,
                 openDescription="You open the door.",
                 closeDescription=None, openDisplay="'",
@@ -153,6 +157,10 @@ class Door(Entity):
             'displayPriority':1,
         }
         defaults.update(kwargs)
+        try:
+            self.collideType = dict(list(eval(str(collideType)).items())+list(config.collideType.items()))
+        except AttributeError:
+            raise AttributeError("collideType = "+str(collideType))
         self.level = level
         self.textColor = textColor
         self.openDisplay = openDisplay
@@ -160,16 +168,17 @@ class Door(Entity):
         self.openDescription = openDescription
         self.closeDescription = closeDescription
         self.keyInternalName = keyInternalName
-        self.isOpen = isOpen
-        if(self.isOpen):
-            defaults['collideType'] = "open_door"
-            if(self.openDescription):
-                defaults['description'] = self.openDescription
-        else:
-            defaults['collideType'] = "closed_door"
-            if(self.closeDescription):
-                defaults['description'] = self.closeDescription
-
+        try:
+            if(self.collideType["isOpen"]):
+                #defaults['collideType'] = "open_door"
+                if(self.openDescription):
+                    defaults['description'] = self.openDescription
+            else:
+                #defaults['collideType'] = "closed_door"
+                if(self.closeDescription):
+                    defaults['description'] = self.closeDescription
+        except TypeError:
+            raise TypeError("Self.collideType = "+str(self.collideType))
         super().__init__(xpos, ypos, level, **defaults)
 
     def open(self, opener):
@@ -182,7 +191,7 @@ class Door(Entity):
             or (not self.isOpen and hasKey)):
             if isinstance(opener, Player) and not self.openDescription == "None":
                 config.world.currentLevel.output_buffer.add(self.openDescription)
-            self.collideType = "open_door"
+            self.collideType.update({"isOpen":True})
             self.display = "'"
             self.description = self.openDescription
             opener.andWait(1)
@@ -203,7 +212,7 @@ class Portal(Entity):
             'displayPriority': 2,
             'memoryDisplayColor': "red",
             'name': "portal",
-            'collideType': "portal",
+            'collideType':{"isPortal":True},
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
@@ -225,7 +234,7 @@ class Actor(Entity):
                 canOpenDoors=False, guaranteedDropList=[],
                 attackCost=10, damage=10, health=3, moveCost=10,
                 poise=100, poiseRegen=1, poiseDamage=20,
-                maxPoise=100, poiseRecovery=50, staggerCost=15,
+                maxPoise=100, poiseRecovery=50, staggerCost=15, collideType={},
                 **kwargs):
         defaults = {
             'description': "An actor. This shouldn't be instantiated!",
@@ -234,7 +243,6 @@ class Actor(Entity):
             'displayPriority': 2,
             'memoryDisplayColor': "blue",
             'name': "actor",
-            'collideType': "false",
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
@@ -251,6 +259,7 @@ class Actor(Entity):
         self.poiseRecovery = poiseRecovery
         self.staggerCost = staggerCost
         self.guaranteedDropList = guaranteedDropList
+        self.collideType = config.collideType.update(collideType)
         self.level.timeline.add(self)
 
     def act(self):
@@ -381,7 +390,7 @@ class Player(Actor):
             'health': 100,
             'moveCost': 10,
             'name': "player",
-            'collideType': "combat_player",
+            'collideType': {"isPlayer":True, "initiatesCombat":True, "blocksWalking":True},
             'canOpenDoors': True,
             'poiseRegen': 1,
             'damage': 15,
@@ -534,7 +543,7 @@ class Enemy(Actor):
             'memoryDisplayColor': "blue",
             'moveCost': 10,
             'name': "generic enemy",
-            'collideType': "combat_enemy",
+            'collideType': {"isEnemy":True, "initiatesCombat":True, "blocksWalking":True},
             'poiseDamage': 40,
         }
         defaults.update(kwargs)
@@ -567,7 +576,6 @@ class Item(Entity):
             'displayColor': "cyan",
             'memoryDisplayColor': "blue",
             'name': "item",
-            'collideType':"false",
         }
         self.weight = weight
         defaults.update(kwargs)
@@ -667,7 +675,6 @@ class Floor(Entity):
             'displayColor': "yellow",
             'memoryDisplayColor': "blue",
             'name': "floor",
-            'collideType':"false",
         }
         self.moveCost = moveCost
         defaults.update(kwargs)
@@ -682,13 +689,12 @@ class Wall(Entity):
             'displayColor': "cyan",
             'memoryDisplayColor': "blue",
             'name': 'wall',
-            'collideType': "true",
         }
         defaults.update(kwargs)
         super().__init__(xpos, ypos, level, **defaults)
-
-    def collide(self):
-        return self.collideType
+    #UNECESSARY?
+    #def collide(self):
+    #    return self.collideType
 
 class Hound(Enemy):
     def __init__(self, xpos, ypos, level, **kwargs):
@@ -702,7 +708,6 @@ class Hound(Enemy):
             'memoryDisplayColor': "blue",
             'moveCost': 6,
             'name': "generic enemy",
-            'collideType': "combat_enemy",
             'attackCost': 8,
         }
         defaults.update(kwargs)
@@ -757,7 +762,7 @@ class Sleeper(Enemy):
             'memoryDisplayColor': "blue",
             'moveCost': 10,
             'name': "generic enemy",
-            'collideType': "combat_enemy",
+            #'collideType': "combat_enemy",
             'attackCost': 10,
         }
         defaults.update(kwargs)

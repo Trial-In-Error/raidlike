@@ -27,7 +27,7 @@ Glyphs
 
 @::player::
 
-$::door::isOpen == True,, openDescription == A door hangs ajar.,, displayColor == wood_door,, memoryDisplayColor == memory,, display == '
+$::door::collideType == dict({"isOpen":True}),, openDescription == A door hangs ajar.,, displayColor == wood_door,, memoryDisplayColor == memory,, display == '
 
 #::wall::description == A wall of dried mud bricks.,, name == a dried mud wall,, displayColor == mud_wall,, memoryDisplayColor == memory
 
@@ -43,7 +43,7 @@ x::sleeper::name == sleeping guard,, description == A guard asleep at his post.,
 
 Z::door::displayColor == wood_door,, memoryDisplayColor == memory,, keyInternalName == slaverUpstairsDoor
 
-+::door::displayColor == wood_door,, memoryDisplayColor == memory,, collideType == "closed_door"
++::door::displayColor == wood_door,, memoryDisplayColor == memory
 
 L::door::displayColor == wood_door,, memoryDisplayColor == memory,, keyInternalName == slaverFrontDoor
 

@@ -5,6 +5,7 @@
 import unicurses
 world = None
 player = None
+error_out = None
 directions = {
 	"n":[0, 1],
     "north":[0, 1],
@@ -22,6 +23,19 @@ directions = {
     "southeast":[1, -1],
 	"sw":[-1, -1],
     "southwest":[-1, -1]
+}
+
+collideType = {
+    "blocksLoS":False,
+    "blocksWalking":False,
+    "blocksFlight":False, #unused
+    "isObelisk":False,
+    "isDoor":False,
+    "isOpen":False,
+    "isPortal":False,
+    "initiatesCombat":False,
+    "isPlayer":False,
+    "isEnemy":False #unsure if needed!
 }
 
 colorDict = {
