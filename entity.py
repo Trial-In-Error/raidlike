@@ -76,7 +76,7 @@ class Obelisk(Entity):
             'display': "",
             'displayColor': "94",
             'memoryDisplayColor': "94",
-            'collideType': {"isObelisk":True, "blocksWalking":True, "blocksLoS":True},
+            'collideType': {"isObelisk":True, "blocksWalking":True},
             'name': "obelisk",
             'description': "An ancient stone obelisk.",
             'display':"&",
@@ -425,21 +425,13 @@ class Player(Actor):
         config.temp = temp
         for entity in self.level.grid.get(self.xpos + config.directions[direction][0],
         self.ypos + config.directions[direction][1]):
-            for key in entity.collideType:
-                if(entity.collideType[key]):
-                    temp[key] = entity.collideType[key]
+            collideType = entity.collide()
+            for key in collideType:
+                if(collideType[key]):
+                    temp[key] = collideType[key]
         if(temp["isPortal"]):
-            #consider making the collide() code more frequent/often/general!
-            for entity in self.level.grid.get(self.xpos + config.directions[direction][0],
-                self.ypos + config.directions[direction][1]):
-                if(entity.collideType["isPortal"]):
-                    entity.collide()
             return 0
         if(temp["isObelisk"]):
-            for entity in self.level.grid.get(self.xpos + config.directions[direction][0],
-                self.ypos + config.directions[direction][1]):
-                if(entity.collideType["isObelisk"]):
-                    entity.collide()
             return self.andWait(0)
         if(temp["isDoor"] and not temp["isOpen"]):
             self.openDoor(config.directions[direction][0], config.directions[direction][1])
