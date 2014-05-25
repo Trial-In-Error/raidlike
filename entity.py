@@ -204,6 +204,18 @@ class Door(Entity):
                 config.world.currentLevel.output_buffer.add("The "+ self.name + " is locked.")
             # make it cost time to check?
 
+    def close(self, closer):
+        if((self.collideType["isOpen"])):
+            self.collideType["isOpen"] = False
+            self.collideType["blocksLoS"] = True #variabilize?
+            self.collideType["blocksWalking"] = True
+            self.collideType["blocksFlight"] = True
+            self.keyInternalName = None #the art of re-locking is a lost one
+            self.display = self.closedDisplay
+            self.description = self.closeDescription
+            closer.andWait(1) #variabilize this
+            # make it cost time to check?
+
 class Portal(Entity):
     def __init__(self, xpos, ypos, level, *,
         internalName, toWhichPortal, toWhichLevel,

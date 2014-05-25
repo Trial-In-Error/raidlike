@@ -74,13 +74,28 @@ def masterInputParser(player, level):
             return player.andWait(0)
             #ask for a direction
         return player.andWait(0)
-    #elif(lineIn==CCHAR('c')):
-        #for every adjacent cell
-            #count the number of closed doors
-                #if it's ==1
-                    #automatically open it
-                #if it's !=1
-                    #ask for a direction
+    elif(lineIn==CCHAR('c')):
+        adjacent = player.level.grid.getAdjacentCells(player.xpos, player.ypos)
+        temp = []
+        for cell in adjacent:
+            for thing in cell.contents:
+                if(type(thing) == entity.Door and thing.collideType["isOpen"]):
+                    temp.append(thing)
+        if(len(temp)==0):
+            player.level.output_buffer.add("There is no door to close!")
+            return player.andWait(0)
+        elif(len(temp)==1):
+            config.error_out = temp
+            #return player.move(config.directions[temp[0].xpos-player.xpos, temp[0].ypos-player.ypos])
+            temp[0].close(player)
+            return 1
+            #return player.andWait(0)
+            #automatically open the door
+        elif(len(temp)>1):
+            return player.andWait(0)
+            #ask for a direction
+        return player.andWait(0)
+
     elif(lineIn==CCHAR('x')):
         lookInputParser(player, level)
         return player.doNotWait()
