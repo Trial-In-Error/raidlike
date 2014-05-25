@@ -197,7 +197,7 @@ class Door(Entity):
             self.collideType["blocksFlight"] = False
             self.display = self.openDisplay
             self.description = self.openDescription
-            opener.andWait(1)
+            opener.andWait(1) #variabilize this
         else:
             opener.andWait(0)
             if isinstance(opener, Player):

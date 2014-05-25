@@ -22,7 +22,15 @@ directions = {
 	"se":[1, -1],
     "southeast":[1, -1],
 	"sw":[-1, -1],
-    "southwest":[-1, -1]
+    "southwest":[-1, -1],
+    (0, 1):"north",
+    (0, -1):"south",
+    (1, 0):"east",
+    (-1, 0):"west",
+    (1, 1):"northeast",
+    (-1, 1):"northwest",
+    (1, -1):"southeast",
+    (-1, -1):"southwest"
 }
 
 collideType = {

@@ -40,6 +40,16 @@ class Grid():
     def getCell(self, xpos, ypos):
         return self.grid[self.height-ypos][xpos-1]
 
+    def getAdjacentCells(self, xpos, ypos):
+        temp = [] #simplify via collect?
+        try:
+            for i in range(xpos-1, xpos+2):
+                for j in range(ypos-1, ypos+2):
+                    temp.append(self.getCell(i, j))
+        except IndexError:
+            raise IndexError("list indexes "+str(i)+", "+str(j)+" out of bounds.")
+        return temp
+
     def add(self, value, xpos, ypos):
         self.getCell(xpos, ypos).add(value)
 
