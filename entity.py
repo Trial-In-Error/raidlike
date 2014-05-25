@@ -189,7 +189,7 @@ class Door(Entity):
                     hasKey = True
         if((not self.collideType["isOpen"] and self.keyInternalName == None)
             or (not self.collideType["isOpen"] and hasKey)):
-            if isinstance(opener, Player) and not self.openDescription == "None":
+            if isinstance(opener, Player) and self.openDescription != None:
                 config.world.currentLevel.output_buffer.add(self.openDescription)
             self.collideType["isOpen"] = True
             self.collideType["blocksLoS"] = False
@@ -213,6 +213,8 @@ class Door(Entity):
             self.keyInternalName = None #the art of re-locking is a lost one
             self.display = self.closedDisplay
             self.description = self.closeDescription
+            if isinstance(closer, Player)and self.closeDescription != None:
+                config.world.currentLevel.output_buffer.add(self.closeDescription)
             closer.andWait(1) #variabilize this
             # make it cost time to check?
 
