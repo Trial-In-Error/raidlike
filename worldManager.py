@@ -49,6 +49,7 @@ class worldManager():
     def swapLevels(self, portalInc):
             # clear the output buffer
             config.player.level.output_buffer.clear()
+            self.levelDict[portalInc.toWhichLevel].timeline.absoluteTime = self.currentLevel.timeline.absoluteTime
             # remove player from old level
             config.player = self.currentLevel.player
             # DESCRIPTIVE TEXT GOES HERE
