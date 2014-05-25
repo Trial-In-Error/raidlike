@@ -50,9 +50,9 @@ class Timeline():
     def clear(self, displacement = 0):
         self.line[self.currentLocation+displacement] = []
     def progress(self, displacement = 1):
-        displacement = (self.currentLocation + displacement) % self.size
+        new = (self.currentLocation + displacement) % self.size
         self.line[self.currentLocation] = []
-        self.currentLocation = displacement
+        self.currentLocation = new
         self.absoluteTime = self.absoluteTime + displacement
         iterator = 0
     def delay(self, object, displacement = 0):

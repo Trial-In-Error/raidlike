@@ -57,6 +57,7 @@ class Camera():
         unicurses.mvaddstr(2, self.lensWidth, self.level.player.title)
         unicurses.mvaddstr(4, self.lensWidth, "Health: "+str(self.level.player.health)+"/"+str(self.level.player.maxHealth))
         unicurses.mvaddstr(5, self.lensWidth, "Poise:  "+str(self.player.poise)+"/"+str(self.level.player.maxPoise))
+        unicurses.mvaddstr(8, self.lensWidth, "Turn:   "+str(config.world.currentLevel.timeline.absoluteTime))
         if(self.player.lastObelisk != None):
             unicurses.mvaddstr(6, self.lensWidth, "Shards of Divinity: "+str(self.player.shardCount))
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"]))
