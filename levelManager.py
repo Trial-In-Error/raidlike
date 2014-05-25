@@ -44,8 +44,11 @@ class levelManager():
         filename = os.path.join('levels', name + '.txt')
         with open(filename, encoding='utf-8') as f:
             data = f.read()
-        map_data, not_map = data.split('Glyphs')
-        glyphs_data, triggers_data = not_map.split('Triggers')
+        try:
+            map_data, not_map = data.split('Glyphs')
+            glyphs_data, triggers_data = not_map.split('Triggers')
+        except ValueError:
+            raise ValueError("File "+name+" doesn't have both keywords (Glyphs, Triggers).")
         datas = (glyphs_data, triggers_data)
         glyphs, triggers = [d.strip().split('\n') for d in datas]
         # Load the glyphs
