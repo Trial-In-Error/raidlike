@@ -45,7 +45,8 @@ class Grid():
         try:
             for i in range(xpos-1, xpos+2):
                 for j in range(ypos-1, ypos+2):
-                    temp.append(self.getCell(i, j))
+                    if(xpos!=i or ypos!=j):
+                        temp.append(self.getCell(i, j))
         except IndexError:
             raise IndexError("list indexes "+str(i)+", "+str(j)+" out of bounds.")
         return temp
