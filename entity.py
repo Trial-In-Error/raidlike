@@ -1,4 +1,4 @@
-import unicurses
+from UniCurses12 import unicurses
 from masterInputParser import masterInputParser
 from sys import exit
 from inventory import Inventory
@@ -33,7 +33,7 @@ class Entity():
         try:
             self.level.grid.add(self, xpos, ypos)
         except AttributeError:
-            pass 
+            pass
 
     def __lt__(self, other):
         if self.displayPriority < other.displayPriority:
@@ -43,17 +43,17 @@ class Entity():
 
     def drawRelative(self, player_xpos, player_ypos, lensWidth, lensHeight):
         unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
-        unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
+        unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, ord(self.display))
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
 
     def drawRelativeBold(self, player_xpos, player_ypos, lensWidth, lensHeight):
         unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
-        unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display, unicurses.A_REVERSE)
+        unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, ord(self.display), unicurses.A_REVERSE)
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.displayColor]))
 
     def drawRelativeFromMemory(self,player_xpos, player_ypos, lensWidth, lensHeight):
         unicurses.attron(unicurses.COLOR_PAIR(config.colorDict[self.memoryDisplayColor]))
-        unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, self.display)
+        unicurses.mvaddch(-self.ypos+player_ypos+lensHeight, self.xpos-player_xpos+lensWidth, ord(self.display))
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict[self.memoryDisplayColor]))
 
     def describe(self):
@@ -174,8 +174,8 @@ class Door(Entity):
                     self.description = self.openDescription
             else:
                 self.collideType["blocksLoS"] = True
-                self.collideType["blocksWalking"] = True 
-                self.collideType["blocksFlight"] = True 
+                self.collideType["blocksWalking"] = True
+                self.collideType["blocksFlight"] = True
                 if(self.closeDescription):
                     self.description  = self.closeDescription
         except TypeError:
@@ -311,7 +311,7 @@ class Actor(Entity):
     def die(self, killer):
         self.level.timeline.remove(self)
         self.level.grid.remove(self, self.xpos, self.ypos)
-        self.level.output_buffer.add("AURGH! " + self.name.capitalize() + 
+        self.level.output_buffer.add("AURGH! " + self.name.capitalize() +
         " was killed by " + killer.name + ".\r")
         if self.guaranteedDropList:
             for item in self.guaranteedDropList.split("),"):
@@ -591,7 +591,7 @@ class Key(Item):
         }
         self.internalName = internalName
         defaults.update(kwargs)
-        super().__init__(xpos, ypos, level, **defaults) 
+        super().__init__(xpos, ypos, level, **defaults)
 
     @classmethod
     def fromString(cls, string):
@@ -619,7 +619,7 @@ class Equippable(Item):
         }
         self.slot = slot
         defaults.update(kwargs)
-        super().__init__(xpos, ypos, level, **defaults) 
+        super().__init__(xpos, ypos, level, **defaults)
 
 class Armor(Equippable):
     def __init__(self, xpos, ypos, level, **kwargs):
@@ -638,7 +638,7 @@ class Armor(Equippable):
         poise = 0
         #self.slot = slot
         defaults.update(kwargs)
-        super().__init__(xpos, ypos, level, **defaults) 
+        super().__init__(xpos, ypos, level, **defaults)
 
 class Weapon(Equippable):
     def __init__(self, xpos, ypos, level, **kwargs):
@@ -659,7 +659,7 @@ class Weapon(Equippable):
         #self.poiseDamage
         #self.handRequirements
         defaults.update(kwargs)
-        super().__init__(xpos, ypos, level, **defaults)    
+        super().__init__(xpos, ypos, level, **defaults)
 
 class Floor(Entity):
     def __init__(self, xpos, ypos, level, type='solid',

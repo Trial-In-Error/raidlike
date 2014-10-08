@@ -2,7 +2,8 @@
 #IMMUTABLE REFERENCES
 #BECAUSE IT IS NOT SAVED OR LOADED
 
-import unicurses
+import UniCurses12.unicurses as unicurses
+
 world = None
 player = None
 error_out = None

@@ -1,5 +1,5 @@
 import sys
-from unicurses import *
+from UniCurses12.unicurses import *
 import string
 import config
 import entity
@@ -32,7 +32,7 @@ def masterInputParser(player, level):
         endwin()
         print("Be seeing you...")
         sys.exit()
-        """                                          or lineIn==keyCodeForNumPad4""" 
+        """                                          or lineIn==keyCodeForNumPad4"""
     elif(lineIn==CCHAR('h') or lineIn==KEY_LEFT):
         return player.move("west")
         """                                          or lineIn==keyCodeForNumPad2"""
@@ -194,4 +194,4 @@ def lookInputParser(player, level):
                 level.output_buffer.add(level.grid.getCell(xLook, yLook).getTopContent().describe())
         else:
             if(lineIn==CCHAR('q') or lineIn==27):
-                break     
+                break

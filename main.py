@@ -2,8 +2,8 @@
 from levelManager import levelManager
 from entity import Player, Enemy, Zombie, Item
 import sys
-from unicurses import cbreak, clear, curs_set, endwin, initscr, keypad, refresh, noecho, start_color, stdscr, getch, erase, mvaddch
-import unicurses
+from UniCurses12.unicurses import cbreak, clear, curs_set, endwin, initscr, keypad, refresh, noecho, start_color, stdscr, getch, erase, mvaddch
+import UniCurses12.unicurses as unicurses
 from worldManager import worldManager
 import config
 import os
@@ -24,7 +24,8 @@ try:
     try:
         bool(os.environ['TERM']) #?
     except KeyError:
-        os.environ['TERM'] = foo
+        # os.environ['TERM'] = foo
+        pass
     os.environ['TERM'] = "xterm-256color"
 
     os.environ["ESCDELAY"] =  "25"
@@ -88,7 +89,8 @@ try:
                 world = worldManager()
                 config.world = world
                 world.pantheon = Pantheon()
-                stdscr.refresh()
+                #stdscr.refresh()
+                refresh()
 
                 # Main loop
                 while(True):
@@ -98,7 +100,8 @@ try:
                 world = worldManager()
                 world.load()
                 config.world = world
-                stdscr.refresh()
+                #stdscr.refresh()
+                refresh()
 
                 # Main loop
                 while(True):
