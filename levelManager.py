@@ -3,7 +3,7 @@ from timeline import Timeline
 from entity import *
 from outputBuffer import OutputBuffer
 from camera import Camera
-import unicurses
+import UniCurses12.unicurses as unicurses
 import os
 import os.path
 import sys
@@ -101,7 +101,7 @@ class levelManager():
                             level.camera.player = level.player
                             class_dict["."](x, y, level, **arg_dict["."])
                         else:
-                            # automatically places floors under all non-floor, non-wall, non-triggertile tiles! 
+                            # automatically places floors under all non-floor, non-wall, non-triggertile tiles!
                             if class_dict[char] in (Wall, Floor, TriggerTile, Door):
                                 #print("adding {} at x={} y={}".format(class_dict[char], x, y), file=sys.stderr)
                                 try:

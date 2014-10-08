@@ -1,4 +1,4 @@
-import unicurses
+import UniCurses12.unicurses as unicurses
 import config
 
 class OutputBuffer(): # rename outputManager?

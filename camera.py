@@ -1,4 +1,4 @@
-import unicurses
+import UniCurses12.unicurses as unicurses
 import config
 
 class Camera():
@@ -66,14 +66,14 @@ class Camera():
     def drawHUDBoundaries(self):
         unicurses.attron(unicurses.COLOR_PAIR(config.colorDict["white"]))
         for ypos in range(0, self.lensHeight):
-            unicurses.mvaddch(ypos, self.lensWidth-1, "|")
-            unicurses.mvaddch(ypos, 0, "|")
+            unicurses.mvaddch(ypos, self.lensWidth-1, ord("|"))
+            unicurses.mvaddch(ypos, 0, ord("|"))
         for xpos in range(0, self.lensWidth):
-            unicurses.mvaddch(0, xpos, "-")
-            unicurses.mvaddch(self.lensHeight-1, xpos, "-")
+            unicurses.mvaddch(0, xpos, ord("-"))
+            unicurses.mvaddch(self.lensHeight-1, xpos, ord("-"))
         for ypos in range(0, self.lensHeight):
-            unicurses.mvaddch(ypos, self.lensWidth+self.hudWidth, "|")
+            unicurses.mvaddch(ypos, self.lensWidth+self.hudWidth, ord("|"))
         for xpos in range(self.lensWidth, self.lensWidth+self.hudWidth+1):
-            unicurses.mvaddch(0, xpos, "-")
-            unicurses.mvaddch(self.lensHeight-1, xpos, "-")
+            unicurses.mvaddch(0, xpos, ord("-"))
+            unicurses.mvaddch(self.lensHeight-1, xpos, ord("-"))
         unicurses.attroff(unicurses.COLOR_PAIR(config.colorDict["white"]))
