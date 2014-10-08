@@ -5,8 +5,8 @@ __pycache__/*
 *.pyc
 
 # Ignore UniCurses library
-UniCurses-1.2/*
-unicurses.py
+# UniCurses-1.2/*
+# unicurses.py
 
 # Ignore sublime generated files
 *.sublime-project
